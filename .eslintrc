@@ -1,0 +1,28 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "settings": {
+    "import/parser": "babel-eslint",
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
+  },
+  "ecmaFeatures": {
+    "jsx": true,
+    "es6": true,
+    "classes": true
+  },
+  "extends": "airbnb",
+  "rules": {
+    "space-before-function-paren": 0,
+    "react/prefer-stateless-function": 0,
+    "import/no-unresolved": 0,
+    "max-len": 0
+  }
+}
