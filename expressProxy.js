@@ -4,9 +4,9 @@ const express = require('express');
 const path = require('path');
 const httpProxy = require('express-http-proxy');
 
-const proxy = process.env.PROXY || "localhost:9000";
+const proxy = process.env.PROXY || null;
 
-const appPath = path.join(__dirname, 'app-bundle');
+const appPath = path.join(__dirname, 'build');
 
 const proxyApi = httpProxy(proxy, {
   forwardPath: (req, res) => '/api' + req.url

@@ -1,12 +1,13 @@
 {
-  "name": "react-base",
+  "name": "stellar-portal",
   "version": "0.0.0",
-  "description": "React/redux app boilerplace",
+  "description": "Decentralized stellar platform",
   "scripts": {
     "dev": "webpack-dev-server --devtool source-map --inline --content-base public --history-api-fallback --config webpack.config.js",
-    "bundle": "cross-env NODE_ENV=production webpack --config webpack.production.config.js",
-    "bundle-server": "node expressProxy",
-    "lint": "eslint app"
+    "build": "cross-env NODE_ENV=production webpack --config webpack.production.config.js",
+    "server": "node expressProxy",
+    "lint": "eslint app",
+    "start": "npm run server"
   },
   "author": "pakokrew@gmail.com",
   "license": "MIT",
@@ -35,11 +36,9 @@
     "html-webpack-plugin": "^2.15.0",
     "json-loader": "^0.5.4",
     "lodash": "^4.17.2",
-    "node-sass": "^3.8.0",
     "postcss-loader": "^0.9.1",
     "react-hot-loader": "^3.0.0-beta.2",
     "redux-devtools": "^3.3.1",
-    "sass-loader": "^3.2.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "2.1.0-beta.22"

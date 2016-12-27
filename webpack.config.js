@@ -20,7 +20,6 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     path.resolve(DIRNAME, 'app/js/main.js'),
-    path.resolve(DIRNAME, 'app/scss/main.scss'),
   ],
 
   output: {
@@ -50,10 +49,6 @@ module.exports = {
       {
         test: /\.json$/,
         loaders: ['json-loader'],
-      },
-      {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader!postcss-loader!sass-loader',
       }
     ]
   },

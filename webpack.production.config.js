@@ -8,7 +8,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const DIRNAME = __dirname + '/';
 
-const CleanWebpackPluginConfig = new CleanWebpackPlugin(['app-bundle'], {
+const CleanWebpackPluginConfig = new CleanWebpackPlugin(['build'], {
   root: DIRNAME,
   verbose: true,
   dry: false,
@@ -35,7 +35,7 @@ module.exports = {
     filename: 'js/[name].bundle.js',
     chunkFilename: 'js/[name].chunk-[hash].js',
     publicPath: '/',
-    path: path.resolve(DIRNAME, 'app-bundle'),
+    path: path.resolve(DIRNAME, 'build'),
   },
 
   module: {
