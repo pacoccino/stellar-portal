@@ -6,7 +6,7 @@ import Layout from '../components/layout/Layout';
 import store from '../store/configureStore';
 import * as routes from '../constants/routes';
 
-import AccountSelectorContainer from './stellar/AccountSelectorContainer';
+import AccountSelectorContainer from '../components/views/Main';
 import NotFound from '../components/views/NotFound';
 
 const App = ({ messages }) =>

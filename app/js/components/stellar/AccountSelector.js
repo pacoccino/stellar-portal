@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { Header, Input } from 'semantic-ui-react'
 
-import BalancesContainer from '../../containers/stellar/BalancesContainer';
 class AccountSelector extends Component {
 
   constructor(props) {
@@ -30,21 +30,18 @@ class AccountSelector extends Component {
     return (
       <div>
         <div>
-          <h2>Account selector</h2>
-          <h3>
+          <Header as="h2">Account selector</Header>
+          <Header as="h4">
             {
               this.props.account.accountId ?
                 `Viewing account ${this.props.account.accountId}`
                 :
                 "Please select an account to view"
             }
-          </h3>
+          </Header>
         </div>
-        <BalancesContainer />
         <div>
-          <label htmlFor="account-id">Account ID</label>
-          <input name="account-id" type="text" value={this.state.accountId} onChange={this.handleChange} />
-          <button onClick={this.handleSubmit}>Set</button>
+          <Input action={{content: "Set", onClick:this.handleSubmit}} onChange={this.handleChange} placeholder='GDRFXXX...' />
         </div>
       </div>
     );

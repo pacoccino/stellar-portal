@@ -56,6 +56,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "redux-thunk": "^2.1.0",
+    "semantic-ui-react": "^0.63.1",
     "stellar-sdk": "^0.6.2",
     "webpack-dev-server": "^1.16.2"
   }
