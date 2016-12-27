@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import Balances from '../../components/stellar/Balances';
 
-const BalancesContainer = (props) => (
-  props.balances ?
-    <Balances {...props}/>
+const BalancesContainer = ({ account }) => (
+  account ?
+    <Balances balances={account.balances} />
     :
     null
 );
-const mapStateToProps = ({ account }) => ({ balances: account.balances });
+const mapStateToProps = ({ account }) => ({ account: account.data });
 
 export default connect(mapStateToProps, null)(BalancesContainer);

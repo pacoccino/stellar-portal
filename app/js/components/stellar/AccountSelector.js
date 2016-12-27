@@ -7,7 +7,8 @@ class AccountSelector extends Component {
     super(props);
 
     this.state = {
-      accountId: ''
+      accountId: 'GDRFQGOPF7ZRRTA3WZXFICQLIOAV7NIC7AGG6SOMFKUMTK6PJ5PBPCR4',
+      secretSeed: 'SAQMJYBPNZX545E3QY7MXNEDT6LF4CSHCGV4QWNKLDGQNXBT5KD2JW2W',
     };
   }
 
@@ -17,7 +18,12 @@ class AccountSelector extends Component {
     }
   }
 
-  handleChange = e => {
+  componentDidMount() {
+    this.props.getAccount(this.state.accountId);
+    this.props.setSeed(this.state.secretSeed);
+  }
+
+  handleChangePK = e => {
     e.preventDefault();
     const accountId = e.target.value || '';
     this.setState({
@@ -25,11 +31,24 @@ class AccountSelector extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleChangeSeed = e => {
+    e.preventDefault();
+    const secretSeed = e.target.value || '';
+    this.setState({
+      secretSeed,
+    });
+  };
+
+  setPublicKey = e => {
     e.preventDefault();
 
-    this.props.setAccountId(this.state.accountId);
-    this.setState({ accountId: '' });
+    this.props.getAccount(this.state.accountId);
+  };
+
+  setPrivateKey = e => {
+    e.preventDefault();
+
+    this.props.setSeed(this.state.secretSeed);
   };
 
   render() {
@@ -37,17 +56,24 @@ class AccountSelector extends Component {
       <div>
         <div>
           <Header as="h2">Account selector</Header>
-          <Header as="h4">
-            {
-              this.props.account.accountId ?
-                `Viewing account ${this.props.account.accountId}`
-                :
-                "Please select an account to view"
-            }
-          </Header>
         </div>
         <div>
-          <Input loading action={{content: "Set", onClick:this.handleSubmit, loading: this.props.account.isLoading}} input={{value: this.state.accountId}} onChange={this.handleChange} placeholder='GDRFXXX...' />
+          <Input
+            action={{content: "Set", onClick:this.setPublicKey, loading: this.props.account.isLoading}}
+            input={{value: this.state.accountId}}
+            onChange={this.handleChangePK}
+            placeholder='G...'
+            label="Public key"
+            fluid
+          />
+          <Input
+            action={{content: "Set", onClick:this.setPrivateKey, loading: this.props.account.isLoading}}
+            input={{value: this.state.secretSeed}}
+            onChange={this.handleChangeSeed}
+            placeholder='S...'
+            label="Secret seed"
+            fluid
+          />
           <br/>
           {
             this.props.account.error ?
@@ -66,7 +92,8 @@ class AccountSelector extends Component {
 
 AccountSelector.propTypes = {
   account: PropTypes.object.isRequired,
-  setAccountId: PropTypes.func.isRequired,
+  getAccount: PropTypes.func.isRequired,
+  setSeed: PropTypes.func.isRequired,
 };
 
 export default AccountSelector;

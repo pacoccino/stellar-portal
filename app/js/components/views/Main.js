@@ -1,12 +1,17 @@
 import React from 'react';
+import { Divider } from 'semantic-ui-react'
 
 import AccountSelectorContainer from '../../containers/stellar/AccountSelectorContainer';
-import BalancesContainer from '../../containers/stellar/BalancesContainer';
+import AccountViewerContainer from '../../containers/stellar/AccountViewerContainer';
+import AccountActionsContainer from '../../containers/stellar/AccountActionsContainer';
 
 const Main = () => (
   <div>
     <AccountSelectorContainer />
-    <BalancesContainer />
+    <Divider />
+    <AccountViewerContainer />
+    <Divider />
+    <AccountActionsContainer />
   </div>
 );
 

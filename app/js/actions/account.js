@@ -1,37 +1,87 @@
 import * as actions from '../constants/actionTypes';
 import * as StellarHelper from '../helpers/Stellar';
 
-export function setAccountId(accountId) {
+export const getAccount = accountId => dispatch => {
+  dispatch(fetchingAccount());
+  return StellarHelper
+    .getAccount(accountId)
+    .catch(error => dispatch(getAccountError(error)))
+    .then(account => dispatch(getAccountSuccess(account)));
+};
+
+export function setSeed(seed) {
   return {
-    type: actions.SET_ACCOUNT_ID,
-    accountId,
+    type: actions.SET_SEED,
+    seed,
   };
 }
 
-function getBalancesSuccess(balances) {
+function fetchingAccount() {
   return {
-    type: actions.GET_BALANCES_SUCCESS,
-    balances,
+    type: actions.GET_ACCOUNT,
   };
 }
 
-function getBalancesError(error) {
+function getAccountSuccess(account) {
   return {
-    type: actions.GET_BALANCES_ERROR,
+    type: actions.GET_ACCOUNT_SUCCESS,
+    account,
+  };
+}
+
+function getAccountError(error) {
+  debugger;
+  return {
+    type: actions.GET_ACCOUNT_ERROR,
     error,
   };
 }
 
-function fetchingBalances() {
+function sendingPayment() {
   return {
-    type: actions.GET_BALANCES,
+    type: actions.SEND_PAYMENT,
   };
 }
 
-export const getBalances = accountId => dispatch => {
-  dispatch(fetchingBalances());
+function sendPaymentSuccess(data) {
+  return {
+    type: actions.SEND_PAYMENT_SUCCESS,
+    data,
+  };
+}
+
+function sendPaymentError(error) {
+  debugger;
+  return {
+    type: actions.SEND_PAYMENT_ERROR,
+    error,
+  };
+}
+
+
+export const sendPayment = formData => (dispatch, getState) => {
+  dispatch(sendingPayment());
+
+  const state = getState();
+  const { seed, data } = state.account;
+
+  if(!seed || !data) {
+    dispatch(sendPaymentError(new Error("Source account not defined")));
+  }
+
+  const paymentData = Object.assign({}, formData, {
+    seed,
+    sequenceNumber: data.sequence,
+  });
+
   return StellarHelper
-    .getAccountBalance(accountId)
-    .then(balances => dispatch(getBalancesSuccess(balances)))
-    .catch(error => dispatch(getBalancesError(error)));
+    .sendPayment(paymentData)
+    .catch(error =>
+      dispatch(sendPaymentError(error))
+    )
+    .then(d => {
+      console.log(d);
+      dispatch(getAccount(data.account_id)); // To update sequence number
+      dispatch(sendPaymentSuccess(d)); // To update sequence number
+    });
 };

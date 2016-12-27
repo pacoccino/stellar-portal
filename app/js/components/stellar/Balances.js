@@ -1,20 +1,22 @@
 import React, { PropTypes } from 'react';
+import { Header, List } from 'semantic-ui-react'
 
 const getBalance = (balance, index) => {
   return (
-    <li key={index}>
+    <List.Item key={index}>
       <b>Type:</b> {balance.asset_type}
       <br />
       <b>Amount:</b> {balance.balance}
-    </li>
+    </List.Item>
   );
 };
 
 const Balances = ({ balances }) =>
   <div>
-    <ul>
-      {balances.map(getBalance)}
-    </ul>
+    <Header as="h2">Balances</Header>
+      <List>
+        {balances.map(getBalance)}
+      </List>
   </div>;
 
 Balances.propTypes = {
