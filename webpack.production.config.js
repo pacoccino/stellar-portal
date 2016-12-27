@@ -28,7 +28,6 @@ module.exports = {
 
   entry: [
     path.resolve(DIRNAME, 'app/js/main.js'),
-    path.resolve(DIRNAME, 'app/scss/main.scss'),
   ],
 
   output: {
@@ -50,13 +49,6 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader',
       },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          notExtractLoader: 'style-loader',
-          loader: 'css-loader?minimize!postcss-loader!sass-loader',
-        }),
-      }
     ]
   },
 
@@ -65,6 +57,7 @@ module.exports = {
   plugins: [
     CleanWebpackPluginConfig,
     HtmlWebpackPluginConfig,
+    new webpack.ContextReplacementPlugin(/bindings$/, /^$/),
     new webpack.optimize.UglifyJsPlugin({ comments: false, sourceMap: true, warnings: false }),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new ExtractTextPlugin({ filename: 'assets/css/styles.css', allChunks: false }),
@@ -72,5 +65,6 @@ module.exports = {
       { from: 'shared/img', to: 'assets/img' },
       { from: 'shared/fonts', to: 'assets/fonts' },
     ]),
-  ]
+  ],
+  externals: ["bindings"]
 };

@@ -8,14 +8,13 @@ const proxy = process.env.PROXY || null;
 
 const appPath = path.join(__dirname, 'build');
 
-const proxyApi = httpProxy(proxy, {
-  forwardPath: (req, res) => '/api' + req.url
-});
-
 const app = express();
 app.set('port', process.env.PORT || 3000);
 
 if (process.env.PROXY) {
+  const proxyApi = httpProxy(proxy, {
+    forwardPath: (req, res) => '/api' + req.url
+  });
   app.use('/api', proxyApi);
 }
 

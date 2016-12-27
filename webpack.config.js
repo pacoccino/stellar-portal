@@ -57,6 +57,7 @@ module.exports = {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.ContextReplacementPlugin(/bindings$/, /^$/),
     new HtmlWebpackPlugin({
       template: DIRNAME + '/app/index.html',
       filename: 'index.html',
@@ -67,5 +68,6 @@ module.exports = {
       { from: 'shared/img', to: 'assets/img' },
       { from: 'shared/fonts', to: 'assets/fonts' },
     ])
-  ]
+  ],
+  externals: ["bindings"]
 };
