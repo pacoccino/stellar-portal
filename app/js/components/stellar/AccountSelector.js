@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Header, Input } from 'semantic-ui-react'
+import { Header, Input, Message } from 'semantic-ui-react'
 
 class AccountSelector extends Component {
 
@@ -9,6 +9,12 @@ class AccountSelector extends Component {
     this.state = {
       accountId: ''
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if(this.props.account.accountId !== newProps.account.accountId) {
+      this.setState({accountId: newProps.account.accountId});
+    }
   }
 
   handleChange = e => {
@@ -41,7 +47,17 @@ class AccountSelector extends Component {
           </Header>
         </div>
         <div>
-          <Input action={{content: "Set", onClick:this.handleSubmit}} onChange={this.handleChange} placeholder='GDRFXXX...' />
+          <Input loading action={{content: "Set", onClick:this.handleSubmit, loading: this.props.account.isLoading}} input={{value: this.state.accountId}} onChange={this.handleChange} placeholder='GDRFXXX...' />
+          <br/>
+          {
+            this.props.account.error ?
+              <Message negative>
+                <Message.Header>Invalid address</Message.Header>
+                <p>The address you entered is not valid</p>
+              </Message>
+              :
+              null
+          }
         </div>
       </div>
     );

@@ -8,19 +8,30 @@ export function setAccountId(accountId) {
   };
 }
 
-function setBalances(balances) {
+function getBalancesSuccess(balances) {
   return {
     type: actions.GET_BALANCES_SUCCESS,
     balances,
   };
 }
 
+function getBalancesError(error) {
+  return {
+    type: actions.GET_BALANCES_ERROR,
+    error,
+  };
+}
+
+function fetchingBalances() {
+  return {
+    type: actions.GET_BALANCES,
+  };
+}
+
 export const getBalances = accountId => dispatch => {
+  dispatch(fetchingBalances());
   return StellarHelper
     .getAccountBalance(accountId)
-    .then(balances => {
-      console.log(balances);
-      dispatch(setBalances(balances));
-    })
-    .catch(console.error);
+    .then(balances => dispatch(getBalancesSuccess(balances)))
+    .catch(error => dispatch(getBalancesError(error)));
 };
