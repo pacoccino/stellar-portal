@@ -1,22 +1,20 @@
 /* eslint new-cap: 0 */
-import * as types from '../constants/actionTypes';
 import { merge } from 'lodash';
 
+import * as types from '../constants/actionTypes';
+
 const initialState = {
-  accountId: null,
+  keypair: null,
   data: null,
   isLoading: false,
   error: null,
-  seed: null,
 };
 
 export default function account(state = initialState, action) {
   switch (action.type) {
-    case types.SET_SEED: {
-      const { seed } = action;
-      return Object.assign({}, state, {
-        seed
-      });
+    case types.SET_KEYPAIR: {
+      const { keypair } = action;
+      return Object.assign({}, state, { keypair });
     }
     case types.GET_ACCOUNT: {
       return Object.assign({}, state, {
@@ -25,13 +23,13 @@ export default function account(state = initialState, action) {
     }
     case types.GET_ACCOUNT_SUCCESS: {
       return Object.assign({}, state, {
-        accountId: action.account.account_id,
         data: action.account,
         isLoading: false,
         error: null,
       });
     }
     case types.GET_ACCOUNT_ERROR: {
+      console.error(action.error);
       return Object.assign({}, state, {
         isLoading: false,
         error: action.error,

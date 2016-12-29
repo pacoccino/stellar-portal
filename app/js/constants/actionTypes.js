@@ -1,4 +1,4 @@
-export const SET_SEED = "SET_SEED";
+export const SET_KEYPAIR = "SET_KEYPAIR";
 
 export const GET_ACCOUNT = "GET_ACCOUNT";
 export const GET_ACCOUNT_SUCCESS = "GET_ACCOUNT_SUCCESS";

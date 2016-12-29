@@ -1,18 +1,34 @@
+import Stellar from 'stellar-sdk';
+
 import * as actions from '../constants/actionTypes';
 import * as StellarHelper from '../helpers/Stellar';
 
-export const getAccount = accountId => dispatch => {
+export const getAccount = keys => dispatch => {
   dispatch(fetchingAccount());
+
+  const keypair = keys.secretSeed ? Stellar.Keypair.fromSeed(keys.secretSeed) : Stellar.Keypair.fromAccountId(keys.publicKey);
+
   return StellarHelper
-    .getAccount(accountId)
-    .catch(error => dispatch(getAccountError(error)))
-    .then(account => dispatch(getAccountSuccess(account)));
+    .getAccount(keypair.accountId())
+    .then(account => {
+      dispatch(setKeypair(keypair));
+      dispatch(getAccountSuccess(account));
+    })
+    .catch(error => dispatch(getAccountError(error)));
 };
 
-export function setSeed(seed) {
+export const updateAccount = accountId => dispatch => {
+  return StellarHelper
+    .getAccount(accountId)
+    .then(account => {
+      dispatch(getAccountSuccess(account));
+    });
+};
+
+export function setKeypair(keypair) {
   return {
-    type: actions.SET_SEED,
-    seed,
+    type: actions.SET_KEYPAIR,
+    keypair,
   };
 }
 
@@ -22,7 +38,7 @@ function fetchingAccount() {
   };
 }
 
-function getAccountSuccess(account) {
+export function getAccountSuccess(account) {
   return {
     type: actions.GET_ACCOUNT_SUCCESS,
     account,
@@ -30,7 +46,6 @@ function getAccountSuccess(account) {
 }
 
 function getAccountError(error) {
-  debugger;
   return {
     type: actions.GET_ACCOUNT_ERROR,
     error,
@@ -63,15 +78,19 @@ export const sendPayment = formData => (dispatch, getState) => {
   dispatch(sendingPayment());
 
   const state = getState();
-  const { seed, data } = state.account;
+  const { keypair } = state.account;
+  const sourceAccount = state.account.data;
 
-  if(!seed || !data) {
-    dispatch(sendPaymentError(new Error("Source account not defined")));
+  if(!keypair || !sourceAccount) {
+    dispatch(sendPaymentError(new Error("Source account not set")));
+  }
+  if(!keypair.canSign()) {
+    dispatch(sendPaymentError(new Error("Source account seed not set")));
   }
 
   const paymentData = Object.assign({}, formData, {
-    seed,
-    sequenceNumber: data.sequence,
+    keypair,
+    sourceAccount,
   });
 
   return StellarHelper
@@ -81,7 +100,7 @@ export const sendPayment = formData => (dispatch, getState) => {
     )
     .then(d => {
       console.log(d);
-      dispatch(getAccount(data.account_id)); // To update sequence number
-      dispatch(sendPaymentSuccess(d)); // To update sequence number
+      dispatch(getAccount(data.account_id)); // Update account data
+      dispatch(sendPaymentSuccess(d));
     });
 };

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Header, Input, Message } from 'semantic-ui-react'
 
+import * as StellarHelper from '../../helpers/Stellar';
+
 class AccountSelector extends Component {
 
   constructor(props) {
@@ -9,6 +11,8 @@ class AccountSelector extends Component {
     this.state = {
       accountId: 'GDRFQGOPF7ZRRTA3WZXFICQLIOAV7NIC7AGG6SOMFKUMTK6PJ5PBPCR4',
       secretSeed: 'SAQMJYBPNZX545E3QY7MXNEDT6LF4CSHCGV4QWNKLDGQNXBT5KD2JW2W',
+      pkError: null,
+      seedError: null,
     };
   }
 
@@ -19,13 +23,13 @@ class AccountSelector extends Component {
   }
 
   componentDidMount() {
-    this.props.getAccount(this.state.accountId);
-    this.props.setSeed(this.state.secretSeed);
+    this.getAccountFromSeed();
   }
 
   handleChangePK = e => {
     e.preventDefault();
     const accountId = e.target.value || '';
+    this.setState({ pkError: !StellarHelper.validPk(accountId) });
     this.setState({
       accountId,
     });
@@ -34,21 +38,22 @@ class AccountSelector extends Component {
   handleChangeSeed = e => {
     e.preventDefault();
     const secretSeed = e.target.value || '';
+    // TODO isValidSeed ?
     this.setState({
       secretSeed,
     });
   };
 
-  setPublicKey = e => {
-    e.preventDefault();
+  getAccountFromPk = e => {
+    e && e.preventDefault();
 
-    this.props.getAccount(this.state.accountId);
+    this.props.getAccount({ publicKey: this.state.accountId });
   };
 
-  setPrivateKey = e => {
-    e.preventDefault();
+  getAccountFromSeed = e => {
+    e && e.preventDefault();
 
-    this.props.setSeed(this.state.secretSeed);
+    this.props.getAccount({ secretSeed: this.state.secretSeed });
   };
 
   render() {
@@ -59,27 +64,29 @@ class AccountSelector extends Component {
         </div>
         <div>
           <Input
-            action={{content: "Set", onClick:this.setPublicKey, loading: this.props.account.isLoading}}
+            action={{content: "Set", onClick:this.getAccountFromPk, loading: this.props.account.isLoading}}
             input={{value: this.state.accountId}}
             onChange={this.handleChangePK}
             placeholder='G...'
-            label="Public key"
+            label={{content: "Public key", className: 'AccountSelector-inputTitle'}}
             fluid
+            error={this.state.pkError}
           />
           <Input
-            action={{content: "Set", onClick:this.setPrivateKey, loading: this.props.account.isLoading}}
+            action={{content: "Set", onClick:this.getAccountFromSeed, loading: this.props.account.isLoading}}
             input={{value: this.state.secretSeed}}
             onChange={this.handleChangeSeed}
             placeholder='S...'
-            label="Secret seed"
+            label={{content: "Secret seed", className: 'AccountSelector-inputTitle'}}
             fluid
+            error={this.state.seedError}
           />
           <br/>
           {
             this.props.account.error ?
               <Message negative>
-                <Message.Header>Invalid address</Message.Header>
-                <p>The address you entered is not valid</p>
+                <Message.Header>Account error</Message.Header>
+                <p>There was an error while fetching this account's data.</p>
               </Message>
               :
               null
@@ -93,7 +100,6 @@ class AccountSelector extends Component {
 AccountSelector.propTypes = {
   account: PropTypes.object.isRequired,
   getAccount: PropTypes.func.isRequired,
-  setSeed: PropTypes.func.isRequired,
 };
 
 export default AccountSelector;
