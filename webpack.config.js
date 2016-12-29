@@ -1,73 +1,39 @@
-const path = require('path');
-const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {
+  addPlugins, createConfig, defineConstants, entryPoint, env, performance, setOutput, sourceMaps, webpack
+} = require('@webpack-blocks/webpack2')
+
+const babel = require('@webpack-blocks/babel6')
+const cssModules = require('@webpack-blocks/css-modules')
+const devServer = require('@webpack-blocks/dev-server2')
+const extractText = require('@webpack-blocks/extract-text2')
+const plugins = require('./webpack.plugins')
 
 const DIRNAME = __dirname + '/';
+const buildDir = './build/';
 
-module.exports = {
-  devtool: 'source-map',
-
-  resolve: {
-    modules: [path.resolve(DIRNAME), 'node_modules'],
-    root: path.resolve(DIRNAME, 'app'),
-  },
-
-  entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    path.resolve(DIRNAME, 'app/js/main.js'),
-  ],
-
-  output: {
-    filename: 'assets/js/[name].bundle.js',
-    chunkFilename: 'assets/js/[name].chunk-[hash].js',
-    publicPath: '/',
-    path: path.resolve(DIRNAME, 'app'),
-  },
-
-  devServer: {
-    outputPath: path.join(DIRNAME, 'dist'),
-    hot: true,
-    port: 3000,
-  },
-
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        include: path.resolve(DIRNAME),
-        loader: 'babel-loader',
-        query: {
-          plugins: ['react-hot-loader/babel'],
-        },
-      },
-      {
-        test: /\.json$/,
-        loaders: ['json-loader'],
-      }
-    ]
-  },
-
-  postcss: [ autoprefixer({ browsers: ['last 4 versions'] }) ],
-
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.ContextReplacementPlugin(/bindings$/, /^$/),
-    new HtmlWebpackPlugin({
-      template: DIRNAME + '/app/index.html',
-      filename: 'index.html',
-      inject: 'body',
-    }),
-    new ExtractTextPlugin('app/assets/css/styles.css'),
-    new CopyWebpackPlugin([
-      { from: 'shared/img', to: 'assets/img' },
-      { from: 'shared/fonts', to: 'assets/fonts' },
-    ])
-  ],
-  externals: ["bindings"]
-};
+module.exports = createConfig([
+  setOutput(buildDir + 'bundle.js'),
+  entryPoint('./app/js/main.js'),
+  babel(),
+  cssModules(),
+  addPlugins(plugins.basePlugins),
+  defineConstants({
+    'process.env.NODE_ENV': process.env.NODE_ENV || 'development'
+  }),
+  env('development', [
+    sourceMaps(),
+    devServer(),
+    /*devServer.proxy({
+      '/api/!*': { target: 'http://localhost:4000' }
+    }),*/
+    performance({
+      // Increase performance budget thresholds for development mode
+      maxAssetSize: 15000000,
+      maxEntrypointSize: 15000000
+    })
+  ]),
+  env('production', [
+    extractText(),
+    addPlugins(plugins.productionPlugins)
+  ])
+]);
