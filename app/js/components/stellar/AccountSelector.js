@@ -26,7 +26,7 @@ class AccountSelector extends Component {
     this.getAccountFromSeed();
   }
 
-  handleChangePK = e => {
+  handleChangePK(e) {
     e.preventDefault();
     const accountId = e.target.value || '';
     this.setState({ pkError: !StellarHelper.validPk(accountId) });
@@ -35,7 +35,7 @@ class AccountSelector extends Component {
     });
   };
 
-  handleChangeSeed = e => {
+  handleChangeSeed(e) {
     e.preventDefault();
     const secretSeed = e.target.value || '';
     // TODO isValidSeed ?
@@ -44,13 +44,13 @@ class AccountSelector extends Component {
     });
   };
 
-  getAccountFromPk = e => {
+  getAccountFromPk(e) {
     e && e.preventDefault();
 
     this.props.getAccount({ publicKey: this.state.accountId });
   };
 
-  getAccountFromSeed = e => {
+  getAccountFromSeed(e) {
     e && e.preventDefault();
 
     this.props.getAccount({ secretSeed: this.state.secretSeed });
@@ -64,18 +64,18 @@ class AccountSelector extends Component {
         </div>
         <div>
           <Input
-            action={{content: "Set", onClick:this.getAccountFromPk, loading: this.props.account.isLoading}}
+            action={{content: "Set", onClick: ::this.getAccountFromPk, loading: this.props.account.isLoading}}
             input={{value: this.state.accountId}}
-            onChange={this.handleChangePK}
+            onChange={::this.handleChangePK}
             placeholder='G...'
             label={{content: "Public key", className: 'AccountSelector-inputTitle'}}
             fluid
             error={this.state.pkError}
           />
           <Input
-            action={{content: "Set", onClick:this.getAccountFromSeed, loading: this.props.account.isLoading}}
+            action={{content: "Set", onClick: ::this.getAccountFromSeed, loading: this.props.account.isLoading}}
             input={{value: this.state.secretSeed}}
-            onChange={this.handleChangeSeed}
+            onChange={::this.handleChangeSeed}
             placeholder='S...'
             label={{content: "Secret seed", className: 'AccountSelector-inputTitle'}}
             fluid

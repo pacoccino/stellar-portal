@@ -10,7 +10,7 @@ class ValueAdder extends Component {
     };
   }
 
-  handleChange = e => {
+  handleChange(e) {
     e.preventDefault();
     const value = e.target.value || '';
     this.setState({
@@ -18,7 +18,7 @@ class ValueAdder extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit(e) {
     e.preventDefault();
 
     this.props.addElement(this.state.value);
@@ -28,8 +28,8 @@ class ValueAdder extends Component {
   render() {
     return (
       <div>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
-        <button onClick={this.handleSubmit}>Add</button>
+        <input type="text" value={this.state.value} onChange={::this.handleChange} />
+        <button onClick={::this.handleSubmit}>Add</button>
       </div>
     );
   }
