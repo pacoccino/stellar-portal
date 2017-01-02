@@ -7,20 +7,21 @@ const Server = new Stellar.Server('https://horizon-testnet.stellar.org');
 const nativeAsset = Stellar.Asset.native();
 
 export const getServerInstance = () => {
-  if(process.env.NODE_ENV === 'production') {
-    return Server;
+  if(false && process.env.NODE_ENV !== 'production') {
+    return StellarOffline();
   }
-  return new StellarOffline();
+
+  return Server;
 }
 
 export const getAccount = (accountId) => {
   return getServerInstance()
-    .loadAccount(accountId)
-    .call();
+    .loadAccount(accountId);
 };
 export const getAccountStream = (accountId, onmessage) => {
   return getServerInstance()
-    .loadAccount(accountId)
+    .accounts()
+    .accountId(accountId)
     .stream({ onmessage });
 };
 

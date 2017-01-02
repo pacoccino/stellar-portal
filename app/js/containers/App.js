@@ -6,7 +6,7 @@ import Layout from '../components/layout/Layout';
 import store from '../store/configureStore';
 import * as routes from '../constants/routes';
 
-import AccountSelectorContainer from '../components/views/Main';
+import Main from '../components/views/Main';
 import NotFound from '../components/views/NotFound';
 
 const App = ({ messages }) =>
@@ -14,8 +14,8 @@ const App = ({ messages }) =>
       <Router history={browserHistory}>
         <Route component={Layout}>
           <Route
-            path={routes.Welcome}
-            component={AccountSelectorContainer}
+            path={routes.Root}
+            component={Main}
           />
 
           <Route

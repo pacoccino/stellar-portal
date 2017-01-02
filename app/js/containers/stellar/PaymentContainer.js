@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Payment from '../../components/stellar/Payment';
-import { sendPayment } from '../../actions/account';
+import { sendPayment } from '../../actions-creators/account';
 
 const mapStateToProps = ({ account }) => ({ account: account.data });
 const mapDispatchToProps = { sendPayment };
