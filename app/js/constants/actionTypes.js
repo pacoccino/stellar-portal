@@ -1,9 +1,14 @@
-export const SET_SEED = "SET_SEED";
+export const SET_ACCOUNT_SUCCESS = "account:set";
 
-export const GET_ACCOUNT = "GET_ACCOUNT";
-export const GET_ACCOUNT_SUCCESS = "GET_ACCOUNT_SUCCESS";
-export const GET_ACCOUNT_ERROR = "GET_ACCOUNT_ERROR";
+export const GET_ACCOUNT = "account:fetching";
+export const GET_ACCOUNT_SUCCESS = "account:success";
+export const GET_ACCOUNT_ERROR = "account:error";
 
-export const SEND_PAYMENT = "SEND_PAYMENT";
-export const SEND_PAYMENT_SUCCESS = "SEND_PAYMENT_SUCCESS";
-export const SEND_PAYMENT_ERROR = "SEND_PAYMENT_ERROR";
+export const SEND_PAYMENT = "stellar:payment:fetching";
+export const SEND_PAYMENT_SUCCESS = "stellar:payment:success";
+export const SEND_PAYMENT_ERROR = "stellar:payment:error";
+
+export const GET_PAYMENTS_SUCCESS = "stellar:payments:success";
+export const GET_PAYMENTS_STREAM = "stellar:payments:stream";
+export const GET_OFFERS_SUCCESS = "stellar:offers:success";
+export const GET_OFFERS_STREAM = "stellar:offers:stream";

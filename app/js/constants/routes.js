@@ -1,1 +1,1 @@
-export const Welcome = "/";
+export const Root = "/";

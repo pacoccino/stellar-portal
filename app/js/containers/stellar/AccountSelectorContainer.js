@@ -1,11 +1,10 @@
-import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getAccount, setSeed } from '../../actions/account';
+import { setAccount } from '../../actions-creators/account';
 
 import AccountSelector from '../../components/stellar/AccountSelector';
 
 const mapStateToProps = ({ account }) => ({ account });
-const mapDispatchToProps = { getAccount, setSeed };
+const mapDispatchToProps = { setAccount };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSelector);

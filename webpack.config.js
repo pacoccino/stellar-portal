@@ -1,19 +1,25 @@
 const {
   addPlugins, createConfig, defineConstants, entryPoint, env, performance, setOutput, sourceMaps, webpack
-} = require('@webpack-blocks/webpack2')
+} = require('@webpack-blocks/webpack2');
 
-const babel = require('@webpack-blocks/babel6')
-const cssModules = require('@webpack-blocks/css-modules')
-const devServer = require('@webpack-blocks/dev-server2')
-const extractText = require('@webpack-blocks/extract-text2')
-const plugins = require('./webpack.plugins')
+const babel = require('@webpack-blocks/babel6');
+const cssModules = require('@webpack-blocks/css-modules');
+const devServer = require('@webpack-blocks/dev-server2');
+const extractText = require('@webpack-blocks/extract-text2');
+const plugins = require('./webpack.plugins');
 
 const DIRNAME = __dirname + '/';
-const buildDir = './build/';
+const buildDir = __dirname + 'build/';
 
 module.exports = createConfig([
-  setOutput(buildDir + 'bundle.js'),
-  entryPoint('./app/js/main.js'),
+  entryPoint({
+    main: DIRNAME + 'app/js/main.js',
+    vendor: 'stellar-sdk'
+  }),
+  setOutput({
+    filename: '[hash].[name].js',
+    path: buildDir
+  }),
   babel(),
   cssModules(),
   addPlugins(plugins.basePlugins),

@@ -6,7 +6,10 @@ exports.basePlugins = [
     inject: true,
     template: './app/index.html'
   }),
-  new webpack.IgnorePlugin(/ed25519/)
+  new webpack.IgnorePlugin(/ed25519/),
+  new webpack.optimize.CommonsChunkPlugin({
+    names: ['vendor', 'manifest'] // Specify the common bundle's name.
+  })
 ];
 
 exports.productionPlugins = [

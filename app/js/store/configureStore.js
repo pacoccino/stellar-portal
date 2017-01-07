@@ -4,7 +4,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from '../reducers';
 
-import stellarMiddleware from '../middlewares/stellar';
+import stellarMiddleware from '../middlewares/Stellar';
 
 const enhancer = compose(
   applyMiddleware(
@@ -18,12 +18,5 @@ const store = createStore(
   reducers,
   enhancer
 );
-
-if (module.hot) {
-  module.hot.accept('../reducers', () => {
-    const nextRootReducer = require('../reducers').default;
-    store.replaceReducer(nextRootReducer);
-  });
-}
 
 export default store;

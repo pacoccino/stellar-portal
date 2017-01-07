@@ -3,7 +3,7 @@ import { Button, Header, Form, Message } from 'semantic-ui-react'
 
 class Payment extends Component {
 
-  sendPayment = (e, { formData }) => {
+  sendPayment(e, { formData }) {
     e.preventDefault()
     this.props.sendPayment(formData);
   };
@@ -17,7 +17,7 @@ class Payment extends Component {
         <Header as="h4">
           Native
         </Header>
-        <Form onSubmit={this.sendPayment}>
+        <Form onSubmit={::this.sendPayment}>
           <Form.Field
             name="destination"
             label='Destination account'
