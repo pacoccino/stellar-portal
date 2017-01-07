@@ -2,8 +2,12 @@ import { connect } from 'react-redux';
 
 import Payment from '../../components/stellar/Payment';
 import { sendPayment } from '../../actions-creators/account';
+import { getAccount, getTrustlines } from '../../selectors/selector';
 
-const mapStateToProps = ({ account }) => ({ account: account.data });
+const mapStateToProps = (state) => ({
+  account: getAccount(state),
+  trustlines: getTrustlines(state),
+});
 const mapDispatchToProps = { sendPayment };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

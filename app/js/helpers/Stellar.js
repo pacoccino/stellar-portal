@@ -41,15 +41,15 @@ export const getTransactionsStream = (accountId, onmessage) => {
     .stream({ onmessage });
 };
 
-export const sendPayment = ({ keypair, sourceAccount, destination, amount }) => {
-  const sequenceNumber = sourceAccount.sequenceNumber();
+export const sendPayment = ({ asset, keypair, sourceAccount, destination, amount }) => {
+  const sequenceNumber = sourceAccount.sequence;
   const sourceAddress = keypair.accountId();
   const transAccount = new Stellar.Account(sourceAddress, sequenceNumber);
 
   const transaction = new Stellar.TransactionBuilder(transAccount)
     .addOperation(Stellar.Operation.payment({
       destination: destination,
-      asset: nativeAsset,
+      asset: asset,
       amount: amount
     }))
     .build();
@@ -57,11 +57,7 @@ export const sendPayment = ({ keypair, sourceAccount, destination, amount }) => 
   transaction.sign(keypair);
 
   return getServerInstance()
-    .submitTransaction(transaction)
-    .then(d => {
-      sourceAccount.incrementSequenceNumber();
-      return d;
-    });
+    .submitTransaction(transaction);
 };
 
 

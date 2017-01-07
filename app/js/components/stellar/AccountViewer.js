@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { Header, Divider } from 'semantic-ui-react'
 
 import BalancesContainer from '../../containers/stellar/BalancesContainer';
+import AccountActionsContainer from '../../containers/stellar/AccountActionsContainer';
+import PaymentsViewer from '../../elements/PaymentsViewer';
+import OffersViewer from '../../elements/OffersViewer';
 
 class AccountViewer extends Component {
 
@@ -24,12 +27,15 @@ class AccountViewer extends Component {
       <div>
         <div>
           <Header as="h2">Account viewer</Header>
-          <Header as="h4">
-            {`Viewing account ${this.props.account.account_id}`}
-          </Header>
         </div>
         <Divider />
         <BalancesContainer />
+        <Divider />
+        <AccountActionsContainer />
+        <Divider />
+        <PaymentsViewer />
+        <Divider />
+        <OffersViewer />
       </div>
     );
   }

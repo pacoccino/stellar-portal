@@ -17,8 +17,11 @@ class AccountSelector extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if(this.props.account.accountId !== newProps.account.accountId) {
-      this.setState({accountId: newProps.account.accountId});
+    if(this.props.account.keypair !== newProps.account.keypair) {
+      this.setState({
+        accountId: newProps.account.keypair.accountId(),
+        secretSeed: newProps.account.keypair.canSign() ? newProps.account.keypair.seed() : '',
+      });
     }
   }
 
