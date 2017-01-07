@@ -34,7 +34,7 @@ export const sendPayment = formData => (dispatch, getState) => {
     });
 };
 
-export const changeTrust = ({ asset, amount }) => (dispatch, getState) => {
+export const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
   // dispatch(AccountActions.sendingPayment());
 
   const state = getState();
@@ -54,7 +54,7 @@ export const changeTrust = ({ asset, amount }) => (dispatch, getState) => {
     keypair,
     sourceAccount,
     asset,
-    amount,
+    limit: null, // TODO
   };
 
   return StellarHelper
@@ -70,6 +70,6 @@ export const changeTrust = ({ asset, amount }) => (dispatch, getState) => {
 export const deleteTrustline = asset => (
   changeTrust({
     asset,
-    amount: "0",
+    limit: "0",
   })
 );

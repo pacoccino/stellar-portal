@@ -61,16 +61,16 @@ export const sendPayment = ({ asset, keypair, sourceAccount, destination, amount
     .submitTransaction(transaction);
 };
 
-export const changeTrust = ({ asset, amount, keypair, sourceAccount }) => {
+export const changeTrust = ({ asset, limit, keypair, sourceAccount }) => {
   const sequenceNumber = sourceAccount.sequence;
   const sourceAddress = keypair.accountId();
   const transAccount = new Stellar.Account(sourceAddress, sequenceNumber);
-  const limit = isString(amount) ? amount : null;
+  const trustLimit = isString(limit) ? limit : undefined;
 
   const transaction = new Stellar.TransactionBuilder(transAccount)
     .addOperation(Stellar.Operation.changeTrust({
       asset,
-      limit,
+      limit: trustLimit,
     }))
     .build();
 
