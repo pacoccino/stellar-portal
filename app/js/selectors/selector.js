@@ -5,6 +5,7 @@ import { Asset } from 'stellar-sdk';
 
 export const getAccount = selectProperty([ACCOUNT_STATE_KEY, 'data'], {});
 export const getBalances = selectProperty([ACCOUNT_STATE_KEY, 'data', 'balances'], []);
+export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], []);
 
 export const getPayments = selectProperty([STELLAR_STATE_KEY, PAYMENTS_KEY, 'data'], []);
 export const getOffers = selectProperty([STELLAR_STATE_KEY, OFFERS_KEY, 'data'], []);

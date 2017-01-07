@@ -5,6 +5,7 @@ import BalancesContainer from '../../containers/stellar/BalancesContainer';
 import AccountActionsContainer from '../../containers/stellar/AccountActionsContainer';
 import PaymentsViewer from '../../elements/PaymentsViewer';
 import OffersViewer from '../../elements/OffersViewer';
+import TrustlinesViewer from '../../elements/Trustlines';
 
 class AccountViewer extends Component {
 
@@ -36,6 +37,8 @@ class AccountViewer extends Component {
         <PaymentsViewer />
         <Divider />
         <OffersViewer />
+        <Divider />
+        <TrustlinesViewer />
       </div>
     );
   }
