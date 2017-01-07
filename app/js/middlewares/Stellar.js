@@ -53,7 +53,7 @@ const stellarMiddleware = store => next => action => {
               onerror: console.error
             }));
       } catch(e) {
-        console.error(e)
+        // console.error(e)
       }
       break;
     }
