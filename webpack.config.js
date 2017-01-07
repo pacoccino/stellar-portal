@@ -9,7 +9,7 @@ const extractText = require('@webpack-blocks/extract-text2');
 const plugins = require('./webpack.plugins');
 
 const DIRNAME = __dirname + '/';
-const buildDir = __dirname + 'build/';
+const buildDir = __dirname + '/build/';
 
 module.exports = createConfig([
   entryPoint({
