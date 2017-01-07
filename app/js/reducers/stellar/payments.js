@@ -25,7 +25,15 @@ function getPaymentsStream(state, action) {
   }
 }
 
+function resetStream(state) {
+  return {
+    ...state,
+    data: [],
+  }
+}
+
 export const paymentsReducer = createReducer(initialState, {
+  [types.SET_ACCOUNT_SUCCESS]: resetStream,
   [types.GET_PAYMENTS_SUCCESS]: getPaymentsSuccess,
   [types.GET_PAYMENTS_STREAM]: getPaymentsStream,
 });

@@ -1,7 +1,7 @@
 import * as actions from '../constants/actionTypes';
 import * as StellarHelper from '../helpers/Stellar';
 import { getAccountSuccess } from '../actions/account';
-import { getPaymentsStream } from '../actions/stellar';
+import { getPaymentsStream, getOffersStream } from '../actions/stellar';
 
 const streamers = {};
 
@@ -38,6 +38,17 @@ const stellarMiddleware = store => next => action => {
             .stream({
               onmessage: payment => {
                 store.dispatch(getPaymentsStream(payment));
+              },
+              onerror: console.error
+            }));
+
+        // Stream offers
+        newStream('offers',
+          StellarHelper.getServerInstance()
+            .offers('accounts', account.account_id)
+            .stream({
+              onmessage: offer => {
+                store.dispatch(getOffersStream(offer));
               },
               onerror: console.error
             }));

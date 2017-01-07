@@ -12,3 +12,9 @@ export function getPaymentsStream(payment) {
     payment,
   };
 }
+export function getOffersStream(offer) {
+  return {
+    type: actions.GET_OFFERS_STREAM,
+    offer,
+  };
+}

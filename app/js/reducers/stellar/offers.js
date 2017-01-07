@@ -17,6 +17,24 @@ function getOffersSuccess(state, action) {
   }
 }
 
+function getOffersStream(state, action) {
+  const { offer } = action;
+  return {
+    ...state,
+    data: state.data.concat(offer),
+  }
+}
+
+function resetStream(state) {
+  return {
+    ...state,
+    data: [],
+  }
+}
+
+
 export const offersReducer = createReducer(initialState, {
+  [types.SET_ACCOUNT_SUCCESS]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,
+  [types.GET_OFFERS_STREAM]: getOffersStream,
 });

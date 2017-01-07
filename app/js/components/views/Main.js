@@ -5,16 +5,19 @@ import AccountSelectorContainer from '../../containers/stellar/AccountSelectorCo
 import AccountViewerContainer from '../../containers/stellar/AccountViewerContainer';
 import AccountActionsContainer from '../../containers/stellar/AccountActionsContainer';
 import PaymentsViewer from '../../elements/PaymentsViewer';
+import OffersViewer from '../../elements/OffersViewer';
 
 const Main = () => (
   <div>
-      <AccountSelectorContainer />
-      <Divider />
-      <AccountViewerContainer />
-      <Divider />
-      <AccountActionsContainer />
-      <Divider />
-      <PaymentsViewer />
+        <AccountSelectorContainer />
+        <Divider />
+        <AccountViewerContainer />
+        <Divider />
+        <AccountActionsContainer />
+        <Divider />
+        <PaymentsViewer />
+        <Divider />
+        <OffersViewer />
   </div>
 );
 
