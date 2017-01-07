@@ -16,32 +16,3 @@ export const setAccount = keys => dispatch => {
     })
     .catch(error => dispatch(AccountActions.getAccountError(error)));
 };
-
-export const sendPayment = formData => (dispatch, getState) => {
-  dispatch(AccountActions.sendingPayment());
-
-  const state = getState();
-  const { keypair } = state.account;
-  const sourceAccount = state.account.data;
-
-  if(!keypair || !sourceAccount) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account not set")));
-  }
-  if(!keypair.canSign()) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account seed not set")));
-  }
-
-  const paymentData = Object.assign({}, formData, {
-    keypair,
-    sourceAccount,
-  });
-
-  return StellarHelper
-    .sendPayment(paymentData)
-    .catch(error =>
-      dispatch(AccountActions.sendPaymentError(error))
-    )
-    .then(d => {
-      dispatch(AccountActions.sendPaymentSuccess(d));
-    });
-};

@@ -1,3 +1,4 @@
+import { isString } from 'lodash';
 import Stellar from 'stellar-sdk';
 
 import StellarOffline from './StellarOffline';
@@ -51,6 +52,25 @@ export const sendPayment = ({ asset, keypair, sourceAccount, destination, amount
       destination: destination,
       asset: asset,
       amount: amount
+    }))
+    .build();
+
+  transaction.sign(keypair);
+
+  return getServerInstance()
+    .submitTransaction(transaction);
+};
+
+export const changeTrust = ({ asset, amount, keypair, sourceAccount }) => {
+  const sequenceNumber = sourceAccount.sequence;
+  const sourceAddress = keypair.accountId();
+  const transAccount = new Stellar.Account(sourceAddress, sequenceNumber);
+  const limit = isString(amount) ? amount : null;
+
+  const transaction = new Stellar.TransactionBuilder(transAccount)
+    .addOperation(Stellar.Operation.changeTrust({
+      asset,
+      limit,
     }))
     .build();
 
