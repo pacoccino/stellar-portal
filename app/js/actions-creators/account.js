@@ -42,8 +42,6 @@ export const sendPayment = formData => (dispatch, getState) => {
       dispatch(AccountActions.sendPaymentError(error))
     )
     .then(d => {
-      console.log(d);
-      dispatch(getAccount(d.account_id)); // Update account data
       dispatch(AccountActions.sendPaymentSuccess(d));
     });
 };

@@ -3,8 +3,15 @@ import { Button, Header, Form, Message } from 'semantic-ui-react'
 
 class Payment extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedAsset: null,
+    };
+  }
   sendPayment(e, { formData }) {
-    e.preventDefault()
+    e.preventDefault();
+    formData.asset = this.props.trustlines[formData.asset].asset;
     this.props.sendPayment(formData);
   };
 
@@ -14,10 +21,17 @@ class Payment extends Component {
         <Header as="h3">
           Payment
         </Header>
-        <Header as="h4">
-          Native
-        </Header>
+        {this.state.selectedAsset ? <Asset {...this.state.selectedAsset} /> : null}
         <Form onSubmit={::this.sendPayment}>
+          <Form.Field
+            label='Asset' control='select'
+            name="asset"
+          >
+            {this.props.trustlines.map((t, index) => (
+              <option key={index} value={index}>{t.label}</option>
+            ))}
+          </Form.Field>
+          {this.state.selectedAsset ? <Asset {...this.state.selectedAsset} /> : null}
           <Form.Field
             name="destination"
             label='Destination account'
@@ -61,6 +75,7 @@ class Payment extends Component {
 Payment.propTypes = {
   sendPayment: PropTypes.func.isRequired,
   account: PropTypes.object,
+  trustlines: PropTypes.array,
 };
 
 export default Payment;
