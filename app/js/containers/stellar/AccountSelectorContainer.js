@@ -1,4 +1,3 @@
-import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getAccount } from '../../actions-creators/account';

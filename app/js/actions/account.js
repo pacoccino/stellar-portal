@@ -47,11 +47,3 @@ export function sendPaymentError(error) {
     error,
   };
 }
-
-
-export function getTransactionsSuccess(transactions) {
-  return {
-    type: actions.GET_TRANSACTIONS_SUCCESS,
-    transactions,
-  };
-}
