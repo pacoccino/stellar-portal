@@ -25,6 +25,11 @@ export const getAccountStream = (accountId, onmessage) => {
     .stream({ onmessage });
 };
 
+export const getPayments = (accountId) => {
+  return getServerInstance().payments()
+    .forAccount(accountId)
+    .call();
+};
 export const getTransactions = (accountId) => {
   return getServerInstance().transactions()
     .forAccount(accountId)

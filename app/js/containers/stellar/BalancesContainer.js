@@ -2,13 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Balances from '../../components/stellar/Balances';
+import { getBalances } from '../../selectors/selector';
 
-const BalancesContainer = ({ account }) => (
-  account ?
-    <Balances balances={account.balances} />
-    :
-    null
-);
-const mapStateToProps = ({ account }) => ({ account: account.data });
+const mapStateToProps = (state) => ({ balances: getBalances(state) });
 
-export default connect(mapStateToProps, null)(BalancesContainer);
+export default connect(mapStateToProps, null)(Balances);

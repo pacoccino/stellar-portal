@@ -1,24 +1,14 @@
 /* eslint new-cap: 0 */
 import { merge } from 'lodash';
 
-import * as types from '../constants/actionTypes';
-import { createReducer } from '../helpers/redux';
+import { combineReducers } from 'redux';
+import { paymentsReducer } from './stellar/payments';
+import { offersReducer } from './stellar/offers';
 
-const initialState = {
-  payments: [],
-  effects: [],
-  offers: [],
-};
+export const PAYMENTS_KEY = 'payments';
+export const OFFERS_KEY = 'offers';
 
-function getPaymentsSuccess(state, action) {
-  const { payments } = action;
-  console.log(payments);
-  return {
-    ...state,
-    payments,
-  }
-}
-
-export default createReducer(initialState, {
-  [types.GET_PAYMENTS_SUCCESS]: getPaymentsSuccess,
+export default combineReducers({
+  [PAYMENTS_KEY]: paymentsReducer,
+  [OFFERS_KEY]: offersReducer,
 });

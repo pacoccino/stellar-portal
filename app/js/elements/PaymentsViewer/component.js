@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Header, List } from 'semantic-ui-react'
 
-const getTransactions = (transaction, index) => {
+const getPayments = (payment, index) => {
   return (
     <List.Item key={index}>
-      t
+      {payment.amount}
 {/*      <b>Type:</b> {transaction.asset_type}
       <br />
       <b>Amount:</b> {transaction.balance}*/}
@@ -12,19 +12,19 @@ const getTransactions = (transaction, index) => {
   );
 };
 
-const Transactions = ({ transactions }) =>
+const Payments = ({ payments }) =>
   <div>
-    <Header as="h2">Transactions</Header>
-    {transactions ?
+    <Header as="h2">Payments</Header>
+    {payments ?
       <List>
-        {transactions.map(getTransactions)}
+        {payments.map(getPayments)}
       </List>
     : null
     }
   </div>;
 
-Transactions.propTypes = {
-  transactions: PropTypes.array,
+Payments.propTypes = {
+  payments: PropTypes.array,
 };
 
-export default Transactions;
+export default Payments;

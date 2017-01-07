@@ -4,7 +4,7 @@ import * as StellarHelper from '../helpers/Stellar';
 
 import * as AccountActions from '../actions/account';
 
-export const getAccount = keys => dispatch => {
+export const setAccount = keys => dispatch => {
   dispatch(AccountActions.fetchingAccount());
 
   const keypair = keys.secretSeed ? Stellar.Keypair.fromSeed(keys.secretSeed) : Stellar.Keypair.fromAccountId(keys.publicKey);
@@ -12,18 +12,9 @@ export const getAccount = keys => dispatch => {
   return StellarHelper
     .getAccount(keypair.accountId())
     .then(account => {
-      dispatch(AccountActions.setKeypair(keypair));
-      dispatch(AccountActions.getAccountSuccess(account));
+      dispatch(AccountActions.setAccountSuccess(account, keypair));
     })
     .catch(error => dispatch(AccountActions.getAccountError(error)));
-};
-
-export const updateAccount = accountId => dispatch => {
-  return StellarHelper
-    .getAccount(accountId)
-    .then(account => {
-      dispatch(AccountActions.getAccountSuccess(account));
-    });
 };
 
 export const sendPayment = formData => (dispatch, getState) => {

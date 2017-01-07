@@ -1,8 +1,9 @@
 import * as actions from '../constants/actionTypes';
 
-export function setKeypair(keypair) {
+export function setAccountSuccess(account, keypair) {
   return {
-    type: actions.SET_KEYPAIR,
+    type: actions.SET_ACCOUNT_SUCCESS,
+    account,
     keypair,
   };
 }
@@ -13,17 +14,17 @@ export function fetchingAccount() {
   };
 }
 
-export function getAccountSuccess(account) {
-  return {
-    type: actions.GET_ACCOUNT_SUCCESS,
-    account,
-  };
-}
-
 export function getAccountError(error) {
   return {
     type: actions.GET_ACCOUNT_ERROR,
     error,
+  };
+}
+
+export function getAccountSuccess(account) {
+  return {
+    type: actions.GET_ACCOUNT_SUCCESS,
+    account,
   };
 }
 

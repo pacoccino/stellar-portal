@@ -47,13 +47,13 @@ class AccountSelector extends Component {
   getAccountFromPk(e) {
     e && e.preventDefault();
 
-    this.props.getAccount({ publicKey: this.state.accountId });
+    this.props.setAccount({ publicKey: this.state.accountId });
   };
 
   getAccountFromSeed(e) {
     e && e.preventDefault();
 
-    this.props.getAccount({ secretSeed: this.state.secretSeed });
+    this.props.setAccount({ secretSeed: this.state.secretSeed });
   };
 
   render() {
@@ -99,7 +99,7 @@ class AccountSelector extends Component {
 
 AccountSelector.propTypes = {
   account: PropTypes.object.isRequired,
-  getAccount: PropTypes.func.isRequired,
+  setAccount: PropTypes.func.isRequired,
 };
 
 export default AccountSelector;
