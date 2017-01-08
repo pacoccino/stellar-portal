@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Stellar from 'stellar-sdk';
+import { Button } from 'semantic-ui-react';
 
 const getIssuer = issuer => {
   const firstThree = issuer.slice(0, 3);
@@ -23,7 +24,14 @@ const Asset = ({ asset, asset_type, asset_code, asset_issuer}) => {
 
   return (
     <div>
-      <span style={styles.asset_code}>{objAsset.getCode()}</span> <span style={styles.asset_issuer}>({Asset.getIssuerText(objAsset.getIssuer())})</span>
+      <span style={styles.asset_code}>{objAsset.getCode()}</span>
+      <span style={styles.asset_issuer}>({Asset.getIssuerText(objAsset.getIssuer())})</span>
+      <Button
+        className="balances-address-copy"
+        circular
+        icon="clipboard"
+        data-clipboard-text={objAsset.getIssuer()}
+      />
     </div>
   );
 };
@@ -42,6 +50,7 @@ Asset.getAssetString = (asset) => (
 const styles = {
   asset_issuer: {
     color: 'grey',
+    padding: '0 0.5rem',
   },
   asset_code: {
     fontWeight: 500,

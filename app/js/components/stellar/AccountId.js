@@ -1,8 +1,19 @@
 import React, { PropTypes } from 'react';
+import { Button } from 'semantic-ui-react';
 
 const AccountId = ({ accountId }) => {
   return (
-    <span style={styles.account_id}>{AccountId.getAccountIdText(accountId)}</span>
+    <div>
+      <span style={styles.account_id}>
+        {AccountId.getAccountIdText(accountId)}
+      </span>
+      <Button
+        className="balances-address-copy"
+        circular
+        icon="clipboard"
+        data-clipboard-text={accountId}
+      />
+    </div>
   );
 };
 
@@ -15,6 +26,7 @@ AccountId.getAccountIdText = issuer => {
 
 const styles = {
   account_id: {
+    padding: '0 0.5rem',
   },
 };
 
