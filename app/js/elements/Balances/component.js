@@ -22,7 +22,7 @@ class Balances extends React.Component {
     return (
       <div>
         <Header as="h2">Balances</Header>
-        <Table singleLine>
+        <Table singleLine size="small" compact>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Asset</Table.HeaderCell>

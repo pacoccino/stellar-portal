@@ -94,7 +94,7 @@ class Payments extends React.Component {
     return (
       <div>
         <Header as="h3">Payments</Header>
-        <Table singleLine>
+        <Table singleLine size="small" compact>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>From</Table.HeaderCell>

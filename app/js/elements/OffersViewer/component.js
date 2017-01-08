@@ -59,7 +59,7 @@ class Offers extends React.Component {
 
   getOfferTable() {
     return (
-      <Table singleLine>
+      <Table singleLine size="small" compact>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Selling</Table.HeaderCell>
