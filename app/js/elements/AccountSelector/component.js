@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Header, Input, Message } from 'semantic-ui-react'
 
-import * as StellarHelper from '../../helpers/Stellar';
+import * as StellarHelper from '../../helpers/StellarTools';
 
 class AccountSelector extends Component {
 

@@ -1,5 +1,5 @@
 import * as actions from '../constants/actionTypes';
-import * as StellarHelper from '../helpers/Stellar';
+import { getServerInstance } from '../helpers/StellarServer';
 import { getAccountSuccess } from '../actions/account';
 import { getPaymentsStream, getOffersStream } from '../actions/stellar';
 
@@ -24,7 +24,7 @@ const stellarMiddleware = store => next => action => {
       try {
         // Stream account
         newStream('account',
-          StellarHelper.getServerInstance()
+          getServerInstance()
             .accounts()
             .accountId(account.account_id)
             .stream({
@@ -36,7 +36,7 @@ const stellarMiddleware = store => next => action => {
 
         // Stream payment
         newStream('payment',
-          StellarHelper.getServerInstance()
+          getServerInstance()
             .payments()
             .forAccount(account.account_id)
             .stream({
@@ -48,7 +48,7 @@ const stellarMiddleware = store => next => action => {
 
         // Stream offers
         newStream('offers',
-          StellarHelper.getServerInstance()
+          getServerInstance()
             .offers('accounts', account.account_id)
             .stream({
               onmessage: offer => {

@@ -20,6 +20,13 @@ class Offers extends React.Component {
     this.props.createOffer(offerData);
   }
 
+  deleteOffer(offer) {
+    return e => {
+      e.preventDefault();
+      this.props.deleteOffer(offer);
+    };
+  }
+
   getOfferRow(offer, index) {
     return (
       <Table.Row key={index}>
@@ -34,6 +41,15 @@ class Offers extends React.Component {
         </Table.Cell>
         <Table.Cell>
           {offer.amount}
+        </Table.Cell>
+        <Table.Cell>
+          <Button
+            basic
+            color="red"
+            onClick={::this.deleteOffer(offer)}
+          >
+            Delete
+          </Button>
         </Table.Cell>
       </Table.Row>
     );
@@ -58,6 +74,7 @@ class Offers extends React.Component {
               <Table.HeaderCell>Buying</Table.HeaderCell>
               <Table.HeaderCell>Price</Table.HeaderCell>
               <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -117,6 +134,7 @@ Offers.propTypes = {
   trustlines: PropTypes.array,
   offers: PropTypes.array,
   createOffer: PropTypes.func.isRequired,
+  deleteOffer: PropTypes.func.isRequired,
 };
 
 export default Offers;

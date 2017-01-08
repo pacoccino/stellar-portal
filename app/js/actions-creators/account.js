@@ -1,15 +1,14 @@
-import Stellar from 'stellar-sdk';
-
-import * as StellarHelper from '../helpers/Stellar';
+import * as StellarServer from '../helpers/StellarServer';
 
 import * as AccountActions from '../actions/account';
+import { KeypairInstance} from '../helpers/StellarTools';
 
 export const setAccount = keys => dispatch => {
   dispatch(AccountActions.fetchingAccount());
 
-  const keypair = keys.secretSeed ? Stellar.Keypair.fromSeed(keys.secretSeed) : Stellar.Keypair.fromAccountId(keys.publicKey);
+  const keypair = KeypairInstance(keys);
 
-  return StellarHelper
+  return StellarServer
     .getAccount(keypair.accountId())
     .then(account => {
       dispatch(AccountActions.setAccountSuccess(account, keypair));

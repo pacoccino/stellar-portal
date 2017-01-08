@@ -32,7 +32,6 @@ function resetStream(state) {
   }
 }
 
-
 export const offersReducer = createReducer(initialState, {
   [types.SET_ACCOUNT_SUCCESS]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,

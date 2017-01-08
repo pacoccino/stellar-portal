@@ -1,36 +1,14 @@
-import * as StellarHelper from '../helpers/Stellar';
+import * as StellarOperations from '../helpers/StellarOperations';
 
 import * as AccountActions from '../actions/account';
-import { getKeypair, getAccount } from '../helpers/selector';
-
-const prepareTransaction = (state, dispatch) => {
-  const keypair = getKeypair(state);
-  const sourceAccount = getAccount(state);
-
-  if (!keypair || !sourceAccount) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account not set")));
-    return null;
-  }
-  if (!keypair.canSign()) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account seed not set")));
-    return null;
-  }
-  return {
-    keypair,
-    sourceAccount,
-  };
-};
+import { getAuthData } from '../helpers/selector';
 
 export const sendPayment = formData => (dispatch, getState) => {
   dispatch(AccountActions.sendingPayment());
 
-  const basicData = prepareTransaction(getState(), dispatch);
-  if(!basicData) return;
-
+  const authData = getAuthData(getState());
   const { asset, amount, destination, asset_destination, amount_destination } = formData;
-
   const paymentData = {
-    ...basicData,
     asset,
     amount,
     destination,
@@ -40,9 +18,9 @@ export const sendPayment = formData => (dispatch, getState) => {
 
   let promise = null;
   if(asset_destination && amount_destination) {
-    promise = StellarHelper.sendPathPayment(paymentData);
+    promise = StellarOperations.sendPathPayment(paymentData, authData);
   } else {
-    promise = StellarHelper.sendPayment(paymentData);
+    promise = StellarOperations.sendPayment(paymentData, authData);
   }
 
   return promise
@@ -56,17 +34,16 @@ export const sendPayment = formData => (dispatch, getState) => {
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
 
-  const basicData = prepareTransaction(getState(), dispatch);
-  if(!basicData) return;
+  const authData = getAuthData(getState());
+  if(!authData) return;
 
   const transactionData = {
-    ...basicData,
     asset,
     limit,
   };
 
-  return StellarHelper
-    .changeTrust(transactionData); // TODO receive
+  return StellarOperations
+    .changeTrust(transactionData, authData); // TODO receive
 };
 
 export const createTrustline = asset => (
@@ -78,24 +55,29 @@ export const createTrustline = asset => (
 export const deleteTrustline = asset => (
   changeTrust({
     asset,
-    limit: "0",
+    limit: 0,
   })
 );
 
-export const createOffer = ({ selling,  buying,  amount,  price, passive }) => (dispatch, getState) => {
+export const createOffer = offer => (dispatch, getState) => {
 
-  const basicData = prepareTransaction(getState(), dispatch);
-  if(!basicData) return;
+  const authData = getAuthData(getState());
+  if(!authData) return;
+
+  return StellarOperations
+    .manageOffer(offer, authData); // TODO receive
+};
+
+export const deleteOffer = offer => (dispatch, getState) => {
+
+  const authData = getAuthData(getState());
+  if(!authData) return;
 
   const transactionData = {
-    ...basicData,
-    selling,
-    buying,
-    amount,
-    price,
-    passive,
+    ...offer,
+    amount: 0
   };
 
-  return StellarHelper
-    .createOffer(transactionData); // TODO receive
+  return StellarOperations
+    .manageOffer(transactionData, authData); // TODO receive
 };
