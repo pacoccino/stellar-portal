@@ -39,9 +39,13 @@ const stellarMiddleware = store => next => action => {
           getServerInstance()
             .payments()
             .forAccount(account.account_id)
+            .order('desc')
             .stream({
               onmessage: payment => {
-                store.dispatch(getPaymentsStream(payment));
+                payment.transaction().then(transaction => {
+                  payment.transaction = transaction;
+                  store.dispatch(getPaymentsStream(payment));
+                });
               },
               onerror: traceError
             }));
@@ -50,6 +54,7 @@ const stellarMiddleware = store => next => action => {
         newStream('offers',
           getServerInstance()
             .offers('accounts', account.account_id)
+            .order('desc')
             .stream({
               onmessage: offer => {
                 store.dispatch(getOffersStream(offer));

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Header, List, Table } from 'semantic-ui-react'
+import { Button, Header, Table } from 'semantic-ui-react'
+import moment from 'moment';
 
 import Asset from '../../components/stellar/Asset';
 import AccountId from '../../components/stellar/AccountId';
@@ -7,6 +8,19 @@ import AmountComponent from '../../components/stellar/Amount';
 
 class Payments extends React.Component {
 
+  getDate(transaction) {
+    const mo = moment(transaction.created_at);
+    return mo.calendar();
+  }
+
+  openTransaction(transaction) {
+    return e => {
+      e.preventDefault();
+      const id = transaction.id;
+      const url = `http://testnet.stellarchain.io/tx/${id}`;
+      window.open(url);
+    }
+  }
   getPaymentRow(payment, index) {
     return (
       <Table.Row key={index}>
@@ -21,6 +35,18 @@ class Payments extends React.Component {
         </Table.Cell>
         <Table.Cell>
           <Asset {...payment} />
+        </Table.Cell>
+        <Table.Cell>
+          {this.getDate(payment.transaction)}
+        </Table.Cell>
+        <Table.Cell>
+          <Button
+            circular
+            basic
+            compact
+            icon="external"
+            onClick={this.openTransaction(payment.transaction)}
+          />
         </Table.Cell>
       </Table.Row>
     );
@@ -47,6 +73,18 @@ class Payments extends React.Component {
         <Table.Cell>
           <Asset {...payment} />
         </Table.Cell>
+        <Table.Cell>
+          {this.getDate(payment.transaction)}
+        </Table.Cell>
+        <Table.Cell>
+          <Button
+            circular
+            basic
+            compact
+            icon="external"
+            onClick={this.openTransaction(payment.transaction)}
+          />
+        </Table.Cell>
       </Table.Row>
     );
   }
@@ -63,6 +101,8 @@ class Payments extends React.Component {
               <Table.HeaderCell>To</Table.HeaderCell>
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>Asset</Table.HeaderCell>
+              <Table.HeaderCell>Date</Table.HeaderCell>
+              <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -80,6 +120,8 @@ class Payments extends React.Component {
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>From asset</Table.HeaderCell>
               <Table.HeaderCell>To asset</Table.HeaderCell>
+              <Table.HeaderCell>Date</Table.HeaderCell>
+              <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 

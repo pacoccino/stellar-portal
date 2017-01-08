@@ -10,8 +10,8 @@ class AccountSelector extends Component {
     super(props);
 
     this.state = {
-      accountId: 'GDRFQGOPF7ZRRTA3WZXFICQLIOAV7NIC7AGG6SOMFKUMTK6PJ5PBPCR4',
-      secretSeed: 'SDZXGOVIU5JQBGT3GRS2PPURLFDF6AODHY5MG4A7KNAORYX4ASR67GKN',
+      accountId: '',
+      secretSeed: '',
       pkError: null,
       seedError: null,
     };
@@ -27,7 +27,6 @@ class AccountSelector extends Component {
   }
 
   componentDidMount() {
-    this.getAccountFromSeed();
     new Clipboard(".account-address-copy")
   }
 
