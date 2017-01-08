@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Header, Divider } from 'semantic-ui-react'
+import { Container, Grid, Header, Divider } from 'semantic-ui-react'
 
 import BalancesContainer from '../Balances';
-import AccountActionsContainer from '../AccountActions';
+import Payment from '../Payment';
 import PaymentsViewer from '../PaymentsViewer';
 import OffersViewer from '../OffersViewer';
-import TrustlinesViewer from '../Trustlines';
 
 class AccountViewer extends Component {
 
@@ -26,27 +25,37 @@ class AccountViewer extends Component {
 
     return (
       <div>
-        <div>
-          <Header as="h2">Account viewer</Header>
-        </div>
+        <Grid columns={2} divided doubling>
+          <Grid.Row>
+            <Grid.Column>
+              <BalancesContainer />
+            </Grid.Column>
+            <Grid.Column>
+              <Payment />
+            </Grid.Column>
+          </Grid.Row>
+          <Divider />
+          <Grid.Row>
+            <Grid.Column>
+              <OffersViewer />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <Divider />
-        <BalancesContainer />
-        <Divider />
-        {this.props.canSign ?
-          <div><AccountActionsContainer />
-            <Divider />
-          </div>
-          : null
-        }
-        <PaymentsViewer />
-        <Divider />
-        <OffersViewer />
-        <Divider />
-        <TrustlinesViewer />
+        <Container style={styles.paymentContainer}>
+          <PaymentsViewer />
+        </Container>
       </div>
     );
   }
 }
+const styles = {
+  paymentContainer: {
+    height: '50rem',
+    overflowY: 'scroll',
+    padding: '1rem 0',
+  },
+};
 
 AccountViewer.propTypes = {
   account: PropTypes.object,

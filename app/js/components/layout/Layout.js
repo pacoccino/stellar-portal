@@ -10,7 +10,7 @@ const Layout = ({ children }) =>
         </Menu.Item>
       </Container>
     </Menu>
-    <Container text className="main">
+    <Container fluid className="main" style={styles.container}>
       {children}
     </Container>
     <Menu attached="bottom" inverted>
@@ -33,4 +33,9 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+const styles = {
+  container: {
+    padding: '4rem'
+  }
+}
 export default Layout;

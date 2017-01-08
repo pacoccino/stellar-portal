@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Header, Input, Message } from 'semantic-ui-react'
+import { Container, Button, Header, Input, Message } from 'semantic-ui-react'
 import Clipboard from 'clipboard';
 
 import * as StellarHelper from '../../helpers/StellarTools';
@@ -77,10 +77,8 @@ class AccountSelector extends Component {
   render() {
     return (
       <div>
-        <div>
+        <Container textAlign="center">
           <Header as="h2">Account selector</Header>
-        </div>
-        <div>
           <Input
             action={{content: "Set", onClick: ::this.getAccountFromPk, loading: this.props.isAccountLoading}}
             input={{value: this.state.accountId}}
@@ -146,7 +144,7 @@ class AccountSelector extends Component {
               Public
             </Button>
           </Button.Group>
-        </div>
+        </Container>
       </div>
     );
   }

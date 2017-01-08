@@ -3,6 +3,12 @@ import { Button, Header, Form, Message } from 'semantic-ui-react'
 
 import Asset from '../../components/stellar/Asset';
 
+const styles = {
+  padV: {
+    margin: '1rem 0',
+  },
+};
+
 class Payment extends Component {
 
   constructor(props) {
@@ -161,13 +167,23 @@ class Payment extends Component {
     );
   }
 
-  render() {
+  getNoSigner() {
     return (
       <div>
-        <Header as="h3">
+        Can't make payment with public key.
+      </div>
+    )
+  }
+
+  render() {
+    if(!this.props.canSign) return this.getNoSigner();
+
+    return (
+      <div>
+        <Header as="h2">
           Payment
         </Header>
-        <Button.Group>
+        <Button.Group fluid style={styles.padV}>
           <Button
             positive={this.state.type === 'payment'}
             onClick={() => this.setState({type: 'payment'})}
@@ -193,7 +209,11 @@ class Payment extends Component {
           {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
           {this.state.type === 'issue_asset' ? this.getIssueForm() : null}
 
-          <Button type='submit'>Send</Button>
+          <Button
+            type='submit'
+            fluid
+            style={styles.padV}
+          >Send</Button>
 
           <Message
             success
@@ -222,6 +242,7 @@ Payment.propTypes = {
   sendIssuePayment: PropTypes.func.isRequired,
   account: PropTypes.object,
   trustlines: PropTypes.array,
+  canSign: PropTypes.bool,
 };
 
 export default Payment;

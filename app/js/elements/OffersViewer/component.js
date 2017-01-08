@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Form, Button, Header, Table } from 'semantic-ui-react'
 import Asset from '../../components/stellar/Asset';
+import Amount from '../../components/stellar/Amount';
 
 class Offers extends React.Component {
   createOffer(e, { formData }) {
@@ -37,10 +38,10 @@ class Offers extends React.Component {
           <Asset {...offer.buying} />
         </Table.Cell>
         <Table.Cell>
-          {offer.price}
+          <Amount amount={offer.price} />
         </Table.Cell>
         <Table.Cell>
-          {offer.amount}
+          <Amount amount={offer.amount} />
         </Table.Cell>
         <Table.Cell>
           {this.props.canSign ?
@@ -59,7 +60,7 @@ class Offers extends React.Component {
 
   getOfferTable() {
     return (
-      <Table singleLine size="small" compact>
+      <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Selling</Table.HeaderCell>
@@ -86,7 +87,7 @@ class Offers extends React.Component {
 
     return (
       <Form onSubmit={::this.createOffer}>
-        <Form.Group>
+        <Form.Group widths="2">
           <Form.Select
             label='Sell'
             name='sell_asset'
@@ -101,12 +102,8 @@ class Offers extends React.Component {
             placeholder='Asset to buy'
             required
           />
-          <Form.Checkbox
-            name="passive"
-            label='Passive offer'
-          />
         </Form.Group>
-        <Form.Group>
+        <Form.Group widths="2">
           <Form.Field
             name="amount"
             label='Amount'
@@ -123,6 +120,12 @@ class Offers extends React.Component {
             placeholder='1'
             required
           />
+        </Form.Group>
+        <Form.Group>
+          <Form.Checkbox
+            name="passive"
+            label='Passive offer'
+          />
           <Button type='submit'>Create offer</Button>
         </Form.Group>
       </Form>
@@ -133,8 +136,6 @@ class Offers extends React.Component {
     return (
       <div>
         <Header as="h2">Offers</Header>
-        {this.getOfferTable()}
-
         {this.props.canSign ?
           <div>
             <Header as="h3">Create offer</Header>
@@ -142,6 +143,7 @@ class Offers extends React.Component {
           </div>
           : null
         }
+        {this.getOfferTable()}
       </div>
     );
   }

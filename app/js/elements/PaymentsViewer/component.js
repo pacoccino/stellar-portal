@@ -93,8 +93,8 @@ class Payments extends React.Component {
     const { payments } = this.props;
     return (
       <div>
-        <Header as="h3">Payments</Header>
-        <Table singleLine size="small" compact>
+        <Header as="h2">Payments</Header>
+        <Table singleLine size="small" compact unstackable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>From</Table.HeaderCell>
@@ -112,7 +112,7 @@ class Payments extends React.Component {
         </Table>
 
         <Header as="h3">Path payments</Header>
-        <Table singleLine>
+        <Table singleLine size="small" compact unstackable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>From account</Table.HeaderCell>

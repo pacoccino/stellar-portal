@@ -2,8 +2,18 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Balances from './component';
-import { getBalances } from '../../helpers/selector';
+import { canSign, getBalances, getTrustlines } from '../../helpers/selector';
+import { createTrustline, deleteTrustline } from '../../actions-creators/stellar';
 
-const mapStateToProps = (state) => ({ balances: getBalances(state) });
+const mapStateToProps = (state) => ({
+  balances: getBalances(state),
+  trustlines: getTrustlines(state),
+  canSign: canSign(state),
+});
 
-export default connect(mapStateToProps, null)(Balances);
+const mapDispatchToProps = {
+  createTrustline,
+  deleteTrustline,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Balances);
