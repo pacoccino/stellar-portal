@@ -88,17 +88,17 @@ class Offers extends React.Component {
       <Form onSubmit={::this.createOffer}>
         <Form.Group>
           <Form.Select
-            label='Buy'
-            name='buy_asset'
-            options={getAssetsOptions(this.props.trustlines)}
-            placeholder='Asset to buy'
-            required
-          />
-          <Form.Select
             label='Sell'
             name='sell_asset'
             options={getAssetsOptions(this.props.trustlines)}
             placeholder='Asset to sell'
+            required
+          />
+          <Form.Select
+            label='Buy'
+            name='buy_asset'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to buy'
             required
           />
           <Form.Checkbox
