@@ -27,13 +27,25 @@ export const sendPayment = formData => (dispatch, getState) => {
   const basicData = prepareTransaction(getState(), dispatch);
   if(!basicData) return;
 
+  const { asset, amount, destination, asset_destination, amount_destination } = formData;
+
   const paymentData = {
     ...basicData,
-    sourceAccount,
+    asset,
+    amount,
+    destination,
+    asset_destination,
+    amount_destination
   };
 
-  return StellarHelper
-    .sendPayment(paymentData)
+  let promise = null;
+  if(asset_destination && amount_destination) {
+    promise = StellarHelper.sendPathPayment(paymentData);
+  } else {
+    promise = StellarHelper.sendPayment(paymentData);
+  }
+
+  return promise
     .catch(error =>
       dispatch(AccountActions.sendPaymentError(error))
     )

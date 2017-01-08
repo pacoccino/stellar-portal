@@ -14,9 +14,9 @@ class Payment extends Component {
   sendPayment(e, { formData }) {
     e.preventDefault();
     formData.asset = this.props.trustlines[formData.asset];
+    formData.asset_destination = formData.asset_destination ? this.props.trustlines[formData.asset_destination] : null;
     this.props.sendPayment(formData);
   };
-
 
   render() {
     const getAssetsOptions = assets => assets.map((asset, index) => (
@@ -32,7 +32,7 @@ class Payment extends Component {
         </Header>
         <Form onSubmit={::this.sendPayment}>
           <Form.Select
-            label='Asset'
+            label='Source asset'
             name='asset'
             options={getAssetsOptions(this.props.trustlines)}
             placeholder='Asset to send'
@@ -56,6 +56,23 @@ class Payment extends Component {
             placeholder='0'
             required
           />
+
+          <Form.Select
+            label='Destination asset'
+            name='asset_destination'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to receive'
+          />
+
+          <Form.Field
+            name="amount_destination"
+            label='Destination amount'
+            control='input'
+            type='number'
+            min={0}
+            placeholder='0'
+          />
+
           <Button type='submit'>Send</Button>
 
           <Message

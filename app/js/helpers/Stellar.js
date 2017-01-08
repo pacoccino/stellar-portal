@@ -61,6 +61,27 @@ export const sendPayment = ({ asset, keypair, sourceAccount, destination, amount
     .submitTransaction(transaction);
 };
 
+export const sendPathPayment = ({ asset, keypair, asset_destination, amount_destination, sourceAccount, destination, amount }) => {
+  const sequenceNumber = sourceAccount.sequence;
+  const sourceAddress = keypair.accountId();
+  const transAccount = new Stellar.Account(sourceAddress, sequenceNumber);
+
+  const transaction = new Stellar.TransactionBuilder(transAccount)
+    .addOperation(Stellar.Operation.pathPayment({
+      sendAsset:    asset,
+      sendMax:      amount,
+      destination:  destination,
+      destAsset:    asset_destination,
+      destAmount:   amount_destination,
+    }))
+    .build();
+
+  transaction.sign(keypair);
+
+  return getServerInstance()
+    .submitTransaction(transaction);
+};
+
 export const changeTrust = ({ asset, limit, keypair, sourceAccount }) => {
   const sequenceNumber = sourceAccount.sequence;
   const sourceAddress = keypair.accountId();

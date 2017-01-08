@@ -42,7 +42,6 @@ export function sendPaymentSuccess(data) {
 }
 
 export function sendPaymentError(error) {
-  debugger;
   return {
     type: actions.SEND_PAYMENT_ERROR,
     error,
