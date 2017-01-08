@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Header, Table } from 'semantic-ui-react'
 import Asset from '../../components/stellar/Asset';
-import Clipboard from 'clipboard';
 
 const getBalanceRow = (balance, index) => {
   return (
@@ -17,10 +16,6 @@ const getBalanceRow = (balance, index) => {
 };
 
 class Balances extends React.Component {
-  componentDidMount() {
-    new Clipboard(".balances-address-copy")
-  }
-
   render() {
     const { balances } = this.props;
 

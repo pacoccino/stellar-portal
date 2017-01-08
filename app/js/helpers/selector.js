@@ -3,9 +3,11 @@ import { ACCOUNT_STATE_KEY, STELLAR_STATE_KEY } from '../constants/reducerKeys';
 import { OFFERS_KEY, PAYMENTS_KEY } from '../reducers/stellar';
 import { AssetInstance } from './StellarTools';
 
-export const getAccount = selectProperty([ACCOUNT_STATE_KEY, 'data'], {});
+export const isAccountLoading = selectProperty([ACCOUNT_STATE_KEY, 'isLoading'], false);
+export const getAccount = selectProperty([ACCOUNT_STATE_KEY, 'data'], null);
+export const getAccountError = selectProperty([ACCOUNT_STATE_KEY, 'error'], {});
 export const getBalances = selectProperty([ACCOUNT_STATE_KEY, 'data', 'balances'], []);
-export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], []);
+export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], null);
 export const getAuthData = state => ({
   keypair: getKeypair(state),
   sourceAccount: getAccount(state),

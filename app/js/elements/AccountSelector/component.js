@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Header, Input, Message } from 'semantic-ui-react'
+import { Button, Header, Input, Message } from 'semantic-ui-react'
+import Clipboard from 'clipboard';
 
 import * as StellarHelper from '../../helpers/StellarTools';
 
@@ -17,16 +18,17 @@ class AccountSelector extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if(this.props.account.keypair !== newProps.account.keypair) {
+    if(this.props.keypair !== newProps.keypair) {
       this.setState({
-        accountId: newProps.account.keypair.accountId(),
-        secretSeed: newProps.account.keypair.canSign() ? newProps.account.keypair.seed() : '',
+        accountId: newProps.keypair.accountId(),
+        secretSeed: newProps.keypair.canSign() ? newProps.keypair.seed() : '',
       });
     }
   }
 
   componentDidMount() {
     this.getAccountFromSeed();
+    new Clipboard(".account-address-copy")
   }
 
   handleChangePK(e) {
@@ -67,7 +69,7 @@ class AccountSelector extends Component {
         </div>
         <div>
           <Input
-            action={{content: "Set", onClick: ::this.getAccountFromPk, loading: this.props.account.isLoading}}
+            action={{content: "Set", onClick: ::this.getAccountFromPk, loading: this.props.isAccountLoading}}
             input={{value: this.state.accountId}}
             onChange={::this.handleChangePK}
             placeholder='G...'
@@ -76,7 +78,7 @@ class AccountSelector extends Component {
             error={this.state.pkError}
           />
           <Input
-            action={{content: "Set", onClick: ::this.getAccountFromSeed, loading: this.props.account.isLoading}}
+            action={{content: "Set", onClick: ::this.getAccountFromSeed, loading: this.props.isAccountLoading}}
             input={{value: this.state.secretSeed}}
             onChange={::this.handleChangeSeed}
             placeholder='S...'
@@ -86,13 +88,34 @@ class AccountSelector extends Component {
           />
           <br/>
           {
-            this.props.account.error ?
+            this.props.error ?
               <Message negative>
                 <Message.Header>Account error</Message.Header>
                 <p>There was an error while fetching this account's data.</p>
               </Message>
               :
               null
+          }
+          {this.props.keypair ?
+            <div>
+
+              <Button
+                className="account-address-copy"
+                basic
+                color="green"
+                data-clipboard-text={this.props.keypair.accountId()}
+              >Copy public address</Button>
+              {this.props.keypair.canSign() ?
+                <Button
+                  className="account-address-copy"
+                  basic
+                  color="blue"
+                  data-clipboard-text={this.props.keypair.seed()}
+                >Copy private address</Button>
+                : null
+              }
+            </div>
+            : null
           }
         </div>
       </div>
@@ -101,7 +124,10 @@ class AccountSelector extends Component {
 }
 
 AccountSelector.propTypes = {
-  account: PropTypes.object.isRequired,
+  isAccountLoading: PropTypes.bool,
+  account: PropTypes.object,
+  error: PropTypes.object,
+  keypair: PropTypes.object,
   setAccount: PropTypes.func.isRequired,
 };
 

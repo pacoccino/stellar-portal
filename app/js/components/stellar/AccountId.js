@@ -1,25 +1,36 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'semantic-ui-react';
+import Clipboard from 'clipboard';
 
-const AccountId = ({ accountId }) => {
-  return (
-    <div>
-      <span style={styles.account_id}>
-        {AccountId.getAccountIdText(accountId)}
-      </span>
-      <Button
-        className="balances-address-copy"
-        circular
-        basic
-        compact
-        icon="clipboard"
-        data-clipboard-text={accountId}
-      />
-    </div>
-  );
-};
+class AccountId extends React.Component {
+  componentDidMount() {
+    new Clipboard(".accountId-copy")
+  }
 
-AccountId.getAccountIdText = issuer => {
+  render() {
+    const { accountId, myAccountId } = this.props;
+    return (
+      <div>
+        <span style={styles.account_id}>
+          {AccountId.getAccountIdText(accountId, myAccountId)}
+        </span>
+        <Button
+          className="accountId-copy"
+          circular
+          basic
+          compact
+          icon="clipboard"
+          data-clipboard-text={accountId}
+        />
+      </div>
+    );
+  }
+}
+
+AccountId.getAccountIdText = (issuer, myAccountId) => {
+  if(myAccountId && issuer === myAccountId) {
+    return "Me";
+  }
   const size = 4;
   const firstThree = issuer.slice(0, size);
   const lastThree = issuer.slice(-size);
@@ -34,6 +45,7 @@ const styles = {
 
 AccountId.propTypes = {
   accountId: PropTypes.string,
+  myAccountId: PropTypes.string,
 };
 
 export default AccountId;
