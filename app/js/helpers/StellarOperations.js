@@ -43,10 +43,10 @@ export const sendPathPayment = ({ asset, asset_destination, amount_destination, 
 };
 
 export const changeTrust = ({ asset, limit }, authData) => {
-  const trustLimit = isString(limit) ? limit : undefined;
+  const trustLimit = (isNumber(limit) || isString(limit)) ? AmountInstance(limit) : undefined;
   const operation = StellarSDK.Operation.changeTrust({
     asset: AssetInstance(asset),
-    limit: AmountInstance(trustLimit),
+    limit: trustLimit,
   });
 
   return sendTransaction(authData, { operation });
