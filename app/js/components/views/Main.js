@@ -1,8 +1,8 @@
 import React from 'react';
 import { Divider } from 'semantic-ui-react'
 
-import AccountSelectorContainer from '../../containers/stellar/AccountSelectorContainer';
-import AccountViewerContainer from '../../containers/stellar/AccountViewerContainer';
+import AccountSelectorContainer from '../../elements/AccountSelector';
+import AccountViewerContainer from '../../elements/AccountViewer';
 
 const Main = () => (
   <div>

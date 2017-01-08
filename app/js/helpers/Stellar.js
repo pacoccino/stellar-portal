@@ -5,41 +5,17 @@ import StellarOffline from './StellarOffline';
 
 const Server = new Stellar.Server('https://horizon-testnet.stellar.org');
 
-const nativeAsset = Stellar.Asset.native();
-
 export const getServerInstance = () => {
   if(false && process.env.NODE_ENV !== 'production') {
     return StellarOffline();
   }
 
   return Server;
-}
+};
 
 export const getAccount = (accountId) => {
   return getServerInstance()
     .loadAccount(accountId);
-};
-export const getAccountStream = (accountId, onmessage) => {
-  return getServerInstance()
-    .accounts()
-    .accountId(accountId)
-    .stream({ onmessage });
-};
-
-export const getPayments = (accountId) => {
-  return getServerInstance().payments()
-    .forAccount(accountId)
-    .call();
-};
-export const getTransactions = (accountId) => {
-  return getServerInstance().transactions()
-    .forAccount(accountId)
-    .call();
-};
-export const getTransactionsStream = (accountId, onmessage) => {
-  return getServerInstance().transactions()
-    .forAccount(accountId)
-    .stream({ onmessage });
 };
 
 export const sendPayment = ({ asset, keypair, sourceAccount, destination, amount }) => {

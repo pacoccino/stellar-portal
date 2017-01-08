@@ -1,4 +1,4 @@
-import { selectProperty } from '../helpers/redux';
+import { selectProperty } from './redux';
 import { ACCOUNT_STATE_KEY, STELLAR_STATE_KEY } from '../constants/reducerKeys';
 import { OFFERS_KEY, PAYMENTS_KEY } from '../reducers/stellar';
 import { Asset } from 'stellar-sdk';

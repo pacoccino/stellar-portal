@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Header, Divider } from 'semantic-ui-react'
 
-import BalancesContainer from '../../containers/stellar/BalancesContainer';
-import AccountActionsContainer from '../../containers/stellar/AccountActionsContainer';
-import PaymentsViewer from '../../elements/PaymentsViewer';
-import OffersViewer from '../../elements/OffersViewer';
-import TrustlinesViewer from '../../elements/Trustlines';
+import BalancesContainer from '../Balances';
+import AccountActionsContainer from '../AccountActions';
+import PaymentsViewer from '../PaymentsViewer';
+import OffersViewer from '../OffersViewer';
+import TrustlinesViewer from '../Trustlines';
 
 class AccountViewer extends Component {
 

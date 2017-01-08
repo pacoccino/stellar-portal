@@ -9,8 +9,8 @@ class AccountSelector extends Component {
     super(props);
 
     this.state = {
-      accountId: '',
-      secretSeed: '',
+      accountId: 'GDRFQGOPF7ZRRTA3WZXFICQLIOAV7NIC7AGG6SOMFKUMTK6PJ5PBPCR4',
+      secretSeed: 'SDZXGOVIU5JQBGT3GRS2PPURLFDF6AODHY5MG4A7KNAORYX4ASR67GKN',
       pkError: null,
       seedError: null,
     };
@@ -23,6 +23,10 @@ class AccountSelector extends Component {
         secretSeed: newProps.account.keypair.canSign() ? newProps.account.keypair.seed() : '',
       });
     }
+  }
+
+  componentDidMount() {
+    this.getAccountFromSeed();
   }
 
   handleChangePK(e) {

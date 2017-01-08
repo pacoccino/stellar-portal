@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Header } from 'semantic-ui-react'
 
-import PaymentContainer from '../../containers/stellar/PaymentContainer';
+import PaymentContainer from '../Payment';
 
 class AccountActions extends Component {
   render() {

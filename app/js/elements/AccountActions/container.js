@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import AccountActions from '../../components/stellar/AccountActions';
-import { getAccount } from '../../selectors/selector';
+import AccountActions from './component';
+import { getAccount } from '../../helpers/selector';
 
 const mapStateToProps = (state) => ({ account: getAccount(state) });
 

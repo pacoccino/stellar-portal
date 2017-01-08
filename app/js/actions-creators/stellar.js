@@ -1,7 +1,7 @@
 import * as StellarHelper from '../helpers/Stellar';
 
 import * as AccountActions from '../actions/account';
-import { getKeypair, getAccount } from '../selectors/selector';
+import { getKeypair, getAccount } from '../helpers/selector';
 
 const prepareTransaction = (state, dispatch) => {
   const keypair = getKeypair(state);

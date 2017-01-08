@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Header, Table, List } from 'semantic-ui-react'
-import Asset from './Asset';
+import { Header, Table } from 'semantic-ui-react'
+import Asset from '../../components/stellar/Asset';
 
 const getBalanceRow = (balance, index) => {
   return (

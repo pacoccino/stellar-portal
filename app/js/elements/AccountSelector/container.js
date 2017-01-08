@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { setAccount } from '../../actions-creators/account';
 
-import AccountSelector from '../../components/stellar/AccountSelector';
+import AccountSelector from './component';
 
 const mapStateToProps = ({ account }) => ({ account });
 const mapDispatchToProps = { setAccount };

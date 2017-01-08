@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Component from './component'
 
 import { createTrustline, deleteTrustline } from '../../actions-creators/stellar';
-import { getTrustlines } from '../../selectors/selector';
+import { getTrustlines } from '../../helpers/selector';
 
 const mapStateToProps = (state) => ({
   trustlines: getTrustlines(state),
