@@ -21,13 +21,15 @@ class Trustlines extends React.Component {
           <Asset asset={asset} />
         </Table.Cell>
         <Table.Cell>
-          <Button
-            onClick={() => this.props.deleteTrustline(asset)}
-            basic color='red'
-            floated="right"
-          >
-            Remove
-          </Button>
+          {this.props.canSign ?
+            <Button
+              onClick={() => this.props.deleteTrustline(asset)}
+              basic color='red'
+              floated="right"
+            >
+              Remove
+            </Button>
+            : null}
         </Table.Cell>
       </Table.Row>
     );

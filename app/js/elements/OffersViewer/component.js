@@ -43,13 +43,15 @@ class Offers extends React.Component {
           {offer.amount}
         </Table.Cell>
         <Table.Cell>
-          <Button
-            basic
-            color="red"
-            onClick={::this.deleteOffer(offer)}
-          >
-            Delete
-          </Button>
+          {this.props.canSign ?
+            <Button
+              basic
+              color="red"
+              onClick={::this.deleteOffer(offer)}
+            >
+              Delete
+            </Button>
+            : null}
         </Table.Cell>
       </Table.Row>
     );
