@@ -7,7 +7,7 @@ class Trustlines extends React.Component {
   addTrustline(e, { formData }) {
     e.preventDefault();
     const asset = new Asset(formData.asset_code, formData.asset_issuer);
-    this.props.changeTrust({ asset });
+    this.props.createTrustline(asset);
   }
 
   getTrustline(trustline, index) {
@@ -67,7 +67,8 @@ class Trustlines extends React.Component {
 
 Trustlines.propTypes = {
   trustlines: PropTypes.array,
-  changeTrust: PropTypes.func.isRequired,
+  createTrustline: PropTypes.func.isRequired,
+  deleteTrustline: PropTypes.func.isRequired,
 };
 
 export default Trustlines;

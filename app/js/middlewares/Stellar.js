@@ -12,6 +12,10 @@ function newStream(name, stream) {
   streamers[name] = stream;
 }
 
+function traceError(e) {
+  // console.error(e);
+}
+
 const stellarMiddleware = store => next => action => {
   switch (action.type) {
     case actions.SET_ACCOUNT_SUCCESS: {
@@ -27,7 +31,7 @@ const stellarMiddleware = store => next => action => {
               onmessage: account => {
                 store.dispatch(getAccountSuccess(account));
               },
-              onerror: console.error
+              onerror: traceError
             }));
 
         // Stream payment
@@ -39,7 +43,7 @@ const stellarMiddleware = store => next => action => {
               onmessage: payment => {
                 store.dispatch(getPaymentsStream(payment));
               },
-              onerror: console.error
+              onerror: traceError
             }));
 
         // Stream offers
@@ -50,10 +54,10 @@ const stellarMiddleware = store => next => action => {
               onmessage: offer => {
                 store.dispatch(getOffersStream(offer));
               },
-              onerror: console.error
+              onerror: traceError
             }));
       } catch(e) {
-        // console.error(e)
+        traceError(e);
       }
       break;
     }

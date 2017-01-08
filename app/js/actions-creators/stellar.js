@@ -1,28 +1,36 @@
-import Stellar from 'stellar-sdk';
-
 import * as StellarHelper from '../helpers/Stellar';
 
 import * as AccountActions from '../actions/account';
 import { getKeypair, getAccount } from '../selectors/selector';
 
+const prepareTransaction = (state, dispatch) => {
+  const keypair = getKeypair(state);
+  const sourceAccount = getAccount(state);
+
+  if (!keypair || !sourceAccount) {
+    dispatch(AccountActions.sendPaymentError(new Error("Source account not set")));
+    return null;
+  }
+  if (!keypair.canSign()) {
+    dispatch(AccountActions.sendPaymentError(new Error("Source account seed not set")));
+    return null;
+  }
+  return {
+    keypair,
+    sourceAccount,
+  };
+};
+
 export const sendPayment = formData => (dispatch, getState) => {
   dispatch(AccountActions.sendingPayment());
 
-  const state = getState();
-  const { keypair } = getKeypair(state);
-  const sourceAccount = getAccount(state);
+  const basicData = prepareTransaction(getState(), dispatch);
+  if(!basicData) return;
 
-  if(!keypair || !sourceAccount) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account not set")));
-  }
-  if(!keypair.canSign()) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account seed not set")));
-  }
-
-  const paymentData = Object.assign({}, formData, {
-    keypair,
+  const paymentData = {
+    ...basicData,
     sourceAccount,
-  });
+  };
 
   return StellarHelper
     .sendPayment(paymentData)
@@ -34,42 +42,47 @@ export const sendPayment = formData => (dispatch, getState) => {
     });
 };
 
-export const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
-  // dispatch(AccountActions.sendingPayment());
+const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
 
-  const state = getState();
-  const keypair = getKeypair(state);
-  const sourceAccount = getAccount(state);
+  const basicData = prepareTransaction(getState(), dispatch);
+  if(!basicData) return;
 
-  if (!keypair || !sourceAccount) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account not set")));
-    return;
-  }
-  if (!keypair.canSign()) {
-    dispatch(AccountActions.sendPaymentError(new Error("Source account seed not set")));
-    return;
-  }
-
-  const paymentData = {
-    keypair,
-    sourceAccount,
+  const transactionData = {
+    ...basicData,
     asset,
-    limit: null, // TODO
+    limit,
   };
 
   return StellarHelper
-    .changeTrust(paymentData)
-    .catch(error =>
-      dispatch(AccountActions.sendPaymentError(error))
-    )
-    .then(d => {
-      dispatch(AccountActions.sendPaymentSuccess(d));
-    });
+    .changeTrust(transactionData); // TODO receive
 };
 
+export const createTrustline = asset => (
+  changeTrust({
+    asset,
+    limit: null,
+  })
+);
 export const deleteTrustline = asset => (
   changeTrust({
     asset,
     limit: "0",
   })
 );
+
+export const createOffer = ({ selling,  buying,  amount,  price }) => (dispatch, getState) => {
+
+  const basicData = prepareTransaction(getState(), dispatch);
+  if(!basicData) return;
+
+  const transactionData = {
+    ...basicData,
+    selling,
+    buying,
+    amount,
+    price,
+  };
+
+  return StellarHelper
+    .createOffer(transactionData); // TODO receive
+};

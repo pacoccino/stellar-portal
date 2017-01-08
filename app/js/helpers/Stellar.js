@@ -80,6 +80,27 @@ export const changeTrust = ({ asset, limit, keypair, sourceAccount }) => {
     .submitTransaction(transaction);
 };
 
+export const createOffer = ({ selling, buying, amount, price, keypair, sourceAccount }) => {
+  const sequenceNumber = sourceAccount.sequence;
+  const sourceAddress = keypair.accountId();
+  const transAccount = new Stellar.Account(sourceAddress, sequenceNumber);
+
+  const transaction = new Stellar.TransactionBuilder(transAccount)
+    .addOperation(Stellar.Operation.manageOffer({
+      selling,
+      buying,
+      amount,
+      price,
+      offerId:  0
+    }))
+    .build();
+
+  transaction.sign(keypair);
+
+  return getServerInstance()
+    .submitTransaction(transaction);
+};
+
 
 export const validPk = pk => {
   return Stellar.Keypair.isValidPublicKey(pk);
