@@ -14,6 +14,7 @@ class Offers extends React.Component {
       buying,
       amount: formData.amount,
       price: formData.price,
+      passive: formData.passive,
     };
 
     this.props.createOffer(offerData);
@@ -82,12 +83,16 @@ class Offers extends React.Component {
               placeholder='Asset to sell'
               required
             />
+            <Form.Checkbox
+              name="passive"
+              label='Passive offer'
+            />
           </Form.Group>
           <Form.Group>
             <Form.Field
               name="amount"
               label='Amount'
-              control='input'
+              control='Input'
               type='number'
               placeholder='0'
               required
@@ -95,7 +100,7 @@ class Offers extends React.Component {
             <Form.Field
               name="price"
               label='Price'
-              control='input'
+              control='Input'
               type='number'
               placeholder='1'
               required

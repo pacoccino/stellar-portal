@@ -101,21 +101,26 @@ export const changeTrust = ({ asset, limit, keypair, sourceAccount }) => {
     .submitTransaction(transaction);
 };
 
-export const createOffer = ({ selling, buying, amount, price, keypair, sourceAccount }) => {
+export const createOffer = ({ selling, buying, amount, price, passive, keypair, sourceAccount }) => {
   const sequenceNumber = sourceAccount.sequence;
   const sourceAddress = keypair.accountId();
   const transAccount = new Stellar.Account(sourceAddress, sequenceNumber);
 
-  const transaction = new Stellar.TransactionBuilder(transAccount)
-    .addOperation(Stellar.Operation.manageOffer({
-      selling,
-      buying,
-      amount,
-      price,
-      offerId:  0
-    }))
-    .build();
+  const offer = {
+    selling,
+    buying,
+    amount,
+    price,
+    offerId:  0
+  };
 
+  let transactionBuilder = new Stellar.TransactionBuilder(transAccount);
+  if(passive) {
+    transactionBuilder.addOperation(Stellar.Operation.createPassiveOffer(offer));
+  } else {
+    transactionBuilder.addOperation(Stellar.Operation.manageOffer(offer));
+  }
+  const transaction = transactionBuilder.build();
   transaction.sign(keypair);
 
   return getServerInstance()

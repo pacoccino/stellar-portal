@@ -82,7 +82,7 @@ export const deleteTrustline = asset => (
   })
 );
 
-export const createOffer = ({ selling,  buying,  amount,  price }) => (dispatch, getState) => {
+export const createOffer = ({ selling,  buying,  amount,  price, passive }) => (dispatch, getState) => {
 
   const basicData = prepareTransaction(getState(), dispatch);
   if(!basicData) return;
@@ -93,6 +93,7 @@ export const createOffer = ({ selling,  buying,  amount,  price }) => (dispatch,
     buying,
     amount,
     price,
+    passive,
   };
 
   return StellarHelper
