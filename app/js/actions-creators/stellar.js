@@ -7,23 +7,57 @@ export const sendPayment = formData => (dispatch, getState) => {
   dispatch(AccountActions.sendingPayment());
 
   const authData = getAuthData(getState());
-  const { asset, amount, destination, asset_destination, amount_destination } = formData;
+  const { asset, amount, destination } = formData;
   const paymentData = {
     asset,
     amount,
     destination,
+  };
+
+  return StellarOperations.sendPayment(paymentData, authData)
+    .catch(error =>
+      dispatch(AccountActions.sendPaymentError(error))
+    )
+    .then(d => {
+      dispatch(AccountActions.sendPaymentSuccess(d));
+    });
+};
+
+export const sendPathPayment = formData => (dispatch, getState) => {
+  dispatch(AccountActions.sendingPayment());
+
+  const authData = getAuthData(getState());
+  const { asset_source, max_amount, destination, asset_destination, amount_destination } = formData;
+  const paymentData = {
+    asset_source,
     asset_destination,
+    destination,
+    max_amount,
     amount_destination
   };
 
-  let promise = null;
-  if(asset_destination && amount_destination) {
-    promise = StellarOperations.sendPathPayment(paymentData, authData);
-  } else {
-    promise = StellarOperations.sendPayment(paymentData, authData);
-  }
+  return StellarOperations.sendPathPayment(paymentData, authData)
+    .catch(error =>
+      dispatch(AccountActions.sendPaymentError(error))
+    )
+    .then(d => {
+      dispatch(AccountActions.sendPaymentSuccess(d));
+    });
+};
 
-  return promise
+export const sendIssuePayment = formData => (dispatch, getState) => {
+  dispatch(AccountActions.sendingPayment());
+
+  const authData = getAuthData(getState());
+  const { accountId, asset_code, amount, destination } = formData;
+  const asset = { asset_code, asset_issuer: accountId};
+  const paymentData = {
+    asset,
+    amount,
+    destination,
+  };
+
+  return StellarOperations.sendPayment(paymentData, authData)
     .catch(error =>
       dispatch(AccountActions.sendPaymentError(error))
     )

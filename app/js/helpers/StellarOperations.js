@@ -30,10 +30,10 @@ export const sendPayment = ({ asset, destination, amount }, authData) => {
   return sendTransaction(authData, { operation });
 };
 
-export const sendPathPayment = ({ asset, asset_destination, amount_destination, destination, amount }, authData) => {
+export const sendPathPayment = ({ asset_source, asset_destination, amount_destination, destination, max_amount }, authData) => {
   const operation = StellarSDK.Operation.pathPayment({
-    sendAsset:    AssetInstance(asset),
-    sendMax:      AmountInstance(amount),
+    sendAsset:    AssetInstance(asset_source),
+    sendMax:      AmountInstance(max_amount),
     destination:  destination,
     destAsset:    AssetInstance(asset_destination),
     destAmount:   AmountInstance(amount_destination),

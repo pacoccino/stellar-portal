@@ -8,17 +8,36 @@ class Payment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedAsset: null,
+      type: 'payment',
     };
   }
-  sendPayment(e, { formData }) {
-    e.preventDefault();
-    formData.asset = this.props.trustlines[formData.asset];
-    formData.asset_destination = formData.asset_destination ? this.props.trustlines[formData.asset_destination] : null;
-    this.props.sendPayment(formData);
-  };
 
-  render() {
+  submitForm(e, {formData}) {
+    e.preventDefault();
+    switch(this.state.type) {
+      case 'payment': {
+        formData.asset = this.props.trustlines[formData.asset];
+        this.props.sendPayment(formData);
+        break;
+      }
+      case 'path_payment': {
+        if(formData.asset_source === formData.asset_destination) {
+          return;
+        }
+        formData.asset_source = this.props.trustlines[formData.asset_source];
+        formData.asset_destination = this.props.trustlines[formData.asset_destination];
+        this.props.sendPathPayment(formData);
+        break;
+      }
+      case 'issue_asset': {
+        formData.accountId = this.props.account.account_id;
+        this.props.sendIssuePayment(formData);
+        break;
+      }
+    }
+  }
+
+  getPaymentForm() {
     const getAssetsOptions = assets => assets.map((asset, index) => (
     {
       value: index,
@@ -27,51 +46,152 @@ class Payment extends Component {
 
     return (
       <div>
-        <Header as="h3">
-          Payment
-        </Header>
-        <Form onSubmit={::this.sendPayment}>
+        <Form.Select
+          label='Source asset'
+          name='asset'
+          options={getAssetsOptions(this.props.trustlines)}
+          placeholder='Asset to send'
+          required
+        />
+        <Form.Field
+          name="destination"
+          label='Destination account'
+          control='input'
+          type='text'
+          placeholder='GRDT...'
+          required
+        />
+        <Form.Field
+          name="amount"
+          label='Amount'
+          control='input'
+          type='number'
+          min={0}
+          placeholder='0'
+          required
+        />
+      </div>
+    );
+  }
+
+  getPathPaymentForm() {
+    const getAssetsOptions = assets => assets.map((asset, index) => (
+    {
+      value: index,
+      text: Asset.getAssetString(asset),
+    }));
+
+    return (
+      <div>
+        <Form.Group>
           <Form.Select
             label='Source asset'
-            name='asset'
+            name='asset_source'
             options={getAssetsOptions(this.props.trustlines)}
             placeholder='Asset to send'
             required
           />
-          {this.state.selectedAsset ? <Asset {...this.state.selectedAsset} /> : null}
-          <Form.Field
-            name="destination"
-            label='Destination account'
-            control='input'
-            type='text'
-            placeholder='GRDT...'
-            required
-          />
-          <Form.Field
-            name="amount"
-            label='Amount'
-            control='input'
-            type='number'
-            min={0}
-            placeholder='0'
-            required
-          />
-
           <Form.Select
             label='Destination asset'
             name='asset_destination'
             options={getAssetsOptions(this.props.trustlines)}
             placeholder='Asset to receive'
           />
+        </Form.Group>
+        <Form.Field
+          name="destination"
+          label='Destination account'
+          control='input'
+          type='text'
+          placeholder='GRDT...'
+          required
+        />
+        <Form.Field
+          name="max_amount"
+          label='Maximum amount to send'
+          control='input'
+          type='number'
+          min={0}
+          placeholder='0'
+          required
+        />
+        <Form.Field
+          name="amount_destination"
+          label='Amount to receive'
+          control='input'
+          type='number'
+          min={0}
+          placeholder='0'
+          required
+        />
+      </div>
+    );
+  }
 
-          <Form.Field
-            name="amount_destination"
-            label='Destination amount'
-            control='input'
-            type='number'
-            min={0}
-            placeholder='0'
-          />
+  getIssueForm() {
+
+    return (
+      <div>
+        <Form.Field
+          name="asset_code"
+          label='Code'
+          control='input'
+          type='text'
+          placeholder='EUR'
+          required
+        />
+        <Form.Field
+          name="destination"
+          label='Destination account'
+          control='input'
+          type='text'
+          placeholder='GRDT...'
+          required
+        />
+        <Form.Field
+          name="amount"
+          label='Amount'
+          control='input'
+          type='number'
+          min={0}
+          placeholder='0'
+          required
+        />
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <Header as="h3">
+          Payment
+        </Header>
+        <Button.Group>
+          <Button
+            positive={this.state.type === 'payment'}
+            onClick={() => this.setState({type: 'payment'})}
+          >
+            Payment
+          </Button>
+          <Button
+            positive={this.state.type === 'path_payment'}
+            onClick={() => this.setState({type: 'path_payment'})}
+          >
+            Path payment
+          </Button>
+          <Button
+            positive={this.state.type === 'issue_asset'}
+            onClick={() => this.setState({type: 'issue_asset'})}
+          >
+            Issue asset
+          </Button>
+        </Button.Group>
+        <Form onSubmit={::this.submitForm}>
+
+          {this.state.type === 'payment' ? this.getPaymentForm() : null}
+          {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
+          {this.state.type === 'issue_asset' ? this.getIssueForm() : null}
 
           <Button type='submit'>Send</Button>
 
@@ -98,6 +218,8 @@ class Payment extends Component {
 
 Payment.propTypes = {
   sendPayment: PropTypes.func.isRequired,
+  sendPathPayment: PropTypes.func.isRequired,
+  sendIssuePayment: PropTypes.func.isRequired,
   account: PropTypes.object,
   trustlines: PropTypes.array,
 };
