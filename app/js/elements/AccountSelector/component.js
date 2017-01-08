@@ -34,7 +34,12 @@ class AccountSelector extends Component {
   }
 
   componentDidMount() {
-    new Clipboard(".account-address-copy")
+    new Clipboard(".account-address-copy");
+
+    const query = this.props.location.query;
+    if(query.accountId || query.secretSeed) {
+      this.props.setAccount({ publicKey: query.accountId, secretSeed: query.secretSeed });
+    }
   }
 
   handleChangePK(e) {
@@ -57,14 +62,16 @@ class AccountSelector extends Component {
 
   getAccountFromPk(e) {
     e && e.preventDefault();
+    if(!this.state.accountId) return;
 
-    this.props.setAccount({ publicKey: this.state.accountId });
+    this.props.setAccount({ publicKey: this.state.accountId }, this.context.router);
   };
 
   getAccountFromSeed(e) {
     e && e.preventDefault();
+    if(!this.state.secretSeed) return;
 
-    this.props.setAccount({ secretSeed: this.state.secretSeed });
+    this.props.setAccount({ secretSeed: this.state.secretSeed }, this.context.router);
   };
 
   render() {
@@ -146,6 +153,8 @@ class AccountSelector extends Component {
 }
 
 AccountSelector.propTypes = {
+  params: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   isAccountLoading: PropTypes.bool,
   account: PropTypes.object,
   error: PropTypes.object,
@@ -153,6 +162,10 @@ AccountSelector.propTypes = {
   setAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,
   switchNetwork: PropTypes.func.isRequired,
+};
+
+AccountSelector.contextTypes = {
+  router: PropTypes.object.isRequired,
 };
 
 export default AccountSelector;
