@@ -6,8 +6,8 @@ class Offers extends React.Component {
   createOffer(e, { formData }) {
     e.preventDefault();
 
-    const selling = this.props.trustlines[formData.buy_asset];
-    const buying = this.props.trustlines[formData.sell_asset];
+    const selling = this.props.trustlines[formData.sell_asset];
+    const buying = this.props.trustlines[formData.buy_asset];
 
     const offerData = {
       selling,
