@@ -26,12 +26,5 @@ export const getTrustlines = (state) => {
     return new Asset(balance.asset_code, balance.asset_issuer);
   }
 
-  return balances.map(balance => {
-    const asset = getAsset(balance);
-    const label = getLabel(asset);
-    return {
-      asset,
-      label,
-    };
-  });
+  return balances.map(getAsset);
 };

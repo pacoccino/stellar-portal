@@ -6,8 +6,8 @@ class Offers extends React.Component {
   createOffer(e, { formData }) {
     e.preventDefault();
 
-    const selling = this.props.trustlines[formData.buy_asset].asset;
-    const buying = this.props.trustlines[formData.sell_asset].asset;
+    const selling = this.props.trustlines[formData.buy_asset];
+    const buying = this.props.trustlines[formData.sell_asset];
 
     const offerData = {
       selling,
@@ -42,6 +42,13 @@ class Offers extends React.Component {
 
   render() {
     const { offers } = this.props;
+
+    const getAssetsOptions = assets => assets.map((asset, index) => (
+    {
+      value: index,
+      text: Asset.getAssetString(asset),
+    }));
+
     return (
       <div>
         <Header as="h2">Offers</Header>
@@ -53,22 +60,20 @@ class Offers extends React.Component {
         }
         <Header as="h3">Create offer</Header>
         <Form onSubmit={::this.createOffer}>
-          <Form.Field
-            label='Buy' control='select'
-            name="buy_asset"
-          >
-            {this.props.trustlines.map((t, index) => (
-              <option key={index} value={index}>{t.label}</option>
-            ))}
-          </Form.Field>
-          <Form.Field
-            label='Sell' control='select'
-            name="sell_asset"
-          >
-            {this.props.trustlines.map((t, index) => (
-              <option key={index} value={index}>{t.label}</option>
-            ))}
-          </Form.Field>
+          <Form.Select
+            label='Buy'
+            name='buy_asset'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to buy'
+            required
+          />
+          <Form.Select
+            label='Sell'
+            name='sell_asset'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to sell'
+            required
+          />
           <Form.Field
             name="amount"
             label='Amount'

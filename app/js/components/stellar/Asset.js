@@ -1,32 +1,56 @@
 import React, { PropTypes } from 'react';
+import Stellar from 'stellar-sdk';
 
-const getAssetType = (type) => {
-  switch(type) {
-    case 'native':
-      return "XLM";
-    case 'credit_alphanum4':
-      return 'Alphanum 4';
-    case 'credit_alphanum12':
-      return 'Alphanum 12';
+const getIssuer = issuer => {
+  const firstThree = issuer.slice(0, 3);
+  const lastThree = issuer.slice(-3);
+  return `${firstThree}...${lastThree}`;
+};
+
+const Asset = ({ asset, asset_type, asset_code, asset_issuer}) => {
+  let objAsset = asset;
+  if(!objAsset) {
+    if(asset_type === 'native') {
+      objAsset = Stellar.Asset.native();
+    }
+    else {
+      objAsset = new Stellar.Asset(asset_code, asset_issuer);
+    }
+  }
+  if(objAsset.isNative()) {
+    return <div>XLM</div>;
+  }
+
+  return (
+    <div>
+      <span style={styles.asset_code}>{objAsset.getCode()}</span> <span style={styles.asset_issuer}>({Asset.getIssuerText(objAsset.getIssuer())})</span>
+    </div>
+  );
+};
+
+Asset.getIssuerText = issuer => {
+  const firstThree = issuer.slice(0, 3);
+  const lastThree = issuer.slice(-3);
+  return `${firstThree}...${lastThree}`;
+};
+
+Asset.getAssetString = (asset) => (
+  asset.isNative() ? 'XLM' :
+  `${asset.getCode()} (${Asset.getIssuerText(asset.getIssuer())})`
+);
+
+const styles = {
+  asset_issuer: {
+    color: 'grey',
+  },
+  asset_code: {
+    fontWeight: 500,
   }
 };
 
-const Asset = ({ asset_type, asset_issuer, asset_code }) => (
-  <div><b>Type:</b> {getAssetType(asset_type)}
-    <br />
-    {asset_type !== 'native' ?
-      <div>
-        <b>Code:</b> {asset_code}
-        <br />
-        <b>Issuer:</b> {asset_issuer}
-      </div>
-      : null
-    }
-  </div>
-);
-
 Asset.propTypes = {
-  asset_type: PropTypes.string.isRequired,
+  asset: PropTypes.object,
+  asset_type: PropTypes.string,
   asset_code: PropTypes.string,
   asset_issuer: PropTypes.string,
 };

@@ -1,22 +1,23 @@
 import React, { PropTypes } from 'react';
 import { Button, Header, Form, List } from 'semantic-ui-react'
-import { Asset } from 'stellar-sdk';
+import Stellar from 'stellar-sdk';
+
+import Asset from '../../components/stellar/Asset';
 
 class Trustlines extends React.Component {
 
   addTrustline(e, { formData }) {
     e.preventDefault();
-    const asset = new Asset(formData.asset_code, formData.asset_issuer);
+    const asset = new Stellar.Asset(formData.asset_code, formData.asset_issuer);
     this.props.createTrustline(asset);
   }
 
-  getTrustline(trustline, index) {
-    const { asset } = trustline;
+  getTrustline(asset, index) {
     if(asset.isNative()) return null;
 
     return (
       <List.Item key={index}>
-        {asset.getCode()} {asset.getIssuer()}
+        <Asset asset={asset} />
         <Button onClick={() => this.props.deleteTrustline(asset)}>Remove</Button>
       </List.Item>
     );

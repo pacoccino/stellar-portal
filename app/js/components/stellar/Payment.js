@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Header, Form, Message } from 'semantic-ui-react'
 
+import Asset from '../../components/stellar/Asset';
+
 class Payment extends Component {
 
   constructor(props) {
@@ -11,26 +13,31 @@ class Payment extends Component {
   }
   sendPayment(e, { formData }) {
     e.preventDefault();
-    formData.asset = this.props.trustlines[formData.asset].asset;
+    formData.asset = this.props.trustlines[formData.asset];
     this.props.sendPayment(formData);
   };
 
+
   render() {
+    const getAssetsOptions = assets => assets.map((asset, index) => (
+    {
+      value: index,
+      text: Asset.getAssetString(asset),
+    }));
+
     return (
       <div>
         <Header as="h3">
           Payment
         </Header>
-        {this.state.selectedAsset ? <Asset {...this.state.selectedAsset} /> : null}
         <Form onSubmit={::this.sendPayment}>
-          <Form.Field
-            label='Asset' control='select'
-            name="asset"
-          >
-            {this.props.trustlines.map((t, index) => (
-              <option key={index} value={index}>{t.label}</option>
-            ))}
-          </Form.Field>
+          <Form.Select
+            label='Asset'
+            name='asset'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to send'
+            required
+          />
           {this.state.selectedAsset ? <Asset {...this.state.selectedAsset} /> : null}
           <Form.Field
             name="destination"
