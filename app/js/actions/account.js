@@ -1,5 +1,11 @@
 import * as actions from '../constants/actionTypes';
 
+
+export function resetAccount() {
+  return {
+    type: actions.RESET_ACCOUNT,
+  };
+}
 export function setAccountSuccess(account, keypair) {
   return {
     type: actions.SET_ACCOUNT_SUCCESS,
@@ -45,5 +51,12 @@ export function sendPaymentError(error) {
   return {
     type: actions.SEND_PAYMENT_ERROR,
     error,
+  };
+}
+
+export function switchNetwork(network) {
+  return {
+    type: actions.SWITCH_NETWORK,
+    network,
   };
 }

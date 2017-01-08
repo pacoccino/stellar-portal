@@ -19,10 +19,17 @@ class AccountSelector extends Component {
 
   componentWillReceiveProps(newProps) {
     if(this.props.keypair !== newProps.keypair) {
-      this.setState({
-        accountId: newProps.keypair.accountId(),
-        secretSeed: newProps.keypair.canSign() ? newProps.keypair.seed() : '',
-      });
+      if(newProps.keypair) {
+        this.setState({
+          accountId: newProps.keypair.accountId(),
+          secretSeed: newProps.keypair.canSign() ? newProps.keypair.seed() : '',
+        });
+      } else {
+        this.setState({
+          accountId: '',
+          secretSeed: '',
+        });
+      }
     }
   }
 
@@ -116,6 +123,22 @@ class AccountSelector extends Component {
             </div>
             : null
           }
+          <Button.Group>
+            <Button
+              color={this.props.network === 'test' ? "blue" : "grey"}
+              basic
+              onClick={() => this.props.switchNetwork('test')}
+            >
+              Testnet
+            </Button>
+            <Button
+              color={this.props.network === 'public' ? "blue" : "grey"}
+              basic
+              onClick={() => this.props.switchNetwork('public')}
+            >
+              Public
+            </Button>
+          </Button.Group>
         </div>
       </div>
     );
@@ -128,6 +151,8 @@ AccountSelector.propTypes = {
   error: PropTypes.object,
   keypair: PropTypes.object,
   setAccount: PropTypes.func.isRequired,
+  network: PropTypes.string.isRequired,
+  switchNetwork: PropTypes.func.isRequired,
 };
 
 export default AccountSelector;

@@ -11,6 +11,10 @@ const initialState = {
   error: null,
 };
 
+function resetAccount() {
+  return initialState;
+}
+
 function setAccount(state, action) {
   const { account, keypair } = action;
   return {
@@ -45,6 +49,7 @@ function getAccountError(state, action) {
 }
 
 export default createReducer(initialState, {
+  [types.RESET_ACCOUNT]: resetAccount,
   [types.SET_ACCOUNT_SUCCESS]: setAccount,
   [types.GET_ACCOUNT]: getAccount,
   [types.GET_ACCOUNT_SUCCESS]: getAccountSuccess,

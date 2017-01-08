@@ -8,6 +8,10 @@ const initialState = {
   data: [],
 };
 
+function resetAccount() {
+  return initialState;
+}
+
 function getOffersSuccess(state, action) {
   const { offers } = action;
   return {
@@ -33,6 +37,7 @@ function resetStream(state) {
 }
 
 export const offersReducer = createReducer(initialState, {
+  [types.RESET_ACCOUNT]: resetAccount,
   [types.SET_ACCOUNT_SUCCESS]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,
   [types.GET_OFFERS_STREAM]: getOffersStream,

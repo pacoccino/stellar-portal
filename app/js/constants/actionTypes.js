@@ -1,3 +1,6 @@
+export const SWITCH_NETWORK = "network:switch";
+
+export const RESET_ACCOUNT = "account:reset";
 export const SET_ACCOUNT_SUCCESS = "account:set";
 
 export const GET_ACCOUNT = "account:fetching";

@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 
-import { setAccount } from '../../actions-creators/account';
+import { setAccount, switchNetwork } from '../../actions-creators/account';
 
 import AccountSelector from './component';
-import { isAccountLoading, getAccount, getAccountError, getKeypair } from '../../helpers/selector';
+import { isAccountLoading, getAccount, getAccountError, getKeypair, getNetwork } from '../../helpers/selector';
 
 const mapStateToProps = (state) => ({
   isAccountLoading: isAccountLoading(state),
   account: getAccount(state),
   error: getAccountError(state),
-  keypair: getKeypair(state)
+  keypair: getKeypair(state),
+  network: getNetwork(state),
 });
-const mapDispatchToProps = { setAccount };
+const mapDispatchToProps = { setAccount, switchNetwork };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSelector);

@@ -11,6 +11,9 @@ function newStream(name, stream) {
   }
   streamers[name] = stream;
 }
+function killStreams() {
+  Object.keys(streamers).forEach(k => streamers[k]());
+}
 
 function traceError(e) {
   // console.error(e);
@@ -18,6 +21,10 @@ function traceError(e) {
 
 const stellarMiddleware = store => next => action => {
   switch (action.type) {
+    case actions.RESET_ACCOUNT: {
+      killStreams();
+      break;
+    }
     case actions.SET_ACCOUNT_SUCCESS: {
       const { account } = action;
 

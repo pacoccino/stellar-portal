@@ -1,7 +1,9 @@
 import { selectProperty } from './redux';
 import { ACCOUNT_STATE_KEY, STELLAR_STATE_KEY } from '../constants/reducerKeys';
-import { OFFERS_KEY, PAYMENTS_KEY } from '../reducers/stellar';
+import { OFFERS_KEY, PAYMENTS_KEY, NETWORK_KEY } from '../reducers/stellar';
 import { AssetInstance } from './StellarTools';
+
+export const getNetwork = selectProperty([STELLAR_STATE_KEY, NETWORK_KEY, 'network'], '');
 
 export const isAccountLoading = selectProperty([ACCOUNT_STATE_KEY, 'isLoading'], false);
 export const getAccount = selectProperty([ACCOUNT_STATE_KEY, 'data'], null);
