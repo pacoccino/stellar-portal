@@ -33,7 +33,6 @@ export const sendPayment = formData => (dispatch, getState) => {
 };
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
-
   const authData = getAuthData(getState());
   if(!authData) return;
 
@@ -60,7 +59,6 @@ export const deleteTrustline = asset => (
 );
 
 export const createOffer = offer => (dispatch, getState) => {
-
   const authData = getAuthData(getState());
   if(!authData) return;
 
@@ -69,7 +67,6 @@ export const createOffer = offer => (dispatch, getState) => {
 };
 
 export const deleteOffer = offer => (dispatch, getState) => {
-
   const authData = getAuthData(getState());
   if(!authData) return;
 

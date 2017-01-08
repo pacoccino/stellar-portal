@@ -29,6 +29,8 @@ const Asset = ({ asset, asset_type, asset_code, asset_issuer}) => {
       <Button
         className="balances-address-copy"
         circular
+        basic
+        compact
         icon="clipboard"
         data-clipboard-text={objAsset.getIssuer()}
       />

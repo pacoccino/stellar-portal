@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Button, Header, Form, List } from 'semantic-ui-react'
+import { Button, Header, Form, Table } from 'semantic-ui-react'
 import Stellar from 'stellar-sdk';
 
 import Asset from '../../components/stellar/Asset';
@@ -16,40 +16,41 @@ class Trustlines extends React.Component {
     if(asset.isNative()) return null;
 
     return (
-      <List.Item key={index}>
-        <List.Content floated='right'>
+      <Table.Row key={index}>
+        <Table.Cell>
+          <Asset asset={asset} />
+        </Table.Cell>
+        <Table.Cell>
           <Button
             onClick={() => this.props.deleteTrustline(asset)}
             basic color='red'
+            floated="right"
           >
             Remove
           </Button>
-        </List.Content>
-        <Asset asset={asset} />
-      </List.Item>
+        </Table.Cell>
+      </Table.Row>
     );
   }
 
-  render() {
-    const { trustlines } = this.props;
+  getTrustlines() {
+    return (
+      <Table>
+        <Table.Body>
+          {this.props.trustlines.map(::this.getTrustline)}
+        </Table.Body>
+      </Table>
+    );
+  }
+
+  getTrustlineForm() {
+    if(!this.props.canSign) {
+      return null;
+    }
     return (
       <div>
-        <Header as="h2">Trustlines</Header>
-        {trustlines ?
-          <List>
-            {trustlines.map(::this.getTrustline)}
-          </List>
-          : null
-        }
-        <Header as="h3">Add</Header>
+        <Header as="h3">Add trustline</Header>
         <Form onSubmit={::this.addTrustline}>
-          {/*          <Form.Field
-           label='Code type' control='select'
-           name="code_type"
-           >
-           <option value="credit_alphanum4">Alphanumeric 4</option>
-           <option value="credit_alphanum12">Alphanumeric 12</option>
-           </Form.Field>*/}
           <Form.Group>
             <Form.Field
               name="asset_code"
@@ -75,12 +76,22 @@ class Trustlines extends React.Component {
       </div>
     );
   }
+  render() {
+    return (
+      <div>
+        <Header as="h2">Trustlines</Header>
+        {this.getTrustlines()}
+        {this.getTrustlineForm()}
+      </div>
+    );
+  }
 }
 
 Trustlines.propTypes = {
   trustlines: PropTypes.array,
   createTrustline: PropTypes.func.isRequired,
   deleteTrustline: PropTypes.func.isRequired,
+  canSign: PropTypes.bool,
 };
 
 export default Trustlines;

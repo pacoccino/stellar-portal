@@ -55,9 +55,27 @@ class Offers extends React.Component {
     );
   }
 
-  render() {
-    const { offers } = this.props;
+  getOfferTable() {
+    return (
+      <Table singleLine>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Selling</Table.HeaderCell>
+            <Table.HeaderCell>Buying</Table.HeaderCell>
+            <Table.HeaderCell>Price</Table.HeaderCell>
+            <Table.HeaderCell>Amount</Table.HeaderCell>
+            <Table.HeaderCell>Action</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
 
+        <Table.Body>
+          {this.props.offers.map(::this.getOfferRow)}
+        </Table.Body>
+      </Table>
+    );
+  }
+
+  getOfferForm() {
     const getAssetsOptions = assets => assets.map((asset, index) => (
     {
       value: index,
@@ -65,66 +83,63 @@ class Offers extends React.Component {
     }));
 
     return (
+      <Form onSubmit={::this.createOffer}>
+        <Form.Group>
+          <Form.Select
+            label='Buy'
+            name='buy_asset'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to buy'
+            required
+          />
+          <Form.Select
+            label='Sell'
+            name='sell_asset'
+            options={getAssetsOptions(this.props.trustlines)}
+            placeholder='Asset to sell'
+            required
+          />
+          <Form.Checkbox
+            name="passive"
+            label='Passive offer'
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Field
+            name="amount"
+            label='Amount'
+            control='Input'
+            type='number'
+            placeholder='0'
+            required
+          />
+          <Form.Field
+            name="price"
+            label='Price'
+            control='Input'
+            type='number'
+            placeholder='1'
+            required
+          />
+          <Button type='submit'>Create offer</Button>
+        </Form.Group>
+      </Form>
+    );
+  }
+
+  render() {
+    return (
       <div>
         <Header as="h2">Offers</Header>
-        <Table singleLine>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Selling</Table.HeaderCell>
-              <Table.HeaderCell>Buying</Table.HeaderCell>
-              <Table.HeaderCell>Price</Table.HeaderCell>
-              <Table.HeaderCell>Amount</Table.HeaderCell>
-              <Table.HeaderCell>Action</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+        {this.getOfferTable()}
 
-          <Table.Body>
-            {offers.map(::this.getOfferRow)}
-          </Table.Body>
-        </Table>
-
-        <Header as="h3">Create offer</Header>
-        <Form onSubmit={::this.createOffer}>
-          <Form.Group>
-            <Form.Select
-              label='Buy'
-              name='buy_asset'
-              options={getAssetsOptions(this.props.trustlines)}
-              placeholder='Asset to buy'
-              required
-            />
-            <Form.Select
-              label='Sell'
-              name='sell_asset'
-              options={getAssetsOptions(this.props.trustlines)}
-              placeholder='Asset to sell'
-              required
-            />
-            <Form.Checkbox
-              name="passive"
-              label='Passive offer'
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Field
-              name="amount"
-              label='Amount'
-              control='Input'
-              type='number'
-              placeholder='0'
-              required
-            />
-            <Form.Field
-              name="price"
-              label='Price'
-              control='Input'
-              type='number'
-              placeholder='1'
-              required
-            />
-            <Button type='submit'>Create offer</Button>
-          </Form.Group>
-        </Form>
+        {this.props.canSign ?
+          <div>
+            <Header as="h3">Create offer</Header>
+            {this.getOfferForm()}
+          </div>
+          : null
+        }
       </div>
     );
   }
@@ -135,6 +150,7 @@ Offers.propTypes = {
   offers: PropTypes.array,
   createOffer: PropTypes.func.isRequired,
   deleteOffer: PropTypes.func.isRequired,
+  canSign: PropTypes.bool,
 };
 
 export default Offers;

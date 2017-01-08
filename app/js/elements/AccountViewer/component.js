@@ -32,8 +32,12 @@ class AccountViewer extends Component {
         <Divider />
         <BalancesContainer />
         <Divider />
-        <AccountActionsContainer />
-        <Divider />
+        {this.props.canSign ?
+          <div><AccountActionsContainer />
+            <Divider />
+          </div>
+          : null
+        }
         <PaymentsViewer />
         <Divider />
         <OffersViewer />
@@ -46,6 +50,7 @@ class AccountViewer extends Component {
 
 AccountViewer.propTypes = {
   account: PropTypes.object,
+  canSign: PropTypes.bool,
 };
 
 export default AccountViewer;

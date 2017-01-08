@@ -10,6 +10,8 @@ const AccountId = ({ accountId }) => {
       <Button
         className="balances-address-copy"
         circular
+        basic
+        compact
         icon="clipboard"
         data-clipboard-text={accountId}
       />

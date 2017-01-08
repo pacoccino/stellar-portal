@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
 
 import AccountViewer from './component';
-import { getAccount } from '../../helpers/selector';
+import { getAccount, canSign } from '../../helpers/selector';
 
-const mapStateToProps = (state) => ({ account: getAccount(state) });
+const mapStateToProps = (state) => ({
+  account: getAccount(state),
+  canSign: canSign(state),
+});
 
 export default connect(mapStateToProps, null)(AccountViewer);
