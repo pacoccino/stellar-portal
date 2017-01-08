@@ -1,25 +1,35 @@
 import React, { PropTypes } from 'react';
-import { Header, List } from 'semantic-ui-react'
+import { Header, Table, List } from 'semantic-ui-react'
 import Asset from './Asset';
 
-const getBalance = (balance, index) => {
+const getBalanceRow = (balance, index) => {
   return (
-    <List.Item key={index}>
-      <Asset {...balance} />
-      <div>
-        <Header as="h5">Amount</Header>
+    <Table.Row key={index}>
+      <Table.Cell>
+        <Asset {...balance} />
+      </Table.Cell>
+      <Table.Cell>
         {balance.balance}
-      </div>
-    </List.Item>
+      </Table.Cell>
+    </Table.Row>
   );
 };
 
 const Balances = ({ balances }) =>
   <div>
     <Header as="h2">Balances</Header>
-    <List>
-      {balances.map(getBalance)}
-    </List>
+    <Table singleLine>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Asset</Table.HeaderCell>
+          <Table.HeaderCell>Balance</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        {balances.map(getBalanceRow)}
+      </Table.Body>
+    </Table>
   </div>;
 
 Balances.propTypes = {

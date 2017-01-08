@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Form, Button, Header, List } from 'semantic-ui-react'
+import { Form, Button, Header, Table } from 'semantic-ui-react'
 import Asset from '../../components/stellar/Asset';
 
 class Offers extends React.Component {
@@ -19,24 +19,22 @@ class Offers extends React.Component {
     this.props.createOffer(offerData);
   }
 
-  getOffer(offer, index) {
+  getOfferRow(offer, index) {
     return (
-      <List.Item key={index}>
-        <div>
-          <Header as="h3">Selling:</Header>
+      <Table.Row key={index}>
+        <Table.Cell>
           <Asset {...offer.selling} />
-        </div>
-        <div>
-          <Header as="h3">Buying:</Header>
+        </Table.Cell>
+        <Table.Cell>
           <Asset {...offer.buying} />
-        </div>
-        <p>
-          <b>Price: </b> {offer.price}
-        </p>
-        <p>
-          <b>Amount: </b> {offer.amount}
-        </p>
-      </List.Item>
+        </Table.Cell>
+        <Table.Cell>
+          {offer.price}
+        </Table.Cell>
+        <Table.Cell>
+          {offer.amount}
+        </Table.Cell>
+      </Table.Row>
     );
   }
 
@@ -52,12 +50,21 @@ class Offers extends React.Component {
     return (
       <div>
         <Header as="h2">Offers</Header>
-        {offers ?
-          <List>
-            {offers.map(::this.getOffer)}
-          </List>
-          : null
-        }
+        <Table singleLine>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Selling</Table.HeaderCell>
+              <Table.HeaderCell>Buying</Table.HeaderCell>
+              <Table.HeaderCell>Price</Table.HeaderCell>
+              <Table.HeaderCell>Amount</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {offers.map(::this.getOfferRow)}
+          </Table.Body>
+        </Table>
+
         <Header as="h3">Create offer</Header>
         <Form onSubmit={::this.createOffer}>
           <Form.Select
