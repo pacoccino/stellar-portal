@@ -34,26 +34,6 @@ export function getAccountSuccess(account) {
   };
 }
 
-export function sendingPayment() {
-  return {
-    type: actions.SEND_PAYMENT,
-  };
-}
-
-export function sendPaymentSuccess(data) {
-  return {
-    type: actions.SEND_PAYMENT_SUCCESS,
-    data,
-  };
-}
-
-export function sendPaymentError(error) {
-  return {
-    type: actions.SEND_PAYMENT_ERROR,
-    error,
-  };
-}
-
 export function switchNetwork(network) {
   return {
     type: actions.SWITCH_NETWORK,

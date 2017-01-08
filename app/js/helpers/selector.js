@@ -1,5 +1,5 @@
 import { selectProperty } from './redux';
-import { ACCOUNT_STATE_KEY, STELLAR_STATE_KEY } from '../constants/reducerKeys';
+import { ACCOUNT_STATE_KEY, STELLAR_STATE_KEY, UI_STATE_KEY } from '../constants/reducerKeys';
 import { OFFERS_KEY, PAYMENTS_KEY, NETWORK_KEY } from '../reducers/stellar';
 import { AssetInstance } from './StellarTools';
 
@@ -23,3 +23,6 @@ export const getPayments = selectProperty([STELLAR_STATE_KEY, PAYMENTS_KEY, 'dat
 export const getOffers = selectProperty([STELLAR_STATE_KEY, OFFERS_KEY, 'data'], []);
 
 export const getTrustlines = (state) => getBalances(state).map(AssetInstance);
+
+export const getModalErrorOpen = selectProperty([UI_STATE_KEY, 'errorOpen'], '');
+export const getModalErrorData = selectProperty([UI_STATE_KEY, 'errorData'], '');
