@@ -17,8 +17,15 @@ class Trustlines extends React.Component {
 
     return (
       <List.Item key={index}>
+        <List.Content floated='right'>
+          <Button
+            onClick={() => this.props.deleteTrustline(asset)}
+            basic color='red'
+          >
+            Remove
+          </Button>
+        </List.Content>
         <Asset asset={asset} />
-        <Button onClick={() => this.props.deleteTrustline(asset)}>Remove</Button>
       </List.Item>
     );
   }
@@ -43,23 +50,27 @@ class Trustlines extends React.Component {
            <option value="credit_alphanum4">Alphanumeric 4</option>
            <option value="credit_alphanum12">Alphanumeric 12</option>
            </Form.Field>*/}
-          <Form.Field
-            name="asset_code"
-            label='Code'
-            control='input'
-            type='text'
-            placeholder='Asset code'
-            required
-          />
-          <Form.Field
-            name="asset_issuer"
-            label='Issuer'
-            control='input'
-            type='text'
-            placeholder='Issuer account id'
-            required
-          />
-          <Button type='submit'>Add</Button>
+          <Form.Group>
+            <Form.Field
+              name="asset_code"
+              label='Code'
+              control='input'
+              type='text'
+              placeholder='Asset code'
+              width="3"
+              required
+            />
+            <Form.Field
+              name="asset_issuer"
+              label='Issuer'
+              control='input'
+              type='text'
+              placeholder='Issuer account id'
+              width="10"
+              required
+            />
+            <Button type='submit'>Add</Button>
+          </Form.Group>
         </Form>
       </div>
     );

@@ -67,37 +67,41 @@ class Offers extends React.Component {
 
         <Header as="h3">Create offer</Header>
         <Form onSubmit={::this.createOffer}>
-          <Form.Select
-            label='Buy'
-            name='buy_asset'
-            options={getAssetsOptions(this.props.trustlines)}
-            placeholder='Asset to buy'
-            required
-          />
-          <Form.Select
-            label='Sell'
-            name='sell_asset'
-            options={getAssetsOptions(this.props.trustlines)}
-            placeholder='Asset to sell'
-            required
-          />
-          <Form.Field
-            name="amount"
-            label='Amount'
-            control='input'
-            type='number'
-            placeholder='0'
-            required
-          />
-          <Form.Field
-            name="price"
-            label='Price'
-            control='input'
-            type='number'
-            placeholder='1'
-            required
-          />
-          <Button type='submit'>Add</Button>
+          <Form.Group>
+            <Form.Select
+              label='Buy'
+              name='buy_asset'
+              options={getAssetsOptions(this.props.trustlines)}
+              placeholder='Asset to buy'
+              required
+            />
+            <Form.Select
+              label='Sell'
+              name='sell_asset'
+              options={getAssetsOptions(this.props.trustlines)}
+              placeholder='Asset to sell'
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Field
+              name="amount"
+              label='Amount'
+              control='input'
+              type='number'
+              placeholder='0'
+              required
+            />
+            <Form.Field
+              name="price"
+              label='Price'
+              control='input'
+              type='number'
+              placeholder='1'
+              required
+            />
+            <Button type='submit'>Create offer</Button>
+          </Form.Group>
         </Form>
       </div>
     );
