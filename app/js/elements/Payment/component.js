@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Header, Form, Message } from 'semantic-ui-react'
 
 import Asset from '../../components/stellar/Asset';
-import { AssetInstance } from '../../helpers/StellarTools';
+import { STROOP, AssetInstance } from '../../helpers/StellarTools';
 const styles = {
   padV: {
     margin: '1rem 0',
@@ -79,8 +79,9 @@ class Payment extends Component {
           name="amount"
           label='Amount'
           control='input'
-          type='float'
+          type='number'
           min={0}
+          step={STROOP}
           placeholder='0'
           required
         />
@@ -159,8 +160,9 @@ class Payment extends Component {
           name="max_amount"
           label='Maximum amount to send'
           control='input'
-          type='float'
+          type='number'
           min={0}
+          step={STROOP}
           placeholder='0'
           required
         />
@@ -168,8 +170,9 @@ class Payment extends Component {
           name="amount_destination"
           label='Amount to receive'
           control='input'
-          type='float'
+          type='number'
           min={0}
+          step={STROOP}
           placeholder='0'
           required
         />
@@ -201,8 +204,9 @@ class Payment extends Component {
           name="amount"
           label='Amount'
           control='input'
-          type='float'
+          type='number'
           min={0}
+          step={STROOP}
           placeholder='0'
           required
         />
