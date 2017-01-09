@@ -86,6 +86,8 @@ class Balances extends React.Component {
     return (
       <div>
         <Header as="h2">Balances</Header>
+        {this.getTrustlineForm()}
+
         <Table singleLine size="small" compact unstackable>
           <Table.Header>
             <Table.Row>
@@ -99,7 +101,6 @@ class Balances extends React.Component {
             {this.getBalanceRows()}
           </Table.Body>
         </Table>
-        {this.getTrustlineForm()}
       </div>
     );
   }

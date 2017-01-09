@@ -113,16 +113,20 @@ class AccountSelector extends Component {
               <Button
                 className="account-address-copy"
                 basic
+                icon="clipboard"
+                content="Copy public address"
                 color="green"
                 data-clipboard-text={this.props.keypair.accountId()}
-              >Copy public address</Button>
+              />
               {this.props.keypair.canSign() ?
                 <Button
                   className="account-address-copy"
                   basic
+                  icon="clipboard"
+                  content="Copy private address"
                   color="blue"
                   data-clipboard-text={this.props.keypair.seed()}
-                >Copy private address</Button>
+                />
                 : null
               }
             </div>

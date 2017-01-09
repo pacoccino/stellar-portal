@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Stellar from 'stellar-sdk';
-import { Button } from 'semantic-ui-react';
+import { Popup, Button } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 
 const getIssuer = issuer => {
@@ -29,18 +29,25 @@ class Asset extends React.Component {
     }
 
     return (
-      <div>
-        <span style={styles.asset_code}>{objAsset.getCode()}</span>
-        <span style={styles.asset_issuer}>({Asset.getIssuerText(objAsset.getIssuer())})</span>
+      <Popup
+        hoverable
+        trigger={
+          <div>
+            <span style={styles.asset_code}>{objAsset.getCode()}</span>
+            <span style={styles.asset_issuer}>({Asset.getIssuerText(objAsset.getIssuer())})</span>
+          </div>
+        }
+      >
         <Button
           className="asset-address-copy"
           circular
           basic
           compact
           icon="clipboard"
+          content="Copy issuer address"
           data-clipboard-text={objAsset.getIssuer()}
         />
-      </div>
+      </Popup>
     );
   }
 }
@@ -53,7 +60,7 @@ Asset.getIssuerText = issuer => {
 
 Asset.getAssetString = (asset) => (
   asset.isNative() ? 'XLM' :
-  `${asset.getCode()} (${Asset.getIssuerText(asset.getIssuer())})`
+    `${asset.getCode()} (${Asset.getIssuerText(asset.getIssuer())})`
 );
 
 const styles = {

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Popup, Button } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 
 class AccountId extends React.Component {
@@ -10,19 +10,24 @@ class AccountId extends React.Component {
   render() {
     const { accountId, myAccountId } = this.props;
     return (
-      <div>
-        <span style={styles.account_id}>
-          {AccountId.getAccountIdText(accountId, myAccountId)}
-        </span>
+      <Popup
+        hoverable
+        trigger={
+          <span style={styles.account_id}>
+            {AccountId.getAccountIdText(accountId, myAccountId)}
+          </span>
+        }
+      >
         <Button
           className="accountId-copy"
           circular
           basic
           compact
           icon="clipboard"
+          content="Copy account address"
           data-clipboard-text={accountId}
         />
-      </div>
+      </Popup>
     );
   }
 }
