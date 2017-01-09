@@ -203,17 +203,19 @@ class Payment extends Component {
             Issue asset
           </Button>
         </Button.Group>
-        <Form onSubmit={::this.submitForm}>
+        <Form onSubmit={::this.submitForm}
+        loading={this.props.sendingPayment}>
 
           {this.state.type === 'payment' ? this.getPaymentForm() : null}
           {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
           {this.state.type === 'issue_asset' ? this.getIssueForm() : null}
 
-          <Button
+          <Form.Button
             type='submit'
             fluid
             style={styles.padV}
-          >Send</Button>
+            primary
+          >Send</Form.Button>
 
           <Message
             success
@@ -237,6 +239,7 @@ class Payment extends Component {
 }
 
 Payment.propTypes = {
+  sendingPayment: PropTypes.bool,
   sendPayment: PropTypes.func.isRequired,
   sendPathPayment: PropTypes.func.isRequired,
   sendIssuePayment: PropTypes.func.isRequired,

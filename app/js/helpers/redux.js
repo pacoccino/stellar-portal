@@ -16,3 +16,11 @@ export function selectProperty(path, defaultValue) {
   }
   return state => get(state, stringPath, defaultValue);
 }
+
+export function editInArray(array, props, index) {
+  return [
+    ...array.slice(0, index),
+    {...array[index], ...props},
+    ...array.slice(index + 1)
+  ];
+}

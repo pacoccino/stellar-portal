@@ -20,7 +20,9 @@ class ErrorModal extends React.Component {
             Error codes:
             <List bulleted>
               {
-                error.extras.result_codes.operations.map(o => <List.Item>{o}</List.Item>)
+                !!error.extras.result_codes.operations ?
+                  error.extras.result_codes.operations.map((o, i) => <List.Item key={i}>{o}</List.Item>)
+                  : null
               }
             </List>
             Envelope :

@@ -49,6 +49,7 @@ class Offers extends React.Component {
               basic
               color="red"
               onClick={::this.deleteOffer(offer)}
+              loading={offer.isRemoving}
             >
               Delete
             </Button>
@@ -86,7 +87,7 @@ class Offers extends React.Component {
     }));
 
     return (
-      <Form onSubmit={::this.createOffer}>
+      <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
         <Form.Group widths="2">
           <Form.Select
             label='Sell'
@@ -126,7 +127,7 @@ class Offers extends React.Component {
             name="passive"
             label='Passive offer'
           />
-          <Button type='submit'>Create offer</Button>
+          <Form.Button type='submit' primary>Create offer</Form.Button>
         </Form.Group>
       </Form>
     );
@@ -155,6 +156,7 @@ Offers.propTypes = {
   createOffer: PropTypes.func.isRequired,
   deleteOffer: PropTypes.func.isRequired,
   canSign: PropTypes.bool,
+  sendingOffer: PropTypes.bool,
 };
 
 export default Offers;

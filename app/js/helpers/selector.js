@@ -22,7 +22,11 @@ export const canSign = state => {
 export const getPayments = selectProperty([STELLAR_STATE_KEY, PAYMENTS_KEY, 'data'], []);
 export const getOffers = selectProperty([STELLAR_STATE_KEY, OFFERS_KEY, 'data'], []);
 
-export const getTrustlines = (state) => getBalances(state).map(AssetInstance);
+export const getTrustlines = (state) => getBalances(state).map(b => b.asset);
 
-export const getModalErrorOpen = selectProperty([UI_STATE_KEY, 'errorOpen'], '');
+export const getModalErrorOpen = selectProperty([UI_STATE_KEY, 'errorOpen'], false);
 export const getModalErrorData = selectProperty([UI_STATE_KEY, 'errorData'], '');
+
+export const isSendingPayment = selectProperty([UI_STATE_KEY, 'sendingPayment'], false);
+export const isSendingOffer = selectProperty([UI_STATE_KEY, 'sendingOffer'], false);
+export const isCreatingTrustline = selectProperty([UI_STATE_KEY, 'creatingTrustline'], false);

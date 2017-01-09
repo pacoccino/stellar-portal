@@ -1,7 +1,10 @@
 /* eslint new-cap: 0 */
+import { findIndex } from 'lodash';
 
 import * as types from '../../constants/actionTypes';
-import { createReducer } from '../../helpers/redux';
+import { DELETE_OFFER } from '../../actions/ui';
+
+import { editInArray, createReducer } from '../../helpers/redux';
 
 const initialState = {
   isLoading: false,
@@ -19,6 +22,19 @@ function getOffersSuccess(state, action) {
     data: offers,
     isLoading: false,
   }
+}
+
+function deletingOffer(state, action) {
+  const { offer } = action;
+  const offerIndex = findIndex(state.data, { id: offer.id });
+  const props = {
+    isRemoving: true,
+  };
+
+  return {
+    ...state,
+    data: editInArray(state.data, props, offerIndex),
+  };
 }
 
 function getOffersStream(state, action) {
@@ -41,4 +57,5 @@ export const offersReducer = createReducer(initialState, {
   [types.SET_ACCOUNT_SUCCESS]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,
   [types.GET_OFFERS_STREAM]: getOffersStream,
+  [DELETE_OFFER]: deletingOffer,
 });

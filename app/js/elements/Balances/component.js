@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
-import Stellar from 'stellar-sdk';
 import { Header, Form, Button, Table } from 'semantic-ui-react'
 import Decimal from 'decimal.js';
 
 import Asset from '../../components/stellar/Asset';
 import Amount from '../../components/stellar/Amount';
+import { AssetInstance } from '../../helpers/StellarTools';
 
 class Balances extends React.Component {
 
@@ -22,10 +22,11 @@ class Balances extends React.Component {
           <Table.Cell>
             {this.props.canSign ?
               <Button
-                onClick={() => this.props.deleteTrustline(asset)}
+                onClick={() => this.props.deleteTrustline(balance.asset)}
                 basic color='red'
                 floated="right"
                 disabled={!bnBalance.isZero()}
+                loading={balance.isDeleting}
               >
                 Remove
               </Button>
@@ -38,8 +39,7 @@ class Balances extends React.Component {
 
   addTrustline(e, { formData }) {
     e.preventDefault();
-    const asset = new Stellar.Asset(formData.asset_code, formData.asset_issuer);
-    this.props.createTrustline(asset);
+    this.props.createTrustline(AssetInstance(formData));
   }
 
   getTrustlineForm() {
@@ -49,7 +49,8 @@ class Balances extends React.Component {
     return (
       <div>
         <Header as="h3">Add trustline</Header>
-        <Form onSubmit={::this.addTrustline}>
+        <Form onSubmit={::this.addTrustline}
+        loading={this.props.creatingTrustline}>
           <Form.Group>
             <Form.Field
               name="asset_code"
@@ -105,8 +106,8 @@ class Balances extends React.Component {
 }
 
 Balances.propTypes = {
+  creatingTrustline: PropTypes.bool,
   balances: PropTypes.array.isRequired,
-  trustlines: PropTypes.array,
   createTrustline: PropTypes.func.isRequired,
   deleteTrustline: PropTypes.func.isRequired,
 };

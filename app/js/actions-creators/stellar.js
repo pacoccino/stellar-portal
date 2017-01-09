@@ -82,20 +82,29 @@ const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
     });
 };
 
-export const createTrustline = asset => (
-  changeTrust({
-    asset,
-    limit: null,
-  })
-);
-export const deleteTrustline = asset => (
-  changeTrust({
-    asset,
-    limit: 0,
-  })
-);
+export const createTrustline = asset => dispatch => {
+  dispatch(UiActions.creatingTrustline(asset));
+
+  dispatch(changeTrust({ asset, limit: null }))
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
+    })
+    .then(() => {
+      dispatch(UiActions.creatingTrustlineSuccess())
+    });
+};
+
+export const deleteTrustline = asset => dispatch => {
+  dispatch(UiActions.deletingTrustline(asset));
+
+  dispatch(changeTrust({ asset, limit: 0 }))
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
+    });
+};
 
 export const createOffer = offer => (dispatch, getState) => {
+  dispatch(UiActions.sendingOffer());
   const authData = getAuthData(getState());
   if(!authData) return;
 
@@ -103,10 +112,15 @@ export const createOffer = offer => (dispatch, getState) => {
     .manageOffer(offer, authData)
     .catch(error => {
       dispatch(UiActions.openErrorModal(error))
+    })
+    .then(d => {
+      dispatch(UiActions.sendOfferSuccess(d));
     });
 };
 
 export const deleteOffer = offer => (dispatch, getState) => {
+  dispatch(UiActions.deletingOffer(offer));
+
   const authData = getAuthData(getState());
   if(!authData) return;
 
@@ -119,5 +133,8 @@ export const deleteOffer = offer => (dispatch, getState) => {
     .manageOffer(transactionData, authData)
     .catch(error => {
       dispatch(UiActions.openErrorModal(error));
+    })
+    .then(d => {
+      dispatch(UiActions.sendOfferSuccess(d));
     });
 };
