@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Header, Form, Message } from 'semantic-ui-react'
 
 import Asset from '../../components/stellar/Asset';
-
+import { AssetInstance } from '../../helpers/StellarTools';
 const styles = {
   padV: {
     margin: '1rem 0',
@@ -15,6 +15,7 @@ class Payment extends Component {
     super(props);
     this.state = {
       type: 'payment',
+      customDestination: false,
     };
   }
 
@@ -31,7 +32,14 @@ class Payment extends Component {
           return;
         }
         formData.asset_source = this.props.trustlines[formData.asset_source];
-        formData.asset_destination = this.props.trustlines[formData.asset_destination];
+        if(formData.asset_destination === 'custom') {
+          formData.asset_destination = AssetInstance({
+            asset_code: formData.asset_destination_code,
+            asset_issuer: formData.asset_destination_issuer,
+          });
+        } else {
+          formData.asset_destination = this.props.trustlines[formData.asset_destination];
+        }
         this.props.sendPathPayment(formData);
         break;
       }
@@ -81,11 +89,27 @@ class Payment extends Component {
   }
 
   getPathPaymentForm() {
-    const getAssetsOptions = assets => assets.map((asset, index) => (
+    const sourceAssets = this.props.trustlines.map((asset, index) => (
     {
       value: index,
       text: Asset.getAssetString(asset),
     }));
+    const destAssets = this.props.trustlines.map((asset, index) => (
+    {
+      value: index,
+      text: Asset.getAssetString(asset),
+    }));
+    destAssets.push({
+      value: "custom",
+      text: "Custom",
+    });
+    function onSelectDestination(e, b) {
+      if(b.value === 'custom') {
+        this.setState({ customDestination: true })
+      } else {
+        this.setState({ customDestination: false })
+      }
+    }
 
     return (
       <div>
@@ -93,16 +117,35 @@ class Payment extends Component {
           <Form.Select
             label='Source asset'
             name='asset_source'
-            options={getAssetsOptions(this.props.trustlines)}
+            options={sourceAssets}
             placeholder='Asset to send'
             required
           />
           <Form.Select
             label='Destination asset'
             name='asset_destination'
-            options={getAssetsOptions(this.props.trustlines)}
+            options={destAssets}
             placeholder='Asset to receive'
+            onChange={onSelectDestination.bind(this)}
           />
+          {this.state.customDestination ?
+            <Form.Group>
+              <Form.Field
+                name="asset_destination_code"
+                label='Code'
+                control='input'
+                type='text'
+                placeholder='EUR'
+              />
+              <Form.Field
+                name="asset_destination_issuer"
+                label='Issuer'
+                control='input'
+                type='text'
+                placeholder='GDB...'
+              />
+            </Form.Group>
+            : null}
         </Form.Group>
         <Form.Field
           name="destination"
@@ -204,7 +247,7 @@ class Payment extends Component {
           </Button>
         </Button.Group>
         <Form onSubmit={::this.submitForm}
-        loading={this.props.sendingPayment}>
+              loading={this.props.sendingPayment}>
 
           {this.state.type === 'payment' ? this.getPaymentForm() : null}
           {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
