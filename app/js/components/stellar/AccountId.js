@@ -18,15 +18,21 @@ class AccountId extends React.Component {
           </span>
         }
       >
-        <Button
-          className="accountId-copy"
-          circular
-          basic
-          compact
-          icon="clipboard"
-          content="Copy account address"
-          data-clipboard-text={accountId}
-        />
+        <Popup.Header>
+          <p>{accountId}</p>
+        </Popup.Header>
+        <Popup.Content>
+          <Button
+            className="accountId-copy"
+            circular
+            basic
+            color="blue"
+            compact
+            icon="clipboard"
+            content="Copy account address"
+            data-clipboard-text={accountId}
+          />
+        </Popup.Content>
       </Popup>
     );
   }

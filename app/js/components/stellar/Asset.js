@@ -38,15 +38,22 @@ class Asset extends React.Component {
           </div>
         }
       >
-        <Button
-          className="asset-address-copy"
-          circular
-          basic
-          compact
-          icon="clipboard"
-          content="Copy issuer address"
-          data-clipboard-text={objAsset.getIssuer()}
-        />
+        <Popup.Header>
+          <p>{objAsset.getCode()}</p>
+          <p>{objAsset.getIssuer()}</p>
+        </Popup.Header>
+        <Popup.Content>
+          <Button
+            className="asset-address-copy"
+            circular
+            basic
+            color="blue"
+            compact
+            icon="clipboard"
+            content="Copy issuer address"
+            data-clipboard-text={objAsset.getIssuer()}
+          />
+        </Popup.Content>
       </Popup>
     );
   }

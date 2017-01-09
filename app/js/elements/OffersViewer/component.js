@@ -48,11 +48,12 @@ class Offers extends React.Component {
             <Button
               basic
               color="red"
+              floated="right"
               onClick={::this.deleteOffer(offer)}
               loading={offer.isRemoving}
-            >
-              Delete
-            </Button>
+              content="Remove"
+              icon="trash"
+            />
             : null}
         </Table.Cell>
       </Table.Row>
@@ -68,7 +69,7 @@ class Offers extends React.Component {
             <Table.HeaderCell>Buying</Table.HeaderCell>
             <Table.HeaderCell>Price</Table.HeaderCell>
             <Table.HeaderCell>Amount</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
+            <Table.HeaderCell textAlign="right">Action</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -127,7 +128,12 @@ class Offers extends React.Component {
             name="passive"
             label='Passive offer'
           />
-          <Form.Button type='submit' primary>Create offer</Form.Button>
+          <Form.Button
+            type='submit'
+            primary
+            content="Create offer"
+            icon="book"
+          />
         </Form.Group>
       </Form>
     );

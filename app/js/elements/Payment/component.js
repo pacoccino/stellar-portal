@@ -79,7 +79,7 @@ class Payment extends Component {
           name="amount"
           label='Amount'
           control='input'
-          type='number'
+          type='float'
           min={0}
           placeholder='0'
           required
@@ -159,7 +159,7 @@ class Payment extends Component {
           name="max_amount"
           label='Maximum amount to send'
           control='input'
-          type='number'
+          type='float'
           min={0}
           placeholder='0'
           required
@@ -168,7 +168,7 @@ class Payment extends Component {
           name="amount_destination"
           label='Amount to receive'
           control='input'
-          type='number'
+          type='float'
           min={0}
           placeholder='0'
           required
@@ -201,7 +201,7 @@ class Payment extends Component {
           name="amount"
           label='Amount'
           control='input'
-          type='number'
+          type='float'
           min={0}
           placeholder='0'
           required
@@ -258,7 +258,9 @@ class Payment extends Component {
             fluid
             style={styles.padV}
             primary
-          >Send</Form.Button>
+            icon="send"
+            content="Send"
+          />
 
           <Message
             success

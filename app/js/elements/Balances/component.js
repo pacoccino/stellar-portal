@@ -27,9 +27,9 @@ class Balances extends React.Component {
                 floated="right"
                 disabled={!bnBalance.isZero()}
                 loading={balance.isDeleting}
-              >
-                Remove
-              </Button>
+                content="Remove"
+                icon="trash"
+              />
               : null}
           </Table.Cell>
         </Table.Row>
@@ -72,10 +72,12 @@ class Balances extends React.Component {
             />
             <Form.Button
               size="large"
+              icon="add user"
               primary
               width="3"
               style={{position: 'relative', top: 20}}
-            >Add</Form.Button>
+              content="Add"
+            />
           </Form.Group>
         </Form>
       </div>
