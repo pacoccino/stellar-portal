@@ -1,0 +1,16 @@
+- Multi accounts with labels and types
+- Store encrypted in local storage
+- Expand views
+
+
+- Redux forms
+- Orderbook
+    - auto refresh,
+    - place refresh and invert button
+    - Sync dropdown & state
+
+Offers
+    - network delete and update
+    - edit offer
+
+Asset picker
