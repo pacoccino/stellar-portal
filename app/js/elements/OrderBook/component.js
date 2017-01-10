@@ -79,8 +79,8 @@ class OrderBook extends React.Component {
   getOrderbook() {
     if(isEmpty(this.props.orderbook)) {
       return      (
-        <Grid.Row>
-          <Header as="h3" textAlign="center">Please select a pair of assets</Header>
+        <Grid.Row centered>
+          <Header as="h3">Please select a pair of assets</Header>
         </Grid.Row>
       );
     }
@@ -129,7 +129,7 @@ class OrderBook extends React.Component {
               </Header>
 
               <Dropdown
-                selection fluid
+                selection fluid search
                 options={this.getTrustedAssets()}
                 placeholder='Asset bought'
                 onChange={::this.changeBuyingAsset}
@@ -141,7 +141,7 @@ class OrderBook extends React.Component {
               </Header>
 
               <Dropdown
-                selection fluid
+                selection fluid search
                 options={this.getTrustedAssets()}
                 placeholder='Asset sold'
                 onChange={::this.changeSellingAsset}
