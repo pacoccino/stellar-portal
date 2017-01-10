@@ -1,6 +1,8 @@
 import * as StellarOperations from '../helpers/StellarOperations';
 
 import { getAuthData } from '../helpers/selector';
+import * as StellarServer from '../helpers/StellarServer';
+import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
 
 export const sendPayment = formData => (dispatch, getState) => {
@@ -15,11 +17,11 @@ export const sendPayment = formData => (dispatch, getState) => {
   };
 
   return StellarOperations.sendPayment(paymentData, authData)
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error))
-    })
     .then(d => {
       dispatch(UiActions.sendPaymentSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
     });
 };
 
@@ -37,12 +39,12 @@ export const sendPathPayment = formData => (dispatch, getState) => {
   };
 
   return StellarOperations.sendPathPayment(paymentData, authData)
-    .catch(error =>
-      dispatch(UiActions.openErrorModal(error))
-    )
     .then(d => {
       dispatch(UiActions.sendPaymentSuccess(d));
-    });
+    })
+    .catch(error =>
+      dispatch(UiActions.openErrorModal(error))
+    );
 };
 
 export const sendIssuePayment = formData => (dispatch, getState) => {
@@ -58,12 +60,12 @@ export const sendIssuePayment = formData => (dispatch, getState) => {
   };
 
   return StellarOperations.sendPayment(paymentData, authData)
-    .catch(error =>
-      dispatch(UiActions.openErrorModal(error))
-    )
     .then(d => {
       dispatch(UiActions.sendPaymentSuccess(d));
-    });
+    })
+    .catch(error =>
+      dispatch(UiActions.openErrorModal(error))
+    );
 };
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
@@ -86,11 +88,11 @@ export const createTrustline = asset => dispatch => {
   dispatch(UiActions.creatingTrustline(asset));
 
   dispatch(changeTrust({ asset, limit: null }))
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error))
-    })
     .then(() => {
       dispatch(UiActions.creatingTrustlineSuccess())
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
     });
 };
 
@@ -110,11 +112,11 @@ export const createOffer = offer => (dispatch, getState) => {
 
   return StellarOperations
     .manageOffer(offer, authData)
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error))
-    })
     .then(d => {
       dispatch(UiActions.sendOfferSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
     });
 };
 
@@ -131,10 +133,24 @@ export const deleteOffer = offer => (dispatch, getState) => {
 
   return StellarOperations
     .manageOffer(transactionData, authData)
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error));
-    })
     .then(d => {
       dispatch(UiActions.sendOfferSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error));
+    });
+};
+
+
+export const setOrderbook = ({ selling, buying }) => dispatch => {
+  dispatch(StellarActions.getOrderbook());
+
+  return StellarServer
+    .Orderbook({selling, buying})
+    .then(d => {
+      dispatch(StellarActions.getOrderbookSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
     });
 };

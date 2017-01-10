@@ -11,3 +11,6 @@ export const GET_PAYMENTS_SUCCESS = "stellar:payments:success";
 export const GET_PAYMENTS_STREAM = "stellar:payments:stream";
 export const GET_OFFERS_SUCCESS = "stellar:offers:success";
 export const GET_OFFERS_STREAM = "stellar:offers:stream";
+
+export const GET_ORDERBOOK = "stellar:orderbook:fetching";
+export const GET_ORDERBOOK_SUCCESS = "stellar:orderbook:success";

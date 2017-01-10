@@ -16,6 +16,7 @@ export const validSeed = seed => {
 };
 
 export const AssetInstance = asset => {
+  if(!asset) return null;
   if(asset instanceof Asset) {
     return asset;
   }

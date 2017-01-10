@@ -21,6 +21,7 @@ export const setAccount = (keys, router) => dispatch => {
         router.push({ query });
       }
       dispatch(AccountActions.setAccountSuccess(account, keypair));
+      return account;
     })
     .catch(error => dispatch(AccountActions.getAccountError(error)));
 };

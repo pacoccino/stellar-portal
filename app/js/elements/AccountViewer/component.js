@@ -5,6 +5,7 @@ import BalancesContainer from '../Balances';
 import Payment from '../Payment';
 import PaymentsViewer from '../PaymentsViewer';
 import OffersViewer from '../OffersViewer';
+import OrderBooks from '../OrderBooks';
 
 class AccountViewer extends Component {
 
@@ -38,6 +39,9 @@ class AccountViewer extends Component {
           <Grid.Row>
             <Grid.Column>
               <OffersViewer />
+            </Grid.Column>
+            <Grid.Column>
+              <OrderBooks />
             </Grid.Column>
           </Grid.Row>
         </Grid>

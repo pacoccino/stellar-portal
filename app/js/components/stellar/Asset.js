@@ -15,6 +15,9 @@ class Asset extends React.Component {
 
   render() {
     const { asset, asset_type, asset_code, asset_issuer} = this.props;
+    if(!asset && !asset_type) {
+      return null;
+    }
     let objAsset = asset;
     if(!objAsset) {
       if(asset_type === 'native') {
