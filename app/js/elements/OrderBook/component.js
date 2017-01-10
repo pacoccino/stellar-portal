@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Dropdown, Grid, Form, Header, Table } from 'semantic-ui-react';
+import { Dimmer, Loader, Dropdown, Grid, Button, Header, Table } from 'semantic-ui-react';
 import { find, isEmpty } from 'lodash';
 import Asset from '../../components/stellar/Asset';
 import Amount from '../../components/stellar/Amount';
@@ -86,6 +86,9 @@ class OrderBook extends React.Component {
     }
     return (
       <Grid.Row>
+        <Dimmer inverted active={this.props.isFetching}>
+          <Loader inverted active={this.props.isFetching} />
+        </Dimmer>
         <Grid.Column>
           {this.getBids()}
         </Grid.Column>
@@ -98,6 +101,15 @@ class OrderBook extends React.Component {
 
   updateOrderbook() {
     if(this.state.selling && this.state.buying) {
+      this.props.setOrderbook(this.state);
+    }
+  }
+  reverseOrderbook() {
+    if(this.state.selling && this.state.buying) {
+      this.setState({
+        selling: this.state.buying,
+        buying: this.state.selling,
+      }, ::this.updateOrderbook);
       this.props.setOrderbook(this.state);
     }
   }
@@ -120,7 +132,24 @@ class OrderBook extends React.Component {
   render() {
     return (
       <div>
-        <Header as="h2">Order Book</Header>
+        <Header as="h2">
+          Order Book
+        </Header>
+
+        { (this.state.selling && this.state.buying) &&
+        <div>
+          <Button
+            basic blue
+            icon="refresh"
+            onClick={::this.updateOrderbook}
+          />
+          <Button
+            basic blue
+            icon="resize horizontal"
+            onClick={::this.reverseOrderbook}
+          />
+        </div>
+        }
         <Grid columns={2}>
           <Grid.Row>
             <Grid.Column>
@@ -159,6 +188,7 @@ OrderBook.propTypes = {
   setOrderbook: PropTypes.func.isRequired,
   trustlines: PropTypes.array,
   orderbook: PropTypes.object,
+  isFetching: PropTypes.bool,
 };
 
 export default OrderBook;

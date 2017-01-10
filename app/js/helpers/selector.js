@@ -21,6 +21,7 @@ export const canSign = state => {
 export const getPayments = selectProperty([STELLAR_STATE_KEY, PAYMENTS_KEY, 'data'], []);
 export const getOffers = selectProperty([STELLAR_STATE_KEY, OFFERS_KEY, 'data'], []);
 export const getOrderbook = selectProperty([STELLAR_STATE_KEY, ORDERBOOK_KEY, 'data'], {});
+export const isFetchingOrderbook = selectProperty([STELLAR_STATE_KEY, ORDERBOOK_KEY, 'isLoading'], false);
 
 export const getTrustlines = (state) => getBalances(state).map(b => b.asset);
 
