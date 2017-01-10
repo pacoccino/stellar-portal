@@ -1,7 +1,10 @@
-- Multi accounts with labels and types
-- Store encrypted in local storage
-- Expand views
+- Accounts
+    - Refresh
+    - Multi accounts with labels and types
+    - Store encrypted in local storage
+    - increment sequence number for multioperations
 
+- Expand views
 
 - Redux forms
 - Orderbook
@@ -9,8 +12,8 @@
     - place refresh and invert button
     - Sync dropdown & state
 
-Offers
+- Offers
     - network delete and update
     - edit offer
 
-Asset picker
+- Asset picker
