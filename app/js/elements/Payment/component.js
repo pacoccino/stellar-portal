@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Header, Form, Message } from 'semantic-ui-react'
 
 import Asset from '../../components/stellar/Asset';
-import { STROOP, AssetInstance } from '../../helpers/StellarTools';
+import { STROOP, AssetInstance, validPk } from '../../helpers/StellarTools';
 const styles = {
   padV: {
     margin: '1rem 0',
@@ -15,12 +15,21 @@ class Payment extends Component {
     super(props);
     this.state = {
       type: 'payment',
+      validDestination: true,
       customDestination: false,
     };
   }
 
+  checkDestination(e) {
+    const destinationAddress = e.target.value;
+    this.setState({ validDestination: validPk(destinationAddress)})
+  }
+
   submitForm(e, {formData}) {
     e.preventDefault();
+    if(!validPk(formData.destination)) {
+      return;
+    }
     switch(this.state.type) {
       case 'payment': {
         formData.asset = this.props.trustlines[formData.asset];
@@ -69,6 +78,8 @@ class Payment extends Component {
         />
         <Form.Field
           name="destination"
+          error={!this.state.validDestination}
+          onChange={::this.checkDestination}
           label='Destination account'
           control='input'
           type='text'
@@ -154,6 +165,8 @@ class Payment extends Component {
           control='input'
           type='text'
           placeholder='GRDT...'
+          error={!this.state.validDestination}
+          onChange={::this.checkDestination}
           required
         />
         <Form.Field
@@ -198,6 +211,8 @@ class Payment extends Component {
           control='input'
           type='text'
           placeholder='GRDT...'
+          error={!this.state.validDestination}
+          onChange={::this.checkDestination}
           required
         />
         <Form.Field

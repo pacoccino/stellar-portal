@@ -4,9 +4,20 @@ import Decimal from 'decimal.js';
 
 import Asset from '../../components/stellar/Asset';
 import Amount from '../../components/stellar/Amount';
-import { AssetInstance } from '../../helpers/StellarTools';
+import { validPk, AssetInstance } from '../../helpers/StellarTools';
 
 class Balances extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      validIssuer: true,
+    };
+  }
+
+  checkIssuer(e) {
+    const destinationAddress = e.target.value;
+    this.setState({ validIssuer: validPk(destinationAddress)})
+  }
 
   getBalanceRows() {
     return this.props.balances.map((balance, index) => {
@@ -48,7 +59,6 @@ class Balances extends React.Component {
     }
     return (
       <div>
-        <Header as="h3">Add trustline</Header>
         <Form onSubmit={::this.addTrustline}
         loading={this.props.creatingTrustline}>
           <Form.Group>
@@ -64,6 +74,8 @@ class Balances extends React.Component {
             <Form.Field
               name="asset_issuer"
               label='Issuer'
+              onChange={::this.checkIssuer}
+              error={!this.state.validIssuer}
               control='input'
               type='text'
               placeholder='Issuer account id'
@@ -74,9 +86,9 @@ class Balances extends React.Component {
               size="large"
               icon="add user"
               primary
-              width="3"
+              width="4"
               style={{position: 'relative', top: 20}}
-              content="Add"
+              content="Add trustline"
             />
           </Form.Group>
         </Form>
