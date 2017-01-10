@@ -54,7 +54,7 @@ class AccountSelector extends Component {
   handleChangeSeed(e) {
     e.preventDefault();
     const secretSeed = e.target.value || '';
-    // TODO isValidSeed ?
+    this.setState({ seedError: !StellarHelper.validSeed(secretSeed) });
     this.setState({
       secretSeed,
     });

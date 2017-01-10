@@ -6,8 +6,13 @@ export const STROOP = 0.0000001;
 export const validPk = pk => {
   return Keypair.isValidPublicKey(pk);
 };
-export const validSeed = pk => {
-  return Keypair.isValidPublicKey(pk);
+export const validSeed = seed => {
+  try {
+    Keypair.fromSeed(seed);
+    return true;
+  } catch(e) {
+    return false;
+  }
 };
 
 export const AssetInstance = asset => {
