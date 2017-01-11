@@ -2,13 +2,13 @@
     - Refresh
     - Multi accounts with labels and types
     - Store encrypted in local storage
-    - increment sequence number for multioperations
+    - increment sequence number for concurrent multioperations
 
 - Expand views
 
 - Redux forms
 - Orderbook
-    - auto refresh,
+    - auto refresh
     - place refresh and invert button
     - Sync dropdown & state
 
@@ -16,4 +16,8 @@
     - network delete and update
     - edit offer
 
-- Asset picker
+- Asset picker/ Redux-forms
+
+- Favicon
+- Google analytics
+- Name

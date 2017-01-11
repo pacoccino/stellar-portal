@@ -15,7 +15,7 @@ export const setAccount = (keys, router) => dispatch => {
     .then(account => {
       if(router) {
         const query = {
-          accountId: keypair.accountId(),
+          accountId: keypair.canSign() ? undefined : keypair.accountId(),
           secretSeed: keypair.canSign() ? keypair.seed() : undefined,
         };
         router.push({ query });
