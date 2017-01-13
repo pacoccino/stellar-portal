@@ -23,6 +23,11 @@ export const Orderbook = ({ selling, buying }) => {
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .call();
 };
+export const OrderbookStream = ({ selling, buying }, onmessage) => {
+  return getServerInstance()
+    .orderbook(AssetInstance(selling), AssetInstance(buying))
+    .stream({ onmessage });
+};
 export const OrderbookDetail = ({ selling, buying }) => {
   debugger;
   return getServerInstance()

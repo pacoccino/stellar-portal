@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Form, Button, Header, Table } from 'semantic-ui-react'
 import Asset from '../../components/stellar/Asset';
 import Amount from '../../components/stellar/Amount';
+import { STROOP } from '../../helpers/StellarTools';
 
 class Offers extends React.Component {
   createOffer(e, { formData }) {
@@ -112,6 +113,7 @@ class Offers extends React.Component {
             control='Input'
             type='number'
             placeholder='0'
+            step={STROOP}
             required
           />
           <Form.Field
@@ -120,6 +122,7 @@ class Offers extends React.Component {
             control='Input'
             type='number'
             placeholder='1'
+            step={STROOP}
             required
           />
         </Form.Group>

@@ -3,21 +3,47 @@
     - Multi accounts with labels and types
     - Store encrypted in local storage
     - increment sequence number for concurrent multioperations
+    - create account on testnet
+    - Contacts
 
 - Expand views
+  - prop isExpanded
+
+- 3 views, welcome, public, private
 
 - Redux forms
 - Orderbook
-    - auto refresh
     - place refresh and invert button
+    - show untrusted assets
     - Sync dropdown & state
+    - Available public
 
 - Offers
     - network delete and update
     - edit offer
+
+- Balances
+  - QR code show/read
+  - allow trust
+
+- operations
+  - create account a coté de issue asset (dropdown)
+  - memo
+  - federated addresses
+  - multisign
+  - inflation
+  - account merge
+
+- Manage Data page
+ - Add/Remove/edit
 
 - Asset picker/ Redux-forms
 
 - Favicon
 - Google analytics
 - Name
+- Electron
+
+- Compare
+  - Stargazer
+  - https://wallet.funtracker.site

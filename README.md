@@ -1,7 +1,7 @@
 
 # Stellar Portal
 
-> Stellar portal is a decentralized web app to access [https://www.stellar.org](Stellar network). It does not require any backend and only use [https://www.stellar.org/developers/](Horizon API).
+> Stellar portal is a decentralized web app to access [Stellar network](https://www.stellar.org). It does not require any backend and only use [Horizon API](https://www.stellar.org/developers/reference).
 
 ## Overview
 
@@ -30,6 +30,8 @@ You can either enter a public key or a private seed, and either become in view m
 - Manage multiple accounts with labels and types (personal, issuer, market maker...)
 - Dataviz with useful graphs about the market
 - Propose to the user a list of recommanded anchors
+- Show QR codes
+- Add memo to operations
 
 ### Security
 

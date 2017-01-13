@@ -2,18 +2,7 @@ import * as actions from '../constants/actionTypes';
 import { getServerInstance } from '../helpers/StellarServer';
 import { getAccountSuccess } from '../actions/account';
 import { getPaymentsStream, getOffersStream } from '../actions/stellar';
-
-const streamers = {};
-
-function newStream(name, stream) {
-  if(streamers[name]) {
-    streamers[name]();
-  }
-  streamers[name] = stream;
-}
-function killStreams() {
-  Object.keys(streamers).forEach(k => streamers[k]());
-}
+import { newStream, killStreams } from '../helpers/monoStreamer';
 
 function traceError(e) {
   // console.error(e);

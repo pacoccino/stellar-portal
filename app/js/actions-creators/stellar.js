@@ -1,5 +1,6 @@
 import * as StellarOperations from '../helpers/StellarOperations';
 
+import { newStream, killStreams } from '../helpers/monoStreamer';
 import { getAuthData } from '../helpers/selector';
 import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
@@ -141,16 +142,14 @@ export const deleteOffer = offer => (dispatch, getState) => {
     });
 };
 
-
 export const setOrderbook = ({ selling, buying }) => dispatch => {
   dispatch(StellarActions.getOrderbook());
 
-  return StellarServer
-    .Orderbook({selling, buying})
-    .then(d => {
-      dispatch(StellarActions.getOrderbookSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error))
-    });
+  newStream('orderbook',
+    StellarServer
+      .OrderbookStream({selling, buying}, orderbook => {
+        dispatch(StellarActions.getOrderbookSuccess(orderbook));
+      })
+  );
+  return true;
 };

@@ -8,6 +8,8 @@ const getIssuer = issuer => {
   const lastThree = issuer.slice(-3);
   return `${firstThree}...${lastThree}`;
 };
+
+const style = { display: 'inline' };
 class Asset extends React.Component {
   componentDidMount() {
     new Clipboard(".asset-address-copy")
@@ -28,14 +30,14 @@ class Asset extends React.Component {
       }
     }
     if(objAsset.isNative()) {
-      return <div>XLM</div>;
+      return <div style={style}>XLM</div>;
     }
 
     return (
       <Popup
         hoverable
         trigger={
-          <div>
+          <div style={style}>
             <span style={styles.asset_code}>{objAsset.getCode()}</span>
             <span style={styles.asset_issuer}>({Asset.getIssuerText(objAsset.getIssuer())})</span>
           </div>

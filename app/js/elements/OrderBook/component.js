@@ -16,12 +16,12 @@ class OrderBook extends React.Component {
 
   getBidRow(bid, index) {
     return (
-      <Table.Row key={index} textAlign="right">
-        <Table.Cell>
+      <Table.Row key={index}>
+        <Table.Cell textAlign="right">
           <Amount amount={bid.amount} />
         </Table.Cell>
-        <Table.Cell>
-          <Amount amount={bid.price} />
+        <Table.Cell textAlign="right">
+          <Amount amount={bid.price} /> <Asset asset={AssetInstance(this.props.orderbook.counter)} />
         </Table.Cell>
       </Table.Row>
     );
@@ -32,6 +32,9 @@ class OrderBook extends React.Component {
     return (
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell colSpan={2} textAlign="center">Bids</Table.HeaderCell>
+          </Table.Row>
           <Table.Row textAlign="right">
             <Table.HeaderCell>Volume</Table.HeaderCell>
             <Table.HeaderCell>Price</Table.HeaderCell>
@@ -48,7 +51,7 @@ class OrderBook extends React.Component {
     return (
       <Table.Row key={index}>
         <Table.Cell>
-          <Amount amount={ask.price} />
+          <Amount amount={ask.price} /> <Asset asset={AssetInstance(this.props.orderbook.counter)} />
         </Table.Cell>
         <Table.Cell>
           <Amount amount={ask.amount} />
@@ -61,6 +64,11 @@ class OrderBook extends React.Component {
     if(!asks) return null;
     return (
       <Table singleLine size="small" compact unstackable>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell colSpan={2} textAlign="center">Asks</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Price</Table.HeaderCell>
@@ -77,7 +85,7 @@ class OrderBook extends React.Component {
   }
 
   getOrderbook() {
-    if(isEmpty(this.props.orderbook)) {
+    if(!this.props.isFetching && isEmpty(this.props.orderbook)) {
       return      (
         <Grid.Row centered>
           <Header as="h3">Please select a pair of assets</Header>
@@ -136,37 +144,11 @@ class OrderBook extends React.Component {
           Order Book
         </Header>
 
-        { (this.state.selling && this.state.buying) &&
-        <div>
-          <Button
-            basic blue
-            icon="refresh"
-            onClick={::this.updateOrderbook}
-          />
-          <Button
-            basic blue
-            icon="resize horizontal"
-            onClick={::this.reverseOrderbook}
-          />
-        </div>
-        }
         <Grid columns={2}>
           <Grid.Row>
             <Grid.Column>
               <Header as="h3" textAlign="center">
-                Buying <Asset asset={AssetInstance(this.props.orderbook.counter)} />
-              </Header>
-
-              <Dropdown
-                selection fluid search
-                options={this.getTrustedAssets()}
-                placeholder='Asset bought'
-                onChange={::this.changeBuyingAsset}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Header as="h3" textAlign="center">
-                Selling <Asset asset={AssetInstance(this.props.orderbook.base)} />
+                Base <Asset asset={AssetInstance(this.props.orderbook.base)} />
               </Header>
 
               <Dropdown
@@ -174,6 +156,18 @@ class OrderBook extends React.Component {
                 options={this.getTrustedAssets()}
                 placeholder='Asset sold'
                 onChange={::this.changeSellingAsset}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Header as="h3" textAlign="center">
+                Counter <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+              </Header>
+
+              <Dropdown
+                selection fluid search
+                options={this.getTrustedAssets()}
+                placeholder='Asset bought'
+                onChange={::this.changeBuyingAsset}
               />
             </Grid.Column>
           </Grid.Row>
