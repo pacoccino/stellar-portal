@@ -5,7 +5,7 @@ import AccountSelector from '../../elements/StellarContainers/AccountSelector';
 
 const styles = {
   logo: {
-    height: '15rem',
+    height: '16rem',
   },
   title: {
     fontSize: '3.5rem',
@@ -41,7 +41,7 @@ class WelcomeScreen extends Component {
             Stellar Portal
           </Header>
           <p style={styles.paragraph}>
-            Stellar Portal is a decentralized web app to use the <a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
+            Stellar Portal is a decentralized web app designed to access the <a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
             <br/>
             It allows you to consult account informations such as balances and offers, see orderbook and to make transactions.
             <br/>
