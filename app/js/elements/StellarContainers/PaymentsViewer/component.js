@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { Button, Header, Table } from 'semantic-ui-react'
 import moment from 'moment';
 
-import Asset from '../../components/stellar/Asset';
-import AccountId from '../../components/stellar/AccountId';
-import AmountComponent from '../../components/stellar/Amount';
+import Asset from '../../../components/stellar/Asset';
+import AccountId from '../../../components/stellar/AccountId';
+import AmountComponent from '../../../components/stellar/Amount';
 
 class Payments extends React.Component {
 

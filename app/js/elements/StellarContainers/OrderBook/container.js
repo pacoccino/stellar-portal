@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Component from './component'
 
-import { getTrustlines, isFetchingOrderbook, getOrderbook } from '../../helpers/selector';
-import { setOrderbook } from '../../actions-creators/stellar';
+import { getTrustlines, isFetchingOrderbook, getOrderbook } from '../../../helpers/selector';
+import { setOrderbook } from '../../../actions-creators/stellar';
 
 const mapStateToProps = (state) => ({
   isFetching: isFetchingOrderbook(state),

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Container, Button, Header, Input, Message } from 'semantic-ui-react'
 import Clipboard from 'clipboard';
 
-import * as StellarHelper from '../../helpers/StellarTools';
+import * as StellarHelper from '../../../helpers/StellarTools';
 
 class AccountSelector extends Component {
 

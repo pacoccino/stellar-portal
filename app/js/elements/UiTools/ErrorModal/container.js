@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Component from './component'
 
-import { getModalErrorOpen, getModalErrorData } from '../../helpers/selector';
-import { closeErrorModal } from '../../actions/ui';
+import { getModalErrorOpen, getModalErrorData } from '../../../helpers/selector';
+import { closeErrorModal } from '../../../actions/ui';
 
 const mapStateToProps = (state) => ({
   open: getModalErrorOpen(state),

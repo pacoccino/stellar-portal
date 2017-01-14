@@ -1,9 +1,16 @@
 import { connect } from 'react-redux';
 
-import { createTestAccount, setAccount } from '../../actions-creators/account';
+import { createTestAccount, setAccount } from '../../../actions-creators/account';
 
 import AccountSelector from './component';
-import { isAccountLoading, isCreatingTestAccount, getAccount, getAccountError, getKeypair, getNetwork } from '../../helpers/selector';
+import {
+  isAccountLoading,
+  isCreatingTestAccount,
+  getAccount,
+  getAccountError,
+  getKeypair,
+  getNetwork
+} from '../../../helpers/selector';
 
 const mapStateToProps = (state) => ({
   isAccountLoading: isAccountLoading(state),

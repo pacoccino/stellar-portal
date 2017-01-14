@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Form, Button, Header, Table } from 'semantic-ui-react'
-import Asset from '../../components/stellar/Asset';
-import Amount from '../../components/stellar/Amount';
-import { STROOP } from '../../helpers/StellarTools';
+import Asset from '../../../components/stellar/Asset';
+import Amount from '../../../components/stellar/Amount';
+import { STROOP } from '../../../helpers/StellarTools';
 
 class Offers extends React.Component {
   createOffer(e, { formData }) {

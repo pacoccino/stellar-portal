@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Container, Menu, Button, Icon } from 'semantic-ui-react'
 
 import NetworkSwitcher from '../../elements/UiTools/NetworkSwitcher';
+import ErrorModal from '../../elements/UiTools/ErrorModal';
 
 const Layout = ({ children }) =>
   <div>
@@ -32,6 +33,7 @@ const Layout = ({ children }) =>
         </Menu.Item>
       </Container>
     </Menu>
+    <ErrorModal />
   </div>;
 
 Layout.propTypes = {

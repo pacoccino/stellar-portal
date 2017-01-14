@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Container, Grid, Header, Divider } from 'semantic-ui-react'
 
-import AccountSelector from '../../elements/AccountSelector';
-import BalancesContainer from '../../elements/Balances';
-import PaymentsViewer from '../../elements/PaymentsViewer';
-import OffersViewer from '../../elements/OffersViewer';
-import OrderBook from '../../elements/OrderBook';
+import AccountSelector from '../../elements/StellarContainers/AccountSelector';
+import BalancesContainer from '../../elements/StellarContainers/Balances';
+import PaymentsViewer from '../../elements/StellarContainers/PaymentsViewer';
+import OffersViewer from '../../elements/StellarContainers/OffersViewer';
+import OrderBook from '../../elements/StellarContainers/OrderBook';
 
 export function PublicView() {
     return (

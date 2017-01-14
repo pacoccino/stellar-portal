@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Container, Header, Divider } from 'semantic-ui-react'
 
-import AccountSelector from '../../elements/AccountSelector';
-import OrderBook from '../../elements/OrderBook';
+import AccountSelector from '../../elements/StellarContainers/AccountSelector';
+import OrderBook from '../../elements/StellarContainers/OrderBook';
 
 class WelcomeScreen extends Component {
 

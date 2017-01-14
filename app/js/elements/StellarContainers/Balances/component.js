@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { Header, Form, Button, Table } from 'semantic-ui-react'
 import Decimal from 'decimal.js';
 
-import Asset from '../../components/stellar/Asset';
-import Amount from '../../components/stellar/Amount';
-import { validPk, AssetInstance } from '../../helpers/StellarTools';
+import Asset from '../../../components/stellar/Asset';
+import Amount from '../../../components/stellar/Amount';
+import { validPk, AssetInstance } from '../../../helpers/StellarTools';
 
 class Balances extends React.Component {
   constructor(props) {

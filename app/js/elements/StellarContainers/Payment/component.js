@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Header, Form, Message } from 'semantic-ui-react'
 
-import Asset from '../../components/stellar/Asset';
-import { STROOP, AssetInstance, validPk } from '../../helpers/StellarTools';
+import Asset from '../../../components/stellar/Asset';
+import { STROOP, AssetInstance, validPk } from '../../../helpers/StellarTools';
 const styles = {
   padV: {
     margin: '1rem 0',
