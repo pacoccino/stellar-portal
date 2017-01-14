@@ -6,8 +6,12 @@ import Layout from './components/layout/Layout';
 import store from './store/configureStore';
 import * as routes from './constants/routes';
 
-import Main from './components/views/Main';
+import AppMode from './elements/AppMode';
 import NotFound from './components/views/NotFound';
+
+import * as AccountManager from './helpers/AccountManager';
+
+AccountManager.setStore(store);
 
 const App = ({ messages }) =>
   <Provider store={store}>
@@ -15,7 +19,8 @@ const App = ({ messages }) =>
         <Route component={Layout}>
           <Route
             path={routes.Root}
-            component={Main}
+            component={AppMode}
+            onEnter={AccountManager.onPageLoad}
           />
 
           <Route

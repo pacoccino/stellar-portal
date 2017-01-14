@@ -1,3 +1,6 @@
+- Welcome
+- 3 views, welcome, public, private
+
 - Accounts
     - Refresh
     - Multi accounts with labels and types
@@ -9,11 +12,9 @@
 - Expand views
   - prop isExpanded
 
-- 3 views, welcome, public, private
 
 - Redux forms
 - Orderbook
-    - place refresh and invert button
     - show untrusted assets
     - Sync dropdown & state
     - Available public

@@ -15,6 +15,10 @@ class AccountSelector extends Component {
       pkError: null,
       seedError: null,
     };
+    if(this.props.keypair) {
+      this.state.accountId = this.props.keypair.accountId();
+      this.state.secretSeed = this.props.keypair.canSign() ? this.props.keypair.seed() : '';
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -35,11 +39,6 @@ class AccountSelector extends Component {
 
   componentDidMount() {
     new Clipboard(".account-address-copy");
-
-    const query = this.props.location.query;
-    if(query.accountId || query.secretSeed) {
-      this.props.setAccount({ publicKey: query.accountId, secretSeed: query.secretSeed });
-    }
   }
 
   handleChangePK(e) {
@@ -132,22 +131,6 @@ class AccountSelector extends Component {
             </div>
             : null
           }
-          <Button.Group>
-            <Button
-              color={this.props.network === 'test' ? "blue" : "grey"}
-              basic
-              onClick={() => this.props.switchNetwork('test')}
-            >
-              Testnet
-            </Button>
-            <Button
-              color={this.props.network === 'public' ? "blue" : "grey"}
-              basic
-              onClick={() => this.props.switchNetwork('public')}
-            >
-              Public
-            </Button>
-          </Button.Group>
         </Container>
       </div>
     );
@@ -155,8 +138,6 @@ class AccountSelector extends Component {
 }
 
 AccountSelector.propTypes = {
-  params: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   isAccountLoading: PropTypes.bool,
   account: PropTypes.object,
   error: PropTypes.object,

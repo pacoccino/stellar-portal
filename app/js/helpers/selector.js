@@ -15,7 +15,11 @@ export const getAuthData = state => ({
 });
 export const canSign = state => {
   const authData = getAuthData(state);
-  return !!authData.keypair && !!getKeypair(state).canSign() && !!authData.sourceAccount;
+  return !!authData && !!authData.keypair && !!getKeypair(state).canSign() && !!authData.sourceAccount;
+};
+export const accountSet = state => {
+  const authData = getAuthData(state);
+  return !!authData && !!authData.keypair;
 };
 
 export const getPayments = selectProperty([STELLAR_STATE_KEY, PAYMENTS_KEY, 'data'], []);

@@ -1,12 +1,17 @@
 import React, { PropTypes } from 'react';
 import { Container, Menu, Button, Icon } from 'semantic-ui-react'
 
+import NetworkSwitcher from '../../elements/UiTools/NetworkSwitcher';
+
 const Layout = ({ children }) =>
   <div>
     <Menu fixed="top" inverted>
       <Container>
-        <Menu.Item>
+        <Menu.Item header onClick={() => { location = '/'; }}>
           Stellar Portal
+        </Menu.Item>
+        <Menu.Item position="right">
+          <NetworkSwitcher />
         </Menu.Item>
       </Container>
     </Menu>
@@ -35,7 +40,7 @@ Layout.propTypes = {
 
 const styles = {
   container: {
-    padding: '4rem'
+    padding: '5rem'
   }
 }
 export default Layout;
