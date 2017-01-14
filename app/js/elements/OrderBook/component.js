@@ -41,7 +41,14 @@ class OrderBook extends React.Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {bids.map((bid, i) => (this.getBidRow(bid, i)))}
+          {
+            bids.length ?
+              bids.map((bid, i) => (this.getBidRow(bid, i)))
+              :
+              <Table.Row textAlign="center"><Table.Cell colSpan={2}>
+                No Bids
+              </Table.Cell></Table.Row>
+          }
         </Table.Body>
       </Table>
     );
@@ -77,7 +84,14 @@ class OrderBook extends React.Component {
         </Table.Header>
 
         <Table.Body>
-          {asks.map((ask, i) => (this.getAskRow(ask, i)))}
+          {
+            asks.length ?
+              asks.map((ask, i) => (this.getAskRow(ask, i)))
+              :
+              <Table.Row textAlign="center"><Table.Cell colSpan={2}>
+                No Asks
+              </Table.Cell></Table.Row>
+          }
         </Table.Body>
       </Table>
     );
