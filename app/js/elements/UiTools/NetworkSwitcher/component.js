@@ -13,9 +13,9 @@ class NetworkSwitcher extends React.Component {
       case 'test':
         text = 'TestNet';
         break;
-      case 'perso':
+/*      case 'perso':
         text = 'Perso';
-        break;
+        break;*/
     }
     return (
       <Dropdown
