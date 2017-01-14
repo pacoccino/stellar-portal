@@ -7,7 +7,7 @@ class AccountSwitcher extends React.Component {
 
     return (
       <Button
-        primary
+        primary compact
         icon="user"
         onClick={resetAccount}
         content="Change account"

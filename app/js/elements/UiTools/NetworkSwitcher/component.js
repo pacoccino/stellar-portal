@@ -5,6 +5,18 @@ class NetworkSwitcher extends React.Component {
   render() {
     const { switchNetwork, network } = this.props;
 
+    let text = null;
+    switch(network) {
+      case 'public':
+        text = 'Public';
+        break;
+      case 'test':
+        text = 'TestNet';
+        break;
+      case 'perso':
+        text = 'Perso';
+        break;
+    }
     return (
       <Dropdown
         labeled compact
@@ -12,7 +24,7 @@ class NetworkSwitcher extends React.Component {
         button floating
         size="mini"
         icon="cubes"
-        text={network === 'public' ? 'Public' : 'TestNet'}
+        text={text}
       >
         <Dropdown.Menu>
           <Dropdown.Item
@@ -22,6 +34,10 @@ class NetworkSwitcher extends React.Component {
           <Dropdown.Item
             text="TestNet"
             onClick={() => switchNetwork('test')}
+          />
+          <Dropdown.Item
+            text="Perso"
+            onClick={() => switchNetwork('perso')}
           />
         </Dropdown.Menu>
       </Dropdown>
