@@ -5,7 +5,7 @@ import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
 import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
 import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
-const Layout = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
+const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
     <Menu fixed="top" inverted>
       <Container>
         <Menu.Item header onClick={goHome}>
@@ -18,9 +18,11 @@ const Layout = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal 
           />
           <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
         </Menu.Item>
+        {keypair &&
         <Menu.Item>
           <AccountSwitcher />
         </Menu.Item>
+        }
         <Menu.Item>
           <NetworkSwitcher />
         </Menu.Item>
@@ -31,6 +33,7 @@ Layout.propTypes = {
   goHome: PropTypes.func.isRequired,
   openKeypairModal: PropTypes.func.isRequired,
   closeKeypairModal: PropTypes.func.isRequired,
+  keypair: PropTypes.object,
   keypairModalOpen: PropTypes.bool,
 };
 
