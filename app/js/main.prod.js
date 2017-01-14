@@ -6,9 +6,4 @@ import 'isomorphic-fetch';
 
 import App from './App';
 
-render(
-  <AppContainer>
-    <App/>
-  </AppContainer>,
-  document.getElementById('app')
-);
+render(<App/>, document.getElementById('app'));
