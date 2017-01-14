@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { Container, Grid, Header, Divider } from 'semantic-ui-react'
+import { Container, Grid, Divider } from 'semantic-ui-react'
 
-import AccountSelector from '../../elements/StellarContainers/AccountSelector';
+import CurrentAccount from '../../elements/StellarContainers/CurrentAccount';
 import BalancesContainer from '../../elements/StellarContainers/Balances';
 import PaymentsViewer from '../../elements/StellarContainers/PaymentsViewer';
 import OffersViewer from '../../elements/StellarContainers/OffersViewer';
@@ -10,7 +10,8 @@ import OrderBook from '../../elements/StellarContainers/OrderBook';
 export function PublicView() {
     return (
       <div>
-        <AccountSelector />
+        <CurrentAccount />
+        <Divider />
         <Grid columns={2} divided doubling>
           <Grid.Row>
             <Grid.Column>

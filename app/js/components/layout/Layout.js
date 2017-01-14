@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Container, Menu, Button, Icon } from 'semantic-ui-react'
 
 import NetworkSwitcher from '../../elements/UiTools/NetworkSwitcher';
+import AccountSwitcher from '../../elements/UiTools/AccountSwitcher';
 import ErrorModal from '../../elements/UiTools/ErrorModal';
 
 const Layout = ({ children }) =>
@@ -12,6 +13,9 @@ const Layout = ({ children }) =>
           Stellar Portal
         </Menu.Item>
         <Menu.Item position="right">
+          <AccountSwitcher />
+        </Menu.Item>
+        <Menu.Item>
           <NetworkSwitcher />
         </Menu.Item>
       </Container>

@@ -9,17 +9,20 @@ import {
   getAccount,
   getAccountError,
   getKeypair,
-  getNetwork
+  getNetwork,
+  canSign,
 } from '../../../helpers/selector';
 
 const mapStateToProps = (state) => ({
   isAccountLoading: isAccountLoading(state),
   isCreatingTestAccount: isCreatingTestAccount(state),
   account: getAccount(state),
+  canSign: canSign(state),
   error: getAccountError(state),
   keypair: getKeypair(state),
   network: getNetwork(state),
 });
+
 const mapDispatchToProps = { setAccount, createTestAccount };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSelector);

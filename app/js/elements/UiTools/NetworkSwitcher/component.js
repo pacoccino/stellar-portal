@@ -10,6 +10,7 @@ class NetworkSwitcher extends React.Component {
         labeled compact
         className="icon"
         button floating
+        size="mini"
         icon="cubes"
         text={network === 'public' ? 'Public' : 'TestNet'}
       >

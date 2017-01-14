@@ -1,8 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Container, Button, Header, Input, Message } from 'semantic-ui-react'
+import { Table, Container, Button, Header, Input, Message } from 'semantic-ui-react'
 import Clipboard from 'clipboard';
 
 import * as StellarHelper from '../../../helpers/StellarTools';
+
+const styles = {
+  inputContainer: {
+    width: '720px',
+    maxWidth: '90%',
+    margin: 'auto',
+  },
+};
 
 class AccountSelector extends Component {
 
@@ -10,10 +18,9 @@ class AccountSelector extends Component {
     super(props);
 
     this.state = {
-      accountId: '',
-      secretSeed: '',
-      pkError: null,
-      seedError: null,
+      address: '',
+      keypair: null,
+      showSeed: false
     };
     if(this.props.keypair) {
       this.state.accountId = this.props.keypair.accountId();
@@ -41,61 +48,85 @@ class AccountSelector extends Component {
     new Clipboard(".account-address-copy");
   }
 
-  handleChangePK(e) {
-    e.preventDefault();
-    const accountId = e.target.value || '';
-    this.setState({ pkError: !StellarHelper.validPk(accountId) });
+  getKeypair() {
+    const address = this.state.address;
+    const isPk = StellarHelper.validPk(address);
+    const isSeed = StellarHelper.validSeed(address);
+
+    let keypair = null;
+    if(isPk) {
+      keypair = StellarHelper.KeypairInstance({ publicKey: address });
+    }
+    if(isSeed) {
+      keypair = StellarHelper.KeypairInstance({ secretSeed: address });
+    }
+
+    return keypair;
+  }
+
+  handleAddress(e) {
+    const address = e.target.value || '';
     this.setState({
-      accountId,
+      address,
+    }, () => {
+      const keypair = this.getKeypair();
+      this.setState({ keypair });
     });
   };
 
-  handleChangeSeed(e) {
+  handleSet(e) {
     e.preventDefault();
-    const secretSeed = e.target.value || '';
-    this.setState({ seedError: !StellarHelper.validSeed(secretSeed) });
-    this.setState({
-      secretSeed,
-    });
-  };
+    const keypair = this.state.keypair;
+    if(!keypair) return;
 
-  getAccountFromPk(e) {
-    e && e.preventDefault();
-    if(!this.state.accountId) return;
+    this.props.setAccount(keypair);
+  }
 
-    this.props.setAccount({ publicKey: this.state.accountId }, this.context.router);
-  };
+  newForm() {
+    let buttonLabel = 'Invalid address';
+    let buttonContent = 'Set';
+    let buttonColor = 'red';
+    let disabled = true;
+    if(this.state.keypair) {
+      buttonColor = 'green';
+      disabled = false;
+      if(this.state.keypair.canSign()) {
+        buttonLabel = 'Seed';
+      } else {
+        buttonLabel = 'Public address';
+      }
+    } else {
+      if(!this.state.address) {
+        buttonLabel = 'No address';
+      }
+    }
+    return (
+      <div style={styles.inputCntainer}>
+        <Input
+          input={{value: this.state.address}}
+          onChange={::this.handleAddress}
+          placeholder='Please enter an account ID or Seed.'
+          error={!!this.state.address && !this.state.keypair}
+          label={{content: buttonLabel, className: 'AccountSelector-inputTitle'}}
+          fluid
+          action={{
+            color: buttonColor,
+            disabled: disabled,
+            content: buttonContent,
+            onClick: ::this.handleSet,
+            loading: this.props.isAccountLoading
+          }}
+        />
 
-  getAccountFromSeed(e) {
-    e && e.preventDefault();
-    if(!this.state.secretSeed) return;
-
-    this.props.setAccount({ secretSeed: this.state.secretSeed }, this.context.router);
-  };
+      </div>
+    );
+  }
 
   render() {
     return (
       <div>
         <Container textAlign="center">
-          <Header as="h2">Account selector</Header>
-          <Input
-            action={{content: "Set", onClick: ::this.getAccountFromPk, loading: this.props.isAccountLoading}}
-            input={{value: this.state.accountId}}
-            onChange={::this.handleChangePK}
-            placeholder='G...'
-            label={{content: "Public key", className: 'AccountSelector-inputTitle'}}
-            fluid
-            error={this.state.pkError}
-          />
-          <Input
-            action={{content: "Set", onClick: ::this.getAccountFromSeed, loading: this.props.isAccountLoading}}
-            input={{value: this.state.secretSeed}}
-            onChange={::this.handleChangeSeed}
-            placeholder='S...'
-            label={{content: "Secret seed", className: 'AccountSelector-inputTitle'}}
-            fluid
-            error={this.state.seedError}
-          />
+          {this.newForm()}
           <br/>
           {
             this.props.error ?
@@ -106,31 +137,6 @@ class AccountSelector extends Component {
               </Message>
               :
               null
-          }
-          {this.props.keypair ?
-            <div>
-
-              <Button
-                className="account-address-copy"
-                basic
-                icon="clipboard"
-                content="Copy public address"
-                color="green"
-                data-clipboard-text={this.props.keypair.accountId()}
-              />
-              {this.props.keypair.canSign() ?
-                <Button
-                  className="account-address-copy"
-                  basic
-                  icon="clipboard"
-                  content="Copy private address"
-                  color="blue"
-                  data-clipboard-text={this.props.keypair.seed()}
-                />
-                : null
-              }
-            </div>
-            : null
           }
           {
             this.props.network === 'test' &&
@@ -157,10 +163,6 @@ AccountSelector.propTypes = {
   keypair: PropTypes.object,
   setAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,
-};
-
-AccountSelector.contextTypes = {
-  router: PropTypes.object.isRequired,
 };
 
 export default AccountSelector;

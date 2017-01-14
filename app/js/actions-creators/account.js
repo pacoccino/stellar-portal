@@ -28,14 +28,20 @@ export const setAccount = keys => (dispatch, getState) => {
     .catch(error => dispatch(AccountActions.getAccountError(error)));
 };
 
+export const resetAccount = () => dispatch => {
+
+  dispatch(push({ query: {} }));
+  dispatch(AccountActions.resetAccount());
+
+};
+
 export const switchNetwork = network => (dispatch, getState) => {
   const currentNetwork = getNetwork(getState());
   if(network === currentNetwork) return;
 
-  dispatch(push({ query: {} }));
+  dispatch(resetAccount());
 
   switchNetworkInstance(network);
-  dispatch(AccountActions.resetAccount());
   dispatch(AccountActions.switchNetwork(network));
 };
 

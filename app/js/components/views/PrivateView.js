@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Grid, Divider } from 'semantic-ui-react'
 
-import AccountSelector from '../../elements/StellarContainers/AccountSelector';
+import CurrentAccount from '../../elements/StellarContainers/CurrentAccount';
 import BalancesContainer from '../../elements/StellarContainers/Balances';
 import Payment from '../../elements/StellarContainers/Payment';
 import PaymentsViewer from '../../elements/StellarContainers/PaymentsViewer';
@@ -10,7 +10,8 @@ import OrderBook from '../../elements/StellarContainers/OrderBook';
 
 const PrivateView = () => (
   <div>
-    <AccountSelector />
+    <CurrentAccount />
+    <Divider />
     <Grid columns={2} divided doubling>
       <Grid.Row>
         <Grid.Column>
