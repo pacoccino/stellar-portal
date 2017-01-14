@@ -1,7 +1,7 @@
 import Stellar from 'stellar-sdk';
 
 import StellarOffline from './StellarOffline';
-import { AssetInstance } from './StellarTools';
+import { AssetInstance, REFRESH_INTERVAL } from './StellarTools';
 
 let Server;
 
@@ -34,6 +34,18 @@ export const OrderbookDetail = ({ selling, buying }) => {
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .trades()
     .call();
+};
+
+export const OffersStream = (accountId, callback) => {
+  const timerId = setInterval(() => {
+    getServerInstance()
+      .offers('accounts', accountId)
+      .order('desc')
+      .call()
+      .then(result => callback(result.records));
+  }, REFRESH_INTERVAL);
+
+  return () => clearInterval(timerId);
 };
 
 export const switchNetwork = (network) => {

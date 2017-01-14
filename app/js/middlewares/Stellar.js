@@ -1,7 +1,7 @@
 import * as actions from '../constants/actionTypes';
-import { getServerInstance } from '../helpers/StellarServer';
+import { getServerInstance, OffersStream } from '../helpers/StellarServer';
 import { getAccountSuccess } from '../actions/account';
-import { getPaymentsStream, getOffersStream } from '../actions/stellar';
+import { getPaymentsStream, getOffersStream, getOffersSuccess } from '../actions/stellar';
 import { newStream, killStreams } from '../helpers/monoStreamer';
 
 function traceError(e) {
@@ -48,15 +48,20 @@ const stellarMiddleware = store => next => action => {
 
         // Stream offers
         newStream('offers',
-          getServerInstance()
-            .offers('accounts', account.account_id)
-            .order('desc')
-            .stream({
-              onmessage: offer => {
-                store.dispatch(getOffersStream(offer));
-              },
-              onerror: traceError
-            }));
+          OffersStream(account.account_id, offers => {
+            console.log(offers)
+            store.dispatch(getOffersSuccess(offers));
+          }));
+        /*getServerInstance()
+          .offers('accounts', account.account_id)
+          .order('desc')
+          .stream({
+            onmessage: offer => {
+              store.dispatch(getOffersStream(offer));
+            },
+            onerror: traceError
+          }));*/
+
       } catch(e) {
         traceError(e);
       }

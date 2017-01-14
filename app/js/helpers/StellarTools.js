@@ -2,6 +2,7 @@ import { Asset, Keypair } from 'stellar-sdk';
 import Decimal from 'decimal.js';
 
 export const STROOP = 0.0000001;
+export const REFRESH_INTERVAL = 2000;
 
 export const validPk = pk => {
   return Keypair.isValidPublicKey(pk);
