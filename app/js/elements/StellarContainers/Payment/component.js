@@ -250,6 +250,9 @@ class Payment extends Component {
           onChange={::this.checkDestination}
           required
         />
+        <p>
+          Click on "Generate keypair" on the menu bar to get a new couple of public and secret key.
+        </p>
         <Form.Field
           name="amount"
           label='Starting balance'

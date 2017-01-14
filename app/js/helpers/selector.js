@@ -30,6 +30,7 @@ export const isFetchingOrderbook = selectProperty([STELLAR_STATE_KEY, ORDERBOOK_
 
 export const getTrustlines = (state) => getBalances(state).map(b => b.asset);
 
+export const isModalKeypairOpen = selectProperty([UI_STATE_KEY, 'modalKeypair'], false);
 export const getModalErrorOpen = selectProperty([UI_STATE_KEY, 'errorOpen'], false);
 export const getModalErrorData = selectProperty([UI_STATE_KEY, 'errorData'], '');
 

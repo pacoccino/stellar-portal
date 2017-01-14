@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { Table, Container, Button, Header } from 'semantic-ui-react'
 import Clipboard from 'clipboard';
 
-class AccountSelector extends Component {
+class CurrentAccount extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      showSeed: false
+      showSeed: props.showSeed || false
     };
   }
 
@@ -16,19 +16,43 @@ class AccountSelector extends Component {
     new Clipboard(".account-address-copy");
   }
 
+  openOnNewTab() {
+    let url = '/?';
+    url += 'network=' + this.props.network;
+    if(this.props.keypair.canSign()) {
+      url += '&secretSeed=' + this.props.keypair.seed();
+    } else {
+      url += '&accountId=' + this.props.keypair.accountId();
+    }
+    window.open(url);
+  }
+
+
   accountInfo() {
-    if(!this.props.account)
+    if(!this.props.keypair)
       return null;
+
+    const { keypair} = this.props;
+    const canSign = keypair.canSign();
+
     return (
       <Table compact>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell textAlign="center" colSpan="2">
+            <Table.HeaderCell textAlign="center">
+              {this.props.openExternal && <Button
+                onClick={::this.openOnNewTab}
+                content="Open on new tab"
+                icon="external"
+              />
+              }
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">
               <Header as="h3">Account addresses</Header>
             </Table.HeaderCell>
-            <Table.HeaderCell textAlign="right" colSpan="1">
+            <Table.HeaderCell textAlign="right">
               {
-                this.props.canSign && (this.state.showSeed ?
+                canSign && (this.state.showSeed ?
                   <Button
                     basic compact
                     size="medium"
@@ -56,7 +80,7 @@ class AccountSelector extends Component {
               Public address
             </Table.HeaderCell>
             <Table.Cell>
-              {this.props.keypair.accountId()}
+              {keypair.accountId()}
             </Table.Cell>
             <Table.Cell textAlign="right">
               <Button
@@ -66,18 +90,18 @@ class AccountSelector extends Component {
                 icon="clipboard"
                 content="Copy"
                 color="blue"
-                data-clipboard-text={this.props.keypair.accountId()}
+                data-clipboard-text={keypair.accountId()}
               />
             </Table.Cell>
           </Table.Row>
           {
-            this.props.canSign && this.state.showSeed &&
+            canSign && this.state.showSeed &&
             <Table.Row>
               <Table.HeaderCell>
                 Secret seed
               </Table.HeaderCell>
               <Table.Cell>
-                {this.props.keypair.seed()}
+                {keypair.seed()}
               </Table.Cell>
               <Table.Cell textAlign="right">
                 <Button
@@ -87,7 +111,7 @@ class AccountSelector extends Component {
                   icon="clipboard"
                   content="Copy"
                   color="red"
-                  data-clipboard-text={this.props.keypair.seed()}
+                  data-clipboard-text={keypair.seed()}
                 />
               </Table.Cell>
             </Table.Row>
@@ -107,10 +131,11 @@ class AccountSelector extends Component {
   }
 }
 
-AccountSelector.propTypes = {
-  account: PropTypes.object,
-  canSign: PropTypes.bool,
-  keypair: PropTypes.object,
+CurrentAccount.propTypes = {
+  keypair: PropTypes.object.isRequired,
+  network: PropTypes.string.isRequired,
+  openExternal: PropTypes.bool,
+  showSeed: PropTypes.bool,
 };
 
-export default AccountSelector;
+export default CurrentAccount;

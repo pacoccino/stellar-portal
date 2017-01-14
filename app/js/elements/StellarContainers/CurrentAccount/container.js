@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import CurrentAccount from './component';
 
 import {
-  getAccount,
   getKeypair,
-  canSign,
+  getNetwork,
 } from '../../../helpers/selector';
 
-const mapStateToProps = (state) => ({
-  account: getAccount(state),
-  canSign: canSign(state),
-  keypair: getKeypair(state),
+const mapStateToProps = (state, ownProps) => ({
+  keypair: ownProps.keypair || getKeypair(state),
+  network: getNetwork(state),
 });
 
 export default connect(mapStateToProps, null)(CurrentAccount);

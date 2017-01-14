@@ -1,5 +1,7 @@
 export const OPEN_ERROR_MODAL = 'modal:error:open';
 export const CLOSE_ERROR_MODAL = 'modal:error:close';
+export const OPEN_KEYPAIR_MODAL = 'modal:keypair:open';
+export const CLOSE_KEYPAIR_MODAL = 'modal:keypair:close';
 export const SEND_PAYMENT = 'payment:send:fetching';
 export const SEND_PAYMENT_SUCCESS = 'payment:send:success';
 export const DELETE_OFFER = 'offer:delete:fetching';
@@ -9,6 +11,16 @@ export const CREATE_TRUSTLINE = 'trustline:create:fetching';
 export const CREATE_TRUSTLINE_SUCCESS = 'trustline:create:success';
 export const DELETE_TRUSTLINE = 'trustline:delete:fetching';
 
+export function openKeypairModal() {
+  return {
+    type: OPEN_KEYPAIR_MODAL,
+  };
+}
+export function closeKeypairModal() {
+  return {
+    type: CLOSE_KEYPAIR_MODAL,
+  };
+}
 export function openErrorModal(errorData) {
   return {
     type: OPEN_ERROR_MODAL,

@@ -10,7 +10,22 @@ const initialState = {
   sendingOffer: false,
   errorOpen: false,
   errorData: null,
+  modalKeypair: false,
 };
+
+function openKeypairModal(state) {
+  return {
+    ...state,
+    modalKeypair: true,
+  };
+}
+
+function closeKeypairModal(state) {
+  return {
+    ...state,
+    modalKeypair: false,
+  };
+}
 
 function closeErrorModal(state) {
   return {
@@ -75,4 +90,6 @@ export default createReducer(initialState, {
   [types.SEND_OFFER_SUCCESS]: sendOfferSuccess,
   [types.OPEN_ERROR_MODAL]: openErrorModal,
   [types.CLOSE_ERROR_MODAL]: closeErrorModal,
+  [types.OPEN_KEYPAIR_MODAL]: openKeypairModal,
+  [types.CLOSE_KEYPAIR_MODAL]: closeKeypairModal,
 });

@@ -1,25 +1,12 @@
 import React, { PropTypes } from 'react';
 import { Container, Menu, Button, Icon } from 'semantic-ui-react'
 
-import NetworkSwitcher from '../../elements/UiTools/NetworkSwitcher';
-import AccountSwitcher from '../../elements/UiTools/AccountSwitcher';
-import ErrorModal from '../../elements/UiTools/ErrorModal';
+import TopBar from '../elements/UiTools/TopBar';
+import ErrorModal from '../elements/UiTools/ErrorModal';
 
 const Layout = ({ children }) =>
   <div>
-    <Menu fixed="top" inverted>
-      <Container>
-        <Menu.Item header onClick={() => { location = '/'; }}>
-          Stellar Portal
-        </Menu.Item>
-        <Menu.Item position="right">
-          <AccountSwitcher />
-        </Menu.Item>
-        <Menu.Item>
-          <NetworkSwitcher />
-        </Menu.Item>
-      </Container>
-    </Menu>
+    <TopBar />
     <Container fluid className="main" style={styles.container}>
       {children}
     </Container>
@@ -48,5 +35,6 @@ const styles = {
   container: {
     padding: '5rem'
   }
-}
+};
+
 export default Layout;
