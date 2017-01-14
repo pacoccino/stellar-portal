@@ -8,7 +8,7 @@ exports.basePlugins = [
   }),
   new webpack.IgnorePlugin(/ed25519/),
   new webpack.optimize.CommonsChunkPlugin({
-    names: ['vendor', 'manifest'] // Specify the common bundle's name.
+    names: ['vendor'] // Specify the common bundle's name.
   })
 ];
 
