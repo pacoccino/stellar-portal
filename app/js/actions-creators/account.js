@@ -15,9 +15,10 @@ export const setAccount = keys => (dispatch, getState) => {
   return StellarServer
     .getAccount(keypair.accountId())
     .then(account => {
+      const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
       const query = {
-        accountId: keypair.canSign() ? undefined : keypair.accountId(),
-        secretSeed: keypair.canSign() ? keypair.seed() : undefined,
+        accountId: putSecret ? undefined : keypair.accountId(),
+        secretSeed: putSecret ? keypair.seed() : undefined,
         network,
       };
       dispatch(push({ query }));
