@@ -73,6 +73,23 @@ export const manageOffer = ({ selling, buying, amount, price, passive, id }, aut
   return sendTransaction(authData, { operations });
 };
 
+export const createAccount = ({ destination, amount }, authData) => {
+  const operation = StellarSDK.Operation.createAccount({
+    destination,
+    startingBalance: amount,
+  });
+
+  return sendTransaction(authData, { operation });
+};
+
+export const accountMerge = ({ destination }, authData) => {
+  const operation = StellarSDK.Operation.accountMerge({
+    destination,
+  });
+
+  return sendTransaction(authData, { operation });
+};
+
 /*
  Endpoints
 

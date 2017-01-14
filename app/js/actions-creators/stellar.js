@@ -1,6 +1,6 @@
 import * as StellarOperations from '../helpers/StellarOperations';
 
-import { newStream, killStreams } from '../helpers/monoStreamer';
+import { newStream } from '../helpers/monoStreamer';
 import { getAuthData } from '../helpers/selector';
 import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
@@ -145,6 +145,7 @@ export const deleteOffer = offer => (dispatch, getState) => {
 export const setOrderbook = ({ selling, buying }) => dispatch => {
   dispatch(StellarActions.getOrderbook());
 
+  // TODO move to middleware
   newStream('orderbook',
     StellarServer
       .OrderbookStream({selling, buying}, orderbook => {
@@ -152,4 +153,34 @@ export const setOrderbook = ({ selling, buying }) => dispatch => {
       })
   );
   return true;
+};
+
+
+export const sendCreateAccount = accountData => (dispatch, getState) => {
+  dispatch(UiActions.sendingPayment());
+
+  const authData = getAuthData(getState());
+
+  return StellarOperations.createAccount(accountData, authData)
+    .then(d => {
+      dispatch(UiActions.sendPaymentSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
+    });
+};
+
+export const sendAccountMerge = accountData => (dispatch, getState) => {
+  dispatch(UiActions.sendingPayment());
+
+  // TODO refactor
+  const authData = getAuthData(getState());
+
+  return StellarOperations.accountMerge(accountData, authData)
+    .then(d => {
+      dispatch(UiActions.sendPaymentSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.openErrorModal(error))
+    });
 };
