@@ -18,13 +18,13 @@ const PrivateView = () => (
           <BalancesContainer />
         </Grid.Column>
         <Grid.Column>
-          <Payment />
+          <OffersViewer />
         </Grid.Column>
       </Grid.Row>
       <Divider />
       <Grid.Row>
         <Grid.Column>
-          <OffersViewer />
+          <Payment />
         </Grid.Column>
         <Grid.Column>
           <OrderBook />

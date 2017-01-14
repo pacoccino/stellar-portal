@@ -10,12 +10,12 @@ class ErrorModal extends React.Component {
     }
     return (
       <Modal open={this.props.open}>
-        <Modal.Header style={{color: 'red'}}>{error.title}</Modal.Header>
+        <Modal.Header style={{color: 'red'}}>Operation error</Modal.Header>
         <Modal.Content >
           <Modal.Description>
             <Message negative>
-              <Message.Header>{error.detail}</Message.Header>
-              <p>Result codes: {error.extras.result_codes.transaction}</p>
+              <Message.Header>There was an error with your transaction.</Message.Header>
+              <p>{error.title}</p>
             </Message>
             Error codes:
             <List bulleted>
@@ -25,11 +25,8 @@ class ErrorModal extends React.Component {
                   : null
               }
             </List>
-            Envelope :
-            <TextArea value={error.extras.envelope_xdr} />
-            <br/>
-            Result :
-            <TextArea value={error.extras.result_xdr} />
+            JSON error:
+            <pre>{JSON.stringify(error, null, 2)}</pre>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>

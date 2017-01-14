@@ -1,8 +1,7 @@
 Main page sketch
 payment list simplification
-error modal pre
-create account public
 buy untrusted asset
+- Readme
 
 - operations
   - memo
@@ -16,9 +15,10 @@ buy untrusted asset
     - order
     - full page
 
-- trades
+- create account on public error
 
-- Readme
+- trades
+- manage concurrent operations
 
 - https://github.com/thejameskyle/babel-react-optimize
 

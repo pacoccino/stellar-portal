@@ -134,9 +134,7 @@ export const deleteOffer = offer => (dispatch, getState) => {
 
   return StellarOperations
     .manageOffer(transactionData, authData)
-    .then(d => {
-      dispatch(UiActions.sendOfferSuccess(d));
-    })
+    .then(d => true)
     .catch(error => {
       dispatch(UiActions.openErrorModal(error));
     });
