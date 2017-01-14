@@ -1,10 +1,14 @@
 const { webpack } = require('@webpack-blocks/webpack2')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 exports.basePlugins = [
+  new CopyWebpackPlugin([
+    { from: './content' },
+  ]),
   new HtmlWebpackPlugin({
     inject: true,
-    template: './app/index.html'
+    template: './content/index.html'
   }),
   new webpack.IgnorePlugin(/ed25519/)
 ];

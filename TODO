@@ -11,9 +11,8 @@
 - Payments
     - limit
     - order
+- trades
 
-- Accounts
-    - better selector
 - Readme
 
 - https://github.com/thejameskyle/babel-react-optimize

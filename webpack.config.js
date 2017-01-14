@@ -13,7 +13,7 @@ const buildDir = __dirname + '/build/';
 
 module.exports = createConfig([
   setOutput({
-    filename: '[hash].[name].js',
+    filename: 'assets/[hash].[name].js',
     path: buildDir
   }),
   babel(),
@@ -27,9 +27,6 @@ module.exports = createConfig([
       main: DIRNAME + 'app/js/main.js',}),
     sourceMaps(),
     devServer(),
-    /*devServer.proxy({
-      '/api/!*': { target: 'http://localhost:4000' }
-    }),*/
     performance({
       // Increase performance budget thresholds for development mode
       maxAssetSize: 15000000,
