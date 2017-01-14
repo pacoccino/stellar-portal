@@ -4,8 +4,8 @@
   "description": "Decentralized stellar platform",
   "scripts": {
     "dev": "webpack-dev-server --devtool source-map --inline --content-base public --history-api-fallback --config webpack.config.js",
-    "build": "npm run clean && cross-env NODE_ENV=production webpack --optimize-minimize --config webpack.config.js",
-    "build-electron": "electron-packager . stellar-portal --platform=linux --arch=x64 --asar=true --overwrite",
+    "build-electron-darwin": "electron-packager . stellar-portal --platform=darwin --arch=x64 --asar=true --overwrite",
+    "build-electron-linux": "electron-packager . stellar-portal --platform=linux --arch=x64 --asar=true --overwrite",
     "server": "node expressProxy",
     "lint": "eslint app",
     "start": "npm run server",
@@ -38,6 +38,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "clipboard": "^1.5.16",
+    "copy-webpack-plugin": "^4.0.1",
     "decimal.js": "^7.1.0",
     "electron": "^1.4.14",
     "electron-packager": "^8.5.0",
