@@ -13,9 +13,9 @@ class NetworkSwitcher extends React.Component {
       case 'test':
         text = 'TestNet';
         break;
-/*      case 'perso':
+      case 'perso':
         text = 'Perso';
-        break;*/
+        break;
     }
     return (
       <Dropdown
@@ -35,10 +35,10 @@ class NetworkSwitcher extends React.Component {
             text="TestNet"
             onClick={() => switchNetwork('test')}
           />
-          <Dropdown.Item
+{/*          <Dropdown.Item
             text="Perso"
             onClick={() => switchNetwork('perso')}
-          />
+          />*/}
         </Dropdown.Menu>
       </Dropdown>
     );
