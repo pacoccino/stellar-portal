@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Dimmer, Loader, Dropdown, Grid, Button, Header, Table } from 'semantic-ui-react';
+import { Dimmer, Loader, Dropdown, Grid, Header, Table } from 'semantic-ui-react';
 import { find, isEmpty } from 'lodash';
 import Asset from '../../components/stellar/Asset';
 import Amount from '../../components/stellar/Amount';
@@ -88,7 +88,7 @@ class OrderBook extends React.Component {
     if(!this.props.isFetching && isEmpty(this.props.orderbook)) {
       return      (
         <Grid.Row centered>
-          <Header as="h3">Please select a pair of assets</Header>
+          <Header as="h3">Please select a pair of assets to see an orderbook.</Header>
         </Grid.Row>
       );
     }

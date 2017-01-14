@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
+import { syncHistoryWithStore, push } from 'react-router-redux'
 
 import Layout from './components/layout/Layout';
 import store from './store/configureStore';
@@ -13,9 +14,11 @@ import * as AccountManager from './helpers/AccountManager';
 
 AccountManager.setStore(store);
 
+const history = syncHistoryWithStore(browserHistory, store);
+
 const App = ({ messages }) =>
   <Provider store={store}>
-      <Router history={browserHistory}>
+      <Router history={history}>
         <Route component={Layout}>
           <Route
             path={routes.Root}

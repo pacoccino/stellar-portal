@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux'
 
 import { ACCOUNT_STATE_KEY, STELLAR_STATE_KEY, UI_STATE_KEY } from '../constants/reducerKeys';
 
@@ -10,6 +11,7 @@ const reducers = combineReducers({
   [ACCOUNT_STATE_KEY]: account,
   [STELLAR_STATE_KEY]: stellar,
   [UI_STATE_KEY]: ui,
+  routing: routerReducer,
 });
 
 export default reducers;

@@ -102,6 +102,7 @@ class AccountSelector extends Component {
               <Message negative>
                 <Message.Header>Account error</Message.Header>
                 <p>There was an error while fetching this account's data.</p>
+                <p>Either the account does not exists or you are on the wrong network. Try to switch to public/testnet.</p>
               </Message>
               :
               null
