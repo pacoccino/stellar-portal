@@ -36,7 +36,7 @@ class WelcomeScreen extends Component {
       <div className="welcome-container">
         <div className="welcome-container-overlay" />
         <Container textAlign="center">
-          <img src="/assets/images/stellarportal.png" style={styles.logo}/>
+          <img src="/assets/images/stellarportal.png" style={styles.logo} className="welcome-logo"/>
           <Header style={styles.title}>
             Stellar Portal
           </Header>

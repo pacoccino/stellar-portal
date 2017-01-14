@@ -40,3 +40,16 @@ html {font-size: 12px;}
 .AccountSelector-inputTitle {
     width: 110px;
 }
+
+.welcome-logo {
+    /* The animation part: */
+    animation-name: levitate;
+    animation-duration: 3000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+@keyframes levitate {
+    from {transform:translateY(0);scale(1);}
+    50% {transform:translateY(8px);scale(1.5);}
+    to {transform:translateY(0);}
+}
