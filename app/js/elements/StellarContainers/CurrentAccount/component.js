@@ -23,8 +23,30 @@ class AccountSelector extends Component {
       <Table compact>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell textAlign="center" colSpan="3">
-              <Header as="h3">Selected account</Header>
+            <Table.HeaderCell textAlign="center" colSpan="2">
+              <Header as="h3">Account addresses</Header>
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="right" colSpan="1">
+              {
+                this.props.canSign && (this.state.showSeed ?
+                  <Button
+                    basic compact
+                    size="medium"
+                    icon="clipboard"
+                    content="Hide seed"
+                    color="olive"
+                    onClick={() => this.setState({showSeed: false})}
+                  />
+                  :
+                  <Button
+                    basic compact
+                    size="medium"
+                    icon="clipboard"
+                    content="Show seed"
+                    color="orange"
+                    onClick={() => this.setState({showSeed: true})}
+                  />)
+              }
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -48,49 +70,28 @@ class AccountSelector extends Component {
               />
             </Table.Cell>
           </Table.Row>
-          {this.props.canSign && (
-            this.state.showSeed ?
-              <Table.Row>
-                <Table.HeaderCell>
-                  Secret seed
-                </Table.HeaderCell>
-                <Table.Cell>
-                  {this.props.keypair.seed()}
-                </Table.Cell>
-                <Table.Cell textAlign="right">
-                  <Button
-                    basic compact
-                    size="small"
-                    icon="clipboard"
-                    content="Hide seed"
-                    color="yellow"
-                    onClick={() => this.setState({ showSeed: false })}
-                  />
-                  <Button
-                    className="account-address-copy"
-                    basic compact
-                    size="mini"
-                    icon="clipboard"
-                    content="Copy"
-                    color="red"
-                    data-clipboard-text={this.props.keypair.seed()}
-                  />
-                </Table.Cell>
-              </Table.Row>
-              :
-              <Table.Row textAlign="center">
-                <Table.Cell colSpan="3">
-                  <Button
-                    basic compact
-                    size="small"
-                    icon="clipboard"
-                    content="Show seed"
-                    color="yellow"
-                    onClick={() => this.setState({ showSeed: true })}
-                  />
-                </Table.Cell>
-              </Table.Row>
-          )}
+          {
+            this.props.canSign && this.state.showSeed &&
+            <Table.Row>
+              <Table.HeaderCell>
+                Secret seed
+              </Table.HeaderCell>
+              <Table.Cell>
+                {this.props.keypair.seed()}
+              </Table.Cell>
+              <Table.Cell textAlign="right">
+                <Button
+                  className="account-address-copy"
+                  basic compact
+                  size="mini"
+                  icon="clipboard"
+                  content="Copy"
+                  color="red"
+                  data-clipboard-text={this.props.keypair.seed()}
+                />
+              </Table.Cell>
+            </Table.Row>
+          }
         </Table.Body>
       </Table>
     );

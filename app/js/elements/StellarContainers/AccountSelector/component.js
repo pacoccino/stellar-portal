@@ -84,7 +84,7 @@ class AccountSelector extends Component {
 
   newForm() {
     let buttonLabel = 'Invalid address';
-    let buttonContent = 'Set';
+    let buttonContent = 'Go';
     let buttonColor = 'red';
     let disabled = true;
     if(this.state.keypair) {
@@ -111,6 +111,7 @@ class AccountSelector extends Component {
           fluid
           action={{
             color: buttonColor,
+            icon: "sign in",
             disabled: disabled,
             content: buttonContent,
             onClick: ::this.handleSet,
