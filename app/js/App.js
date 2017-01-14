@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, browserHistory, Redirect } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux'
 
 import Layout from './components/layout/Layout';
@@ -8,7 +8,6 @@ import store from './store/configureStore';
 import * as routes from './constants/routes';
 
 import AppMode from './elements/AppMode';
-import NotFound from './components/views/NotFound';
 
 import * as AccountManager from './helpers/AccountManager';
 
@@ -25,11 +24,7 @@ const App = ({ messages }) =>
             component={AppMode}
             onEnter={AccountManager.onPageLoad}
           />
-
-          <Route
-            path="*"
-            component={NotFound}
-          />
+          <Redirect from="*" to="/" />
         </Route>
       </Router>
   </Provider>;
