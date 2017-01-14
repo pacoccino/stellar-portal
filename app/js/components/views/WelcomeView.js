@@ -1,8 +1,29 @@
 import React, { Component, PropTypes } from 'react';
-import { Container, Header, Divider } from 'semantic-ui-react'
+import { Container, Header } from 'semantic-ui-react'
 
 import AccountSelector from '../../elements/StellarContainers/AccountSelector';
-import OrderBook from '../../elements/StellarContainers/OrderBook';
+
+const styles = {
+  logo: {
+    height: '15rem',
+  },
+  title: {
+    fontSize: '3.5rem',
+    color: 'white',
+    fontWeight: 400,
+    paddingTop: '0.5rem',
+    paddingBottom: '2.5rem',
+  },
+  paragraph: {
+    fontSize: '1.3rem',
+    padding: '0.6rem',
+    color: 'white',
+  },
+  link: {
+    color: '#50a4f5',
+    fontWeight: 600,
+  }
+};
 
 class WelcomeScreen extends Component {
 
@@ -12,22 +33,26 @@ class WelcomeScreen extends Component {
 
   render() {
     return (
-      <Container text textAlign="center">
-        <Header as="h1">
-          Stellar Portal
-        </Header>
-        <p>
-          Stellar Portal is a decentralized web app to use the Stellar Network.
-          It allows you to consult public data such as account and marker data, and to make transactions.
-        </p>
-        <p>
-          This application is purely frontend, everything runs on your browser and there is no server except Horizon API.
-        </p>
-        <p>
-          First enter an account ID to see its data, or a seed if you want to act with it.
-        </p>
-        <AccountSelector />
-      </Container>
+      <div className="welcome-container">
+        <div className="welcome-container-overlay" />
+        <Container textAlign="center">
+          <img src="/assets/images/stellarportal.png" style={styles.logo}/>
+          <Header style={styles.title}>
+            Stellar Portal
+          </Header>
+          <p style={styles.paragraph}>
+            Stellar Portal is a decentralized web app to use the <a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
+            <br/>
+            It allows you to consult account informations such as balances and offers, see orderbook and to make transactions.
+            <br/>
+            This application relies exclusively on <a style={styles.link} href="https://www.stellar.org/developers/reference">Horizon API</a>.
+          </p>
+          <p style={styles.paragraph}>
+            Give it a try by entering an account ID to see it in action:
+          </p>
+          <AccountSelector />
+        </Container>
+      </div>
     );
   }
 }

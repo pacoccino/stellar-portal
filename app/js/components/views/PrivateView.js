@@ -9,7 +9,7 @@ import OffersViewer from '../../elements/StellarContainers/OffersViewer';
 import OrderBook from '../../elements/StellarContainers/OrderBook';
 
 const PrivateView = () => (
-  <div>
+  <div className="pages-container">
     <CurrentAccount />
     <Divider />
     <Grid columns={2} divided doubling>

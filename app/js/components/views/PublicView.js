@@ -9,7 +9,7 @@ import OrderBook from '../../elements/StellarContainers/OrderBook';
 
 export function PublicView() {
     return (
-      <div>
+      <div className="pages-container">
         <CurrentAccount />
         <Divider />
         <Grid columns={2} divided doubling>

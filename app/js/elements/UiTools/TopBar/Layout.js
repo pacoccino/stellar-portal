@@ -8,6 +8,9 @@ import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
     <Menu fixed="top" inverted>
       <Container>
+        <Menu.Item>
+          <img src="/assets/images/favicon-32x32.png" />
+        </Menu.Item>
         <Menu.Item header onClick={goHome}>
           Stellar Portal
         </Menu.Item>

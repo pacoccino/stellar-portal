@@ -107,7 +107,7 @@ class AccountSelector extends Component {
           onChange={::this.handleAddress}
           placeholder='Please enter an account ID or Seed.'
           error={!!this.state.address && !this.state.keypair}
-          label={{content: buttonLabel, className: 'AccountSelector-inputTitle'}}
+          label={{content: buttonLabel, width: 3, size: 'large', className: 'AccountSelector-inputTitle'}}
           fluid
           action={{
             color: buttonColor,
@@ -141,14 +141,18 @@ class AccountSelector extends Component {
           }
           {
             this.props.network === 'test' &&
-            <Button
-              basic
-              icon="wizard"
-              content="Create new test account"
-              color="green"
-              loading={this.props.isCreatingTestAccount}
-              onClick={this.props.createTestAccount}
-            />
+            <div>
+              <p style={{color: 'white'}}>
+                Or
+              </p>
+              <Button
+                icon="wizard"
+                content="Create new test account"
+                color="green"
+                loading={this.props.isCreatingTestAccount}
+                onClick={this.props.createTestAccount}
+              />
+            </div>
           }
         </Container>
       </div>
