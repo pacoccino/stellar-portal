@@ -5,10 +5,10 @@ import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
 import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
 import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
-const Layout = ({ keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
+const Layout = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
     <Menu fixed="top" inverted>
       <Container>
-        <Menu.Item header onClick={() => { location = '/'; }}>
+        <Menu.Item header onClick={goHome}>
           Stellar Portal
         </Menu.Item>
         <Menu.Item position="right">
@@ -28,6 +28,7 @@ const Layout = ({ keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
     </Menu>;
 
 Layout.propTypes = {
+  goHome: PropTypes.func.isRequired,
   openKeypairModal: PropTypes.func.isRequired,
   closeKeypairModal: PropTypes.func.isRequired,
   keypairModalOpen: PropTypes.bool,

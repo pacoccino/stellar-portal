@@ -1,23 +1,20 @@
-- Asset picker/ Redux-forms
+- operations
+  - memo
+  - federated addresses
 
-- Google analytics
 - Orderbook
     - show untrusted assets
-    - Sync dropdown & state
 
 - Payments
     - limit
     - order
+    - full page
+
 - trades
 
 - Readme
 
 - https://github.com/thejameskyle/babel-react-optimize
-
-- operations
-  - create account a coté de issue asset (dropdown)
-  - memo
-  - federated addresses
 
 - Expand views
   - prop isExpanded
@@ -25,10 +22,11 @@
 - Offers
     - edit offer
 
+- Asset picker/ Redux-forms
+
 - operations
   - multisign
   - inflation
-  - account merge
 
 - Balances
   - QR code show/read
@@ -39,15 +37,9 @@
 
 - Name
 - Electron
-- Bundled semantic css
 
 - Accounts
-    - Refresh
     - Multi accounts with labels and types
     - Store encrypted in local storage
     - increment sequence number for concurrent multioperations
     - Contacts
-
-- Compare
-  - Stargazer
-  - https://wallet.funtracker.site

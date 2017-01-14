@@ -4,7 +4,7 @@ import * as AccountActions from '../actions/account';
 import { switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
 import { getNetwork } from '../helpers/selector';
-import { push } from 'react-router-redux'
+import { push } from 'react-router-redux';
 
 export const setAccount = keys => (dispatch, getState) => {
   dispatch(AccountActions.fetchingAccount());

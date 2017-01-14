@@ -27,11 +27,6 @@ class WelcomeScreen extends Component {
           First enter an account ID to see its data, or a seed if you want to act with it.
         </p>
         <AccountSelector />
-        <Divider />
-        <p>
-          Without account you can watch current orderbooks:
-        </p>
-        <OrderBook />
       </Container>
     );
   }
