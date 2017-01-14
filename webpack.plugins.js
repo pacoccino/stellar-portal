@@ -6,10 +6,7 @@ exports.basePlugins = [
     inject: true,
     template: './app/index.html'
   }),
-  new webpack.IgnorePlugin(/ed25519/),
-  new webpack.optimize.CommonsChunkPlugin({
-    names: ['vendor'] // Specify the common bundle's name.
-  })
+  new webpack.IgnorePlugin(/ed25519/)
 ];
 
 exports.productionPlugins = [
@@ -27,5 +24,8 @@ exports.productionPlugins = [
     },
     screwIe8: true,
     sourceMap: false
+  }),
+  new webpack.optimize.CommonsChunkPlugin({
+    names: ['vendor'] // Specify the common bundle's name.
   })
 ];

@@ -24,8 +24,7 @@ module.exports = createConfig([
   }),
   env('development', [
     entryPoint({
-      main: DIRNAME + 'app/js/main.js',
-    }),
+      main: DIRNAME + 'app/js/main.js',}),
     sourceMaps(),
     devServer(),
     /*devServer.proxy({
