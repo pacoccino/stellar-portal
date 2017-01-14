@@ -12,10 +12,6 @@ const DIRNAME = __dirname + '/';
 const buildDir = __dirname + '/build/';
 
 module.exports = createConfig([
-  entryPoint({
-    main: DIRNAME + 'app/js/main.js',
-    vendor: 'stellar-sdk'
-  }),
   setOutput({
     filename: '[hash].[name].js',
     path: buildDir
@@ -27,6 +23,9 @@ module.exports = createConfig([
     'process.env.NODE_ENV': process.env.NODE_ENV || 'development'
   }),
   env('development', [
+    entryPoint({
+      main: DIRNAME + 'app/js/main.js',
+    }),
     sourceMaps(),
     devServer(),
     /*devServer.proxy({
@@ -39,6 +38,10 @@ module.exports = createConfig([
     })
   ]),
   env('production', [
+    entryPoint({
+      main: DIRNAME + 'app/js/main.prod.js',
+      vendor: 'stellar-sdk'
+    }),
     extractText(),
     addPlugins(plugins.productionPlugins)
   ])

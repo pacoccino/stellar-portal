@@ -1,0 +1,14 @@
+/* eslint global-require: 0, no-shadow: 0 */
+import React from 'react';
+import { render } from 'react-dom';
+import 'babel-polyfill';
+import 'isomorphic-fetch';
+
+import App from './App';
+
+render(
+  <AppContainer>
+    <App/>
+  </AppContainer>,
+  document.getElementById('app')
+);
