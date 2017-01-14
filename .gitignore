@@ -6,3 +6,4 @@ build
 yarn-error.log
 seeds.txt
 sandbox/
+stellar-portal-*/

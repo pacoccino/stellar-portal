@@ -1,8 +1,5 @@
-- Main prod
-
 - Asset picker/ Redux-forms
 
-- Favicon
 - Google analytics
 - Orderbook
     - show untrusted assets
@@ -11,9 +8,8 @@
 - Payments
     - limit
     - order
+- trades
 
-- Accounts
-    - better selector
 - Readme
 
 - https://github.com/thejameskyle/babel-react-optimize
