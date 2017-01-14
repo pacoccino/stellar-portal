@@ -5,6 +5,7 @@ import { OFFERS_KEY, PAYMENTS_KEY, ORDERBOOK_KEY, NETWORK_KEY } from '../reducer
 export const getNetwork = selectProperty([STELLAR_STATE_KEY, NETWORK_KEY, 'network'], '');
 
 export const isAccountLoading = selectProperty([ACCOUNT_STATE_KEY, 'isLoading'], false);
+export const isCreatingTestAccount = selectProperty([ACCOUNT_STATE_KEY, 'isCreatingTestAccount'], false);
 export const getAccount = selectProperty([ACCOUNT_STATE_KEY, 'data'], null);
 export const getAccountError = selectProperty([ACCOUNT_STATE_KEY, 'error'], {});
 export const getBalances = selectProperty([ACCOUNT_STATE_KEY, 'data', 'balances'], []);

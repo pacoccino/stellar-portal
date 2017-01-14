@@ -1,6 +1,6 @@
 /* eslint new-cap: 0 */
 
-import * as types from '../../constants/actionTypes';
+import * as types from '../../actions/account';
 import { createReducer } from '../../helpers/redux';
 
 const initialState = {

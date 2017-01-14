@@ -1,7 +1,8 @@
 /* eslint new-cap: 0 */
 import { findIndex } from 'lodash';
 
-import * as types from '../../constants/actionTypes';
+import * as typesAccount from '../../actions/account';
+import * as types from '../../actions/stellar';
 import { DELETE_OFFER } from '../../actions/ui';
 
 import { editInArray, createReducer } from '../../helpers/redux';
@@ -53,8 +54,8 @@ function resetStream(state) {
 }
 
 export const offersReducer = createReducer(initialState, {
-  [types.RESET_ACCOUNT]: resetAccount,
-  [types.SET_ACCOUNT_SUCCESS]: resetStream,
+  [typesAccount.RESET_ACCOUNT]: resetAccount,
+  [typesAccount.SET_ACCOUNT_SUCCESS]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,
   [types.GET_OFFERS_STREAM]: getOffersStream,
   [DELETE_OFFER]: deletingOffer,

@@ -132,6 +132,17 @@ class AccountSelector extends Component {
             </div>
             : null
           }
+          {
+            this.props.network === 'test' &&
+            <Button
+              basic
+              icon="wizard"
+              content="Create new test account"
+              color="green"
+              loading={this.props.isCreatingTestAccount}
+              onClick={this.props.createTestAccount}
+            />
+          }
         </Container>
       </div>
     );
@@ -140,12 +151,12 @@ class AccountSelector extends Component {
 
 AccountSelector.propTypes = {
   isAccountLoading: PropTypes.bool,
+  isCreatingTestAccount: PropTypes.bool,
   account: PropTypes.object,
   error: PropTypes.object,
   keypair: PropTypes.object,
   setAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,
-  switchNetwork: PropTypes.func.isRequired,
 };
 
 AccountSelector.contextTypes = {

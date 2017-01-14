@@ -60,4 +60,15 @@ export const switchNetwork = (network) => {
   }
 };
 
+export async function generateTestPair(){
+  const pair = Stellar.Keypair.random();
+
+  try {
+    await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.accountId()}`);
+    return pair;
+  } catch(e) {
+    throw e;
+  }
+}
+
 switchNetwork();

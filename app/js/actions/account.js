@@ -1,14 +1,23 @@
-import * as actions from '../constants/actionTypes';
+export const SWITCH_NETWORK = "network:switch";
+
+export const RESET_ACCOUNT = "account:reset";
+export const CREATE_TEST_ACCOUNT = "account:create-test:fetching";
+export const CREATE_TEST_ACCOUNT_SUCCESS = "account:create-test:success";
+export const SET_ACCOUNT_SUCCESS = "account:set";
+
+export const GET_ACCOUNT = "account:fetching";
+export const GET_ACCOUNT_SUCCESS = "account:success";
+export const GET_ACCOUNT_ERROR = "account:error";
 
 
 export function resetAccount() {
   return {
-    type: actions.RESET_ACCOUNT,
+    type: RESET_ACCOUNT,
   };
 }
 export function setAccountSuccess(account, keypair) {
   return {
-    type: actions.SET_ACCOUNT_SUCCESS,
+    type: SET_ACCOUNT_SUCCESS,
     account,
     keypair,
   };
@@ -16,27 +25,39 @@ export function setAccountSuccess(account, keypair) {
 
 export function fetchingAccount() {
   return {
-    type: actions.GET_ACCOUNT,
+    type: GET_ACCOUNT,
   };
 }
 
 export function getAccountError(error) {
   return {
-    type: actions.GET_ACCOUNT_ERROR,
+    type: GET_ACCOUNT_ERROR,
     error,
   };
 }
 
 export function getAccountSuccess(account) {
   return {
-    type: actions.GET_ACCOUNT_SUCCESS,
+    type: GET_ACCOUNT_SUCCESS,
     account,
   };
 }
 
 export function switchNetwork(network) {
   return {
-    type: actions.SWITCH_NETWORK,
+    type: SWITCH_NETWORK,
     network,
+  };
+}
+
+export function createTestAccount() {
+  return {
+    type: CREATE_TEST_ACCOUNT,
+  };
+}
+
+export function createTestAccountSuccess() {
+  return {
+    type: CREATE_TEST_ACCOUNT_SUCCESS,
   };
 }

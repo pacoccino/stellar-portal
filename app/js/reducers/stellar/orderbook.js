@@ -1,4 +1,4 @@
-import * as types from '../../constants/actionTypes';
+import * as types from '../../actions/stellar';
 
 import { createReducer } from '../../helpers/redux';
 

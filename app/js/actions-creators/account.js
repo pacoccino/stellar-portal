@@ -1,7 +1,7 @@
 import * as StellarServer from '../helpers/StellarServer';
 
 import * as AccountActions from '../actions/account';
-import { switchNetwork as switchNetworkInstance } from '../helpers/StellarServer';
+import { switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
 import { getNetwork } from '../helpers/selector';
 import { push } from 'react-router-redux'
@@ -38,3 +38,15 @@ export const switchNetwork = network => (dispatch, getState) => {
   dispatch(AccountActions.resetAccount());
   dispatch(AccountActions.switchNetwork(network));
 };
+
+export const createTestAccount = () =>  dispatch => {
+  dispatch(AccountActions.createTestAccount());
+  generateTestPair()
+    .then(newPair => {
+      dispatch(setAccount(newPair));
+      dispatch(AccountActions.createTestAccountSuccess());
+    })
+    .catch(console.error);
+};
+
+// export const createTestAccount = () => async dispatch => dispatch(setAccount(await generatePair()));

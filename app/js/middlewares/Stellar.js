@@ -1,4 +1,4 @@
-import * as actions from '../constants/actionTypes';
+import * as actions from '../actions/account';
 import { getServerInstance, OffersStream } from '../helpers/StellarServer';
 import { getAccountSuccess } from '../actions/account';
 import { getPaymentsStream, getOffersStream, getOffersSuccess } from '../actions/stellar';
@@ -49,7 +49,6 @@ const stellarMiddleware = store => next => action => {
         // Stream offers
         newStream('offers',
           OffersStream(account.account_id, offers => {
-            console.log(offers)
             store.dispatch(getOffersSuccess(offers));
           }));
         /*getServerInstance()

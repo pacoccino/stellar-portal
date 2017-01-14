@@ -1,7 +1,7 @@
 /* eslint new-cap: 0 */
 import { findIndex, merge } from 'lodash';
 
-import * as types from '../constants/actionTypes';
+import * as types from '../actions/account';
 import { DELETE_TRUSTLINE } from '../actions/ui';
 import { editInArray, createReducer } from '../helpers/redux';
 import { AssetInstance } from '../helpers/StellarTools';
@@ -10,6 +10,7 @@ const initialState = {
   keypair: null,
   data: null,
   isLoading: false,
+  isCreatingTestAccount: false,
   error: null,
 };
 
@@ -60,6 +61,18 @@ function getAccountError(state, action) {
     error,
   };
 }
+function createTestAccount(state) {
+  return {
+    ...state,
+    isCreatingTestAccount: true,
+  };
+}
+function createTestAccountSuccess(state) {
+  return {
+    ...state,
+    isCreatingTestAccount: false,
+  };
+}
 
 function deletingTrustline(state, action) {
   const { trustline } = action;
@@ -78,6 +91,8 @@ function deletingTrustline(state, action) {
 
 export default createReducer(initialState, {
   [types.RESET_ACCOUNT]: resetAccount,
+  [types.CREATE_TEST_ACCOUNT]: createTestAccount,
+  [types.CREATE_TEST_ACCOUNT_SUCCESS]: createTestAccountSuccess,
   [types.SET_ACCOUNT_SUCCESS]: setAccount,
   [types.GET_ACCOUNT]: getAccount,
   [types.GET_ACCOUNT_SUCCESS]: getAccountSuccess,

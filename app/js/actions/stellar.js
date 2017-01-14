@@ -1,37 +1,43 @@
-import * as actions from '../constants/actionTypes';
+export const GET_PAYMENTS_SUCCESS = "stellar:payments:success";
+export const GET_PAYMENTS_STREAM = "stellar:payments:stream";
+export const GET_OFFERS_SUCCESS = "stellar:offers:success";
+export const GET_OFFERS_STREAM = "stellar:offers:stream";
+
+export const GET_ORDERBOOK = "stellar:orderbook:fetching";
+export const GET_ORDERBOOK_SUCCESS = "stellar:orderbook:success";
 
 export function getPaymentsSuccess(payments) {
   return {
-    type: actions.GET_PAYMENTS_SUCCESS,
+    type: GET_PAYMENTS_SUCCESS,
     payments,
   };
 }
 export function getPaymentsStream(payment) {
   return {
-    type: actions.GET_PAYMENTS_STREAM,
+    type: GET_PAYMENTS_STREAM,
     payment,
   };
 }
 export function getOffersSuccess(offers) {
   return {
-    type: actions.GET_OFFERS_SUCCESS,
+    type: GET_OFFERS_SUCCESS,
     offers,
   };
 }
 export function getOffersStream(offer) {
   return {
-    type: actions.GET_OFFERS_STREAM,
+    type: GET_OFFERS_STREAM,
     offer,
   };
 }
 export function getOrderbook() {
   return {
-    type: actions.GET_ORDERBOOK,
+    type: GET_ORDERBOOK,
   };
 }
 export function getOrderbookSuccess(orderbook) {
   return {
-    type: actions.GET_ORDERBOOK_SUCCESS,
+    type: GET_ORDERBOOK_SUCCESS,
     orderbook,
   };
 }
