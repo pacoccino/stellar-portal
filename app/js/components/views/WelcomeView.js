@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Container, Header } from 'semantic-ui-react'
+import { Card, Image, Container, Header, List } from 'semantic-ui-react'
 
 import AccountSelector from '../../elements/StellarContainers/AccountSelector';
 
@@ -22,7 +22,26 @@ const styles = {
   link: {
     color: '#50a4f5',
     fontWeight: 600,
-  }
+  },
+  description: {
+    paddingTop: '6rem',
+    paddingBottom: '6rem',
+  },
+  subtitle: {
+    fontSize: '2.5rem',
+    color: 'white',
+    fontWeight: 400,
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
+  },
+  screen: {
+    height: '32rem',
+  },
+  featuresItem: {
+    fontSize: '1.3rem',
+    color: 'white',
+    fontWeight: 300,
+  },
 };
 
 class WelcomeScreen extends Component {
@@ -41,7 +60,7 @@ class WelcomeScreen extends Component {
             Stellar Portal
           </Header>
           <p style={styles.paragraph}>
-            Stellar Portal is a decentralized web app designed to access the <a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
+            Stellar Portal is a web app designed to access the <a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
             <br/>
             It allows you to consult account informations such as balances and offers, see orderbook and to make transactions.
             <br/>
@@ -51,6 +70,20 @@ class WelcomeScreen extends Component {
             Give it a try by entering an account ID to see it in action:
           </p>
           <AccountSelector />
+          <div style={styles.description}>
+            <Header style={styles.subtitle}>
+              Features
+            </Header>
+            <List bulleted>
+              <List.Item style={styles.featuresItem}>Balances view and edit trustlines</List.Item>
+              <List.Item style={styles.featuresItem}>Send payments</List.Item>
+              <List.Item style={styles.featuresItem}>Issue assets</List.Item>
+              <List.Item style={styles.featuresItem}>Create/Merge accounts</List.Item>
+              <List.Item style={styles.featuresItem}>Account offers view and edit</List.Item>
+              <List.Item style={styles.featuresItem}>List of payments</List.Item>
+              <List.Item style={styles.featuresItem}>Watch orderbooks</List.Item>
+            </List>
+          </div>
         </Container>
       </div>
     );

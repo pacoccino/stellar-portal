@@ -147,7 +147,7 @@ class AccountSelector extends Component {
               </p>
               <Button
                 icon="wizard"
-                content="Create new test account"
+                content="Create new account on testnet"
                 color="green"
                 loading={this.props.isCreatingTestAccount}
                 onClick={this.props.createTestAccount}

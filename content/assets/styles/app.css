@@ -3,6 +3,9 @@ body {
 }
 html {font-size: 12px;}
 
+a {
+    color: white;
+}
 #app {
     height: 100%;
     width: 100%;
@@ -25,7 +28,7 @@ html {font-size: 12px;}
     position: absolute;
     padding: 6rem 2rem;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     overflow-y: scroll;
 }
 
@@ -33,7 +36,7 @@ html {font-size: 12px;}
     padding: 6rem 2rem;
     position: absolute;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     overflow-y: scroll;
 }
 

@@ -18,6 +18,11 @@ const Layout = ({ children }) =>
           Made with &nbsp; <Icon name="heart" /> by &nbsp;<a href="https://ngfar.io" target="_blank">ngfar</a>
           </span>
         </Menu.Item>
+        <Menu.Item>
+          <span style={light}>
+          <a href="https://stellar.org" target="_blank">stellar.org</a>
+          </span>
+        </Menu.Item>
         <Menu.Item position="right">
           <span style={light}>
            Hey, it's Open Source :&nbsp;
