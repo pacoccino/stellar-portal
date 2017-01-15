@@ -13,13 +13,13 @@
   "build": {
     "appId": "app.stellar.portal",
     "electronVersion": "1.4.14",
-    "productName": "Stellar portal",
+    "productName": "Stellar Portal",
     "mac" : {
       "icon": "icons/icon.icns",
       "iconSize": 180,
-      "background": "icons/background.png"
     },
-    "linux": {}
+    "linux": {},
+    "dmg": {}
   },
   "main": "./index.js",
   "author": {
