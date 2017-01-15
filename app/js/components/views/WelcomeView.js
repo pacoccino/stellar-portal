@@ -21,6 +21,11 @@ const styles = {
     padding: '0.6rem',
     color: 'white',
   },
+  paragraphE: {
+    fontSize: '1.4rem',
+    padding: '0.6rem',
+    color: 'white',
+  },
   link: {
     color: '#50a4f5',
     fontWeight: 600,
@@ -68,8 +73,8 @@ class WelcomeScreen extends Component {
             <br/>
             This application relies <b>exclusively</b> on <a style={styles.link} href="https://www.stellar.org/developers/reference">Horizon API</a>.
           </p>
-          <p style={styles.paragraph}>
-            Give it a try by entering an account ID to see it in action:
+          <p style={styles.paragraphE}>
+            Give it a try by entering an account ID or a Seed to see it in action:
           </p>
           <AccountSelector />
           <div style={styles.description}>

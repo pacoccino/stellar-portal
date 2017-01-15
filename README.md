@@ -8,6 +8,7 @@
 **Stellar Portal** is a *decentralized* web application to access the *Stellar Network*. Its goal is to provide people full control over account and make most of operations through it, without the need of a backend, by only using Horizon API.
 
 [Open the app](https://stellar-portal.ngfar.io)
+[Download application](https://github.com/pakokrew/stellar-portal/releases)
 
 ### Example account
 
