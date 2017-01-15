@@ -24,7 +24,8 @@ class KeypairGenerator extends React.Component {
           <Container>
             <Message info size="big">
               <Message.Header>Click on <i>generate</i> to get a new keypair.</Message.Header>
-              <p>Keep it safe !</p>
+              <p><b>This tool does not create an account.</b> You have to send <b>create_account</b> operation to the following address with a starting balance so it can exist.</p>
+              <p>Keep your seed safe ;)</p>
             </Message>
           </Container>
         </Modal.Content>

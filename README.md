@@ -7,6 +7,8 @@
 
 **Stellar Portal** is a *decentralized* web application to access the *Stellar Network*. Its goal is to provide people full control over account and make most of operations through it, without the need of a backend, by only using Horizon API.
 
+[Open the app](https://stellar-portal.ngfar.io)
+
 ### Example account
 
 You can try the app on an example account at this address:
@@ -14,7 +16,7 @@ https://stellar-portal.ngfar.io/?secretSeed=SD7U7XW6F53RKVDJOPPJWHLGY2K4WMLOIAE5
 
 ### Features
 
-Here is a list of currently working features.
+Here is a list of currently working features:
 
 - Viewing account balances
 - Add/Remove a trustline
@@ -26,11 +28,19 @@ Here is a list of currently working features.
 - List account payments and path payments sent/received
 - Switch between test or public network
 - Create account on testnet
+- Native application
 
 You can either enter a public key or a private seed, and either enter in view or edit mode.
 
+### Native application
+
+We have built the application with Electron for Linux, macOS, and Windows.
+You can download them on the [Releases](https://github.com/pakokrew/stellar-portal/releases) page.
+
 ### Screenshot
+
 ![Main view screenshot](https://github.com/pakokrew/stellar-portal/raw/master/content/assets/images/screen1.jpg)
+
 ### TODO features
 
 - Electron desktop app

@@ -19,6 +19,7 @@ const Layout = ({ goDesktop }) =>
           </span>
       </Menu.Item>
       <Menu.Item onClick={goDesktop}>
+          <Icon name="windows" />
           <Icon name="apple" />
           <Icon name="linux" />
           <span style={light}>
