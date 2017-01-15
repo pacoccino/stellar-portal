@@ -4,8 +4,11 @@
   "description": "Decentralized stellar platform",
   "scripts": {
     "postinstall": "install-app-deps",
-    "build-mac": "build ---mac --x64 AppImage",
-    "build-linux": "build --linux --x64 AppImage"
+    "build-mac": "npm run _build_common && build ---mac --x64 AppImage",
+    "build-linux": "npm run _build_common && build --linux --x64 AppImage",
+    "_build_common": "npm run _clean_app && npm run _cp_app",
+    "_cp_app": "cp -r ../build app",
+    "_clean_app": "rm -rf app"
   },
   "build": {
     "appId": "stellar-portal",

@@ -1,9 +1,10 @@
 node_modules
 npm-debug.log
+yarn-error.log
 .DS_Store
 .idea
-build
-yarn-error.log
+/build
+/electron/dist
+/electron/app
 seeds.txt
-sandbox/
-stellar-portal-*/
+/sandbox
