@@ -6,18 +6,10 @@ import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
 
-export const sendPayment = formData => (dispatch, getState) => {
+const sendOperation = (transaction, dispatch) => {
   dispatch(UiActions.sendingPayment());
 
-  const authData = getAuthData(getState());
-  const { asset, amount, destination } = formData;
-  const paymentData = {
-    asset,
-    amount,
-    destination,
-  };
-
-  return StellarOperations.sendPayment(paymentData, authData)
+  return transaction
     .then(d => {
       dispatch(UiActions.sendPaymentSuccess(d));
     })
@@ -27,32 +19,17 @@ export const sendPayment = formData => (dispatch, getState) => {
     });
 };
 
-export const sendPathPayment = formData => (dispatch, getState) => {
-  dispatch(UiActions.sendingPayment());
-
+export const sendPayment = paymentData => (dispatch, getState) => {
   const authData = getAuthData(getState());
-  const { asset_source, max_amount, destination, asset_destination, amount_destination } = formData;
-  const paymentData = {
-    asset_source,
-    asset_destination,
-    destination,
-    max_amount,
-    amount_destination
-  };
+  return sendOperation(StellarOperations.sendPayment(paymentData, authData), dispatch);
+};
 
-  return StellarOperations.sendPathPayment(paymentData, authData)
-    .then(d => {
-      dispatch(UiActions.sendPaymentSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.sendPaymentError(error));
-      dispatch(UiActions.openErrorModal(error))
-    });
+export const sendPathPayment = paymentData => (dispatch, getState) => {
+  const authData = getAuthData(getState());
+  return sendOperation(StellarOperations.sendPathPayment(paymentData, authData), dispatch);
 };
 
 export const sendIssuePayment = formData => (dispatch, getState) => {
-  dispatch(UiActions.sendingPayment());
-
   const authData = getAuthData(getState());
   const { accountId, asset_code, amount, destination } = formData;
   const asset = { asset_code, asset_issuer: accountId};
@@ -61,46 +38,17 @@ export const sendIssuePayment = formData => (dispatch, getState) => {
     amount,
     destination,
   };
-
-  return StellarOperations.sendPayment(paymentData, authData)
-    .then(d => {
-      dispatch(UiActions.sendPaymentSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.sendPaymentError(error));
-      dispatch(UiActions.openErrorModal(error))
-    });
+  return sendOperation(StellarOperations.sendPayment(paymentData, authData), dispatch);
 };
 
 export const sendCreateAccount = accountData => (dispatch, getState) => {
-  dispatch(UiActions.sendingPayment());
-
   const authData = getAuthData(getState());
-
-  return StellarOperations.createAccount(accountData, authData)
-    .then(d => {
-      dispatch(UiActions.sendPaymentSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.sendPaymentError(error));
-      dispatch(UiActions.openErrorModal(error))
-    });
+  return sendOperation(StellarOperations.createAccount(accountData, authData), dispatch);
 };
 
 export const sendAccountMerge = accountData => (dispatch, getState) => {
-  dispatch(UiActions.sendingPayment());
-
-  // TODO refactor
   const authData = getAuthData(getState());
-
-  return StellarOperations.accountMerge(accountData, authData)
-    .then(d => {
-      dispatch(UiActions.sendPaymentSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.sendPaymentError(error));
-      dispatch(UiActions.openErrorModal(error))
-    });
+  return sendOperation(StellarOperations.accountMerge(accountData, authData), dispatch);
 };
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {

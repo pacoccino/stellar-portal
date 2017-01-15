@@ -34,64 +34,81 @@ export const sendPayment = ({ asset, destination, amount }, authData) => {
 };
 
 export const sendPathPayment = ({ asset_source, asset_destination, amount_destination, destination, max_amount }, authData) => {
-  // TODO catch
-  const operation = StellarSDK.Operation.pathPayment({
-    sendAsset:    AssetInstance(asset_source),
-    sendMax:      AmountInstance(max_amount),
-    destination:  destination,
-    destAsset:    AssetInstance(asset_destination),
-    destAmount:   AmountInstance(amount_destination),
-  });
-
-  return sendTransaction(authData, { operation });
+  try {
+    const operation = StellarSDK.Operation.pathPayment({
+      sendAsset:    AssetInstance(asset_source),
+      sendMax:      AmountInstance(max_amount),
+      destination:  destination,
+      destAsset:    AssetInstance(asset_destination),
+      destAmount:   AmountInstance(amount_destination),
+    });
+    return sendTransaction(authData, { operation });
+  } catch(e) {
+    return Promise.reject(e);
+  }
 };
 
 export const changeTrust = ({ asset, limit }, authData) => {
-  const trustLimit = (isNumber(limit) || isString(limit)) ? AmountInstance(limit) : undefined;
-  const operation = StellarSDK.Operation.changeTrust({
-    asset: AssetInstance(asset),
-    limit: trustLimit,
-  });
+  try {
+    const trustLimit = (isNumber(limit) || isString(limit)) ? AmountInstance(limit) : undefined;
+    const operation = StellarSDK.Operation.changeTrust({
+      asset: AssetInstance(asset),
+      limit: trustLimit,
+    });
 
-  return sendTransaction(authData, { operation });
+    return sendTransaction(authData, { operation });
+  } catch(e) {
+    return Promise.reject(e);
+  }
 };
 
 export const manageOffer = ({ selling, buying, amount, price, passive, id }, authData) => {
+  try {
+    const operations = [];
 
-  const operations = [];
+    const offerId = isNumber(id) ? id : 0;
+    const offer = {
+      selling: AssetInstance(selling),
+      buying: AssetInstance(buying),
+      amount: AmountInstance(amount),
+      price: AmountInstance(price),
+      offerId,
+    };
+    if(passive) {
+      operations.push(StellarSDK.Operation.createPassiveOffer(offer));
+    } else {
+      operations.push(StellarSDK.Operation.manageOffer(offer));
+    }
 
-  const offerId = isNumber(id) ? id : 0;
-  const offer = {
-    selling: AssetInstance(selling),
-    buying: AssetInstance(buying),
-    amount: AmountInstance(amount),
-    price: AmountInstance(price),
-    offerId,
-  };
-  if(passive) {
-    operations.push(StellarSDK.Operation.createPassiveOffer(offer));
-  } else {
-    operations.push(StellarSDK.Operation.manageOffer(offer));
+    return sendTransaction(authData, { operations });
+  } catch(e) {
+    return Promise.reject(e);
   }
-
-  return sendTransaction(authData, { operations });
 };
 
 export const createAccount = ({ destination, amount }, authData) => {
-  const operation = StellarSDK.Operation.createAccount({
-    destination,
-    startingBalance: amount,
-  });
+  try {
+    const operation = StellarSDK.Operation.createAccount({
+      destination,
+      startingBalance: amount,
+    });
 
-  return sendTransaction(authData, { operation });
+    return sendTransaction(authData, { operation });
+  } catch(e) {
+    return Promise.reject(e);
+  }
 };
 
 export const accountMerge = ({ destination }, authData) => {
-  const operation = StellarSDK.Operation.accountMerge({
-    destination,
-  });
+  try {
+    const operation = StellarSDK.Operation.accountMerge({
+      destination,
+    });
 
-  return sendTransaction(authData, { operation });
+    return sendTransaction(authData, { operation });
+  } catch(e) {
+    return Promise.reject(e);
+  }
 };
 
 /*
