@@ -31,14 +31,16 @@ You can either enter a public key or a private seed, and either enter in view or
 
 ### TODO features
 
+- Electron desktop app
 - Manage multiple accounts with labels and types (personal, issuer, market maker...)
 - Send to federation addresses
 - Propose to the user a list of recommanded anchors
-- Allow to buy and watch orderbook for untrusted assets
+- Allow to buy and watch orderbook of trade for untrusted assets
 - Expand views and order/limit tables (offers, payments)
 - Show QR codes
 - Add memo to operations
 - Dataviz with useful graphs about the market
+- All the other Horizon stuff not implemented ;)
 
 ### Security
 

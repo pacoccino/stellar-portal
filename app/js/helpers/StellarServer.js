@@ -52,13 +52,16 @@ export const switchNetwork = (network) => {
   switch(network) {
     case 'perso':
       Server = new Stellar.Server('http://192.168.1.67:8000', { allowHttp: true });
+      Stellar.Network.useTestNetwork();
       break;
     case 'public':
       Server = new Stellar.Server('https://horizon.stellar.org');
+      Stellar.Network.usePublicNetwork();
       break;
     default:
     case 'test':
       Server = new Stellar.Server('https://horizon-testnet.stellar.org');
+      Stellar.Network.useTestNetwork();
       break;
   }
 };

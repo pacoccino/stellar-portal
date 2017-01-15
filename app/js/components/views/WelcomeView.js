@@ -45,7 +45,7 @@ class WelcomeScreen extends Component {
             <br/>
             It allows you to consult account informations such as balances and offers, see orderbook and to make transactions.
             <br/>
-            This application relies exclusively on <a style={styles.link} href="https://www.stellar.org/developers/reference">Horizon API</a>.
+            This application relies <b>exclusively</b> on <a style={styles.link} href="https://www.stellar.org/developers/reference">Horizon API</a>.
           </p>
           <p style={styles.paragraph}>
             Give it a try by entering an account ID to see it in action:
