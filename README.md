@@ -29,6 +29,8 @@ Here is a list of currently working features.
 
 You can either enter a public key or a private seed, and either enter in view or edit mode.
 
+### Screenshot
+![Main view screenshot](https://github.com/pakokrew/stellar-portal/raw/master/content/assets/images/screen1.jpg)
 ### TODO features
 
 - Electron desktop app
