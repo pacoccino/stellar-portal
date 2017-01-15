@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const { app, BrowserWindow, protocol } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -7,17 +7,22 @@ let win;
 function createWindow(){
 
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1500,
+    height: 900,
     webPreferences: {
       nodeIntegration: false,
-      webSecurity: true
+      webSecurity: true,
     }
   });
   win.setMenu(null);
 
+  protocol.interceptFileProtocol('file', function(req, callback) {
+    const url = req.url.substr(7);
+    callback({path: path.normalize(path.join(__dirname, 'app', url))})
+  })
+
   win.loadURL(url.format({
-    pathname: path.join(__dirname, '/app/index.html'),
+    pathname: 'index.html',
     protocol: 'file:',
     slashes: true
   }));

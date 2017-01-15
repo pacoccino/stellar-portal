@@ -1,0 +1,7 @@
+docker build . -t electron-build:wine
+
+
+docker run -it --rm \
+    --name  electron-wine \
+    -v /Users/paco/Development/stellar-portal:/project \
+    electron-build:wine bash

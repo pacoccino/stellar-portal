@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Card, Image, Container, Header, List } from 'semantic-ui-react'
+import { Container, Header, List } from 'semantic-ui-react'
 
 import AccountSelector from '../../elements/StellarContainers/AccountSelector';
+
+import logo from '../../../../content/assets/images/stellarportal.png';
 
 const styles = {
   logo: {
@@ -55,7 +57,7 @@ class WelcomeScreen extends Component {
       <div className="welcome-container">
         <div className="welcome-container-overlay" />
         <Container textAlign="center">
-          <img src="/assets/images/stellarportal.png" style={styles.logo} className="welcome-logo"/>
+          <img src={logo} style={styles.logo} className="welcome-logo"/>
           <Header style={styles.title}>
             Stellar Portal
           </Header>
