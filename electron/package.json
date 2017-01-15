@@ -17,19 +17,23 @@
     "productName": "Stellar Portal",
     "mac": {
       "icon": "icons/icon.icns",
-      "iconSize": 180,
-      "target": "dmg"
+      "target": ["dmg", "zip"]
+    },
+    "dmg": {
+      "icon": "icons/icon.icns",
+      "iconSize": 180
     },
     "nsis": {
       "oneClick": false,
-      "allowElevation": false
+      "installerIcon": "icons/icon.ico",
+      "installerHeaderIcon": "icons/icon.ico"
     },
     "squirrelWindows": {
-      "msi": true
+      "iconUrl": "https://github.com/julesGoullee/stellar-portal/blob/electron/electron/icons/icon.ico?raw=true"
     },
     "win": {
       "icon": "icons/icon.ico",
-      "target": "squirrel"
+      "target": ["nsis", "squirrel", "zip"]
     },
     "linux": {
       "target": "AppImage"
