@@ -5,12 +5,11 @@
   "scripts": {
     "dev": "webpack-dev-server --devtool source-map --inline --content-base public --history-api-fallback --config webpack.config.js",
     "build": "npm run clean && cross-env NODE_ENV=production webpack --optimize-minimize --config webpack.config.js",
-    "build-electron-darwin": "electron-packager . stellar-portal --platform=darwin --arch=x64 --asar=true --overwrite",
-    "build-electron-linux": "electron-packager . stellar-portal --platform=linux --arch=x64 --asar=true --overwrite",
     "server": "node expressProxy",
     "lint": "eslint app",
     "start": "npm run server",
-    "clean": "rm -rf ./build"
+    "clean": "rm -rf ./build",
+    "build-electron": "npm run build && cd electron && npm i && npm run build-mac"
   },
   "author": "ngfar pakokrew@gmail.com",
   "repository": "https://github.com/pakokrew/stellar-portal",
