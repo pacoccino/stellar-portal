@@ -17,17 +17,17 @@ function createWindow(){
   win.setMenu(null);
 
   win.loadURL(url.format({
-    pathname: path.join(__dirname, '../build', '/index.html'),
+    pathname: path.join(__dirname, '/index.html'),
     protocol: 'file:',
     slashes: true
   }));
 
-  // if(process.env.NODE_ENV === 'production'){
+  if(process.env.NODE_ENV !== 'production'){
 
     win.setMenu(null);
     win.webContents.openDevTools();
 
-  // }
+  }
 
   win.webContents.on('did-finish-load', () => {
     win.show();
