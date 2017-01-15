@@ -42,13 +42,13 @@ You can either enter a public key or a private seed, and either enter in view or
 - Show QR codes
 - Add memo to operations
 - Dataviz with useful graphs about the market
-- All the other Horizon stuff not implemented ;)
+- All the other Horizon stuff not implemented yet ;)
 
 ### Security
 
-When you enter your keys in the app, nothing is sent to any server, it is only kept locally. We don't rely on any backend to store your keys. So the privacy of your data is left to the browser that you use.
+When you enter your keys in the app, nothing is sent to any server, it is only kept locally. We don't rely on any backend to store your keys. The privacy of your data is left to the browser that you use.
 
-It is planned to store accountIds and keys into the local storage for returning user, that will be encrypted them with a password.
+It is planned to store accountIds and keys into the local storage for returning user, which will be encrypted by a password.
 
 ### Bugs and ideas
 
@@ -86,11 +86,11 @@ $ npm run build
 
 ### Full stellar implementation
 
-There are some important Stellar that are not implemented in this application, and the goal is to cover everything what we can do with Horizon.
+There are some important Stellar features that are not implemented on this application, we aime to cover everything we can do with Horizon.
 
 ### Market visualisation
 
-One of great features would be making trading as easy as possible, for example, visual trading (by clicking on the graph) would be amazing.
+One of the great features would be making trading as easy as possible, for example, visual trading (by clicking on the graph) would be amazing.
 This feature will need an extra backend. Account data will still be stored in browser, backend would only be for public data aggregation.
 
 ### Browser extension
@@ -103,7 +103,7 @@ Such extension would be useful if websites like exchanges, stores or remittance 
 
 ### Internationalization
 
-Indeed the app would need to be available in several languages.
+Indeed, the app would need to be available in several languages.
 
 ## Ideas
 

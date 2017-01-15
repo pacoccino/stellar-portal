@@ -8,8 +8,9 @@
     "build-mac": "npm run _build_common && build --mac --x64",
     "build-linux": "npm run _build_common && build --linux --x64",
     "_build_common": "npm run _clean-app && npm run _cp-app",
+    "build-win": "npm run _build_common && build --win --x64",
     "_cp-app": "cp -r ../build app",
-    "_clean-app": "rm -r dist app"
+    "_clean-app": "rm -rf ./dist ./app"
   },
   "build": {
     "appId": "app.stellar.portal",
