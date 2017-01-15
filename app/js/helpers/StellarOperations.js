@@ -21,16 +21,20 @@ export const sendTransaction = (authData, { operations = null, operation = null 
 };
 
 export const sendPayment = ({ asset, destination, amount }, authData) => {
-  const operation = StellarSDK.Operation.payment({
-    destination: destination,
-    asset: AssetInstance(asset),
-    amount: AmountInstance(amount),
-  });
-
-  return sendTransaction(authData, { operation });
+  try {
+    const operation = StellarSDK.Operation.payment({
+      destination: destination,
+      asset: AssetInstance(asset),
+      amount: AmountInstance(amount),
+    });
+    return sendTransaction(authData, { operation });
+  } catch(e) {
+    return Promise.reject(e);
+  }
 };
 
 export const sendPathPayment = ({ asset_source, asset_destination, amount_destination, destination, max_amount }, authData) => {
+  // TODO catch
   const operation = StellarSDK.Operation.pathPayment({
     sendAsset:    AssetInstance(asset_source),
     sendMax:      AmountInstance(max_amount),

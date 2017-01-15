@@ -3,6 +3,7 @@ export const CLOSE_ERROR_MODAL = 'modal:error:close';
 export const OPEN_KEYPAIR_MODAL = 'modal:keypair:open';
 export const CLOSE_KEYPAIR_MODAL = 'modal:keypair:close';
 export const SEND_PAYMENT = 'payment:send:fetching';
+export const SEND_PAYMENT_ERROR = 'payment:send:error';
 export const SEND_PAYMENT_SUCCESS = 'payment:send:success';
 export const DELETE_OFFER = 'offer:delete:fetching';
 export const SEND_OFFER = 'offer:send:fetching';
@@ -43,6 +44,13 @@ export function sendPaymentSuccess(data) {
   return {
     type: SEND_PAYMENT_SUCCESS,
     data
+  };
+}
+
+export function sendPaymentError(error) {
+  return {
+    type: SEND_PAYMENT_ERROR,
+    error
   };
 }
 

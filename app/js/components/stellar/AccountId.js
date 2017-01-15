@@ -13,7 +13,7 @@ class AccountId extends React.Component {
       <Popup
         hoverable
         trigger={
-          <span style={styles.account_id}>
+          <span>
             {AccountId.getAccountIdText(accountId, myAccountId)}
           </span>
         }
@@ -46,12 +46,6 @@ AccountId.getAccountIdText = (issuer, myAccountId) => {
   const firstThree = issuer.slice(0, size);
   const lastThree = issuer.slice(-size);
   return `${firstThree}...${lastThree}`;
-};
-
-const styles = {
-  account_id: {
-    padding: '0 0.5rem',
-  },
 };
 
 AccountId.propTypes = {

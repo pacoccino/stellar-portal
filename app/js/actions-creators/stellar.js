@@ -22,6 +22,7 @@ export const sendPayment = formData => (dispatch, getState) => {
       dispatch(UiActions.sendPaymentSuccess(d));
     })
     .catch(error => {
+      dispatch(UiActions.sendPaymentError(error));
       dispatch(UiActions.openErrorModal(error))
     });
 };
@@ -43,9 +44,10 @@ export const sendPathPayment = formData => (dispatch, getState) => {
     .then(d => {
       dispatch(UiActions.sendPaymentSuccess(d));
     })
-    .catch(error =>
+    .catch(error => {
+      dispatch(UiActions.sendPaymentError(error));
       dispatch(UiActions.openErrorModal(error))
-    );
+    });
 };
 
 export const sendIssuePayment = formData => (dispatch, getState) => {
@@ -64,9 +66,41 @@ export const sendIssuePayment = formData => (dispatch, getState) => {
     .then(d => {
       dispatch(UiActions.sendPaymentSuccess(d));
     })
-    .catch(error =>
+    .catch(error => {
+      dispatch(UiActions.sendPaymentError(error));
       dispatch(UiActions.openErrorModal(error))
-    );
+    });
+};
+
+export const sendCreateAccount = accountData => (dispatch, getState) => {
+  dispatch(UiActions.sendingPayment());
+
+  const authData = getAuthData(getState());
+
+  return StellarOperations.createAccount(accountData, authData)
+    .then(d => {
+      dispatch(UiActions.sendPaymentSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.sendPaymentError(error));
+      dispatch(UiActions.openErrorModal(error))
+    });
+};
+
+export const sendAccountMerge = accountData => (dispatch, getState) => {
+  dispatch(UiActions.sendingPayment());
+
+  // TODO refactor
+  const authData = getAuthData(getState());
+
+  return StellarOperations.accountMerge(accountData, authData)
+    .then(d => {
+      dispatch(UiActions.sendPaymentSuccess(d));
+    })
+    .catch(error => {
+      dispatch(UiActions.sendPaymentError(error));
+      dispatch(UiActions.openErrorModal(error))
+    });
 };
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
@@ -151,34 +185,4 @@ export const setOrderbook = ({ selling, buying }) => dispatch => {
       })
   );
   return true;
-};
-
-
-export const sendCreateAccount = accountData => (dispatch, getState) => {
-  dispatch(UiActions.sendingPayment());
-
-  const authData = getAuthData(getState());
-
-  return StellarOperations.createAccount(accountData, authData)
-    .then(d => {
-      dispatch(UiActions.sendPaymentSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error))
-    });
-};
-
-export const sendAccountMerge = accountData => (dispatch, getState) => {
-  dispatch(UiActions.sendingPayment());
-
-  // TODO refactor
-  const authData = getAuthData(getState());
-
-  return StellarOperations.accountMerge(accountData, authData)
-    .then(d => {
-      dispatch(UiActions.sendPaymentSuccess(d));
-    })
-    .catch(error => {
-      dispatch(UiActions.openErrorModal(error))
-    });
 };

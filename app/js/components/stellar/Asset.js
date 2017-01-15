@@ -10,6 +10,7 @@ const getIssuer = issuer => {
 };
 
 const style = { display: 'inline' };
+
 class Asset extends React.Component {
   componentDidMount() {
     new Clipboard(".asset-address-copy")

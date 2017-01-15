@@ -56,6 +56,12 @@ function sendPaymentSuccess(state) {
     sendingPayment: false,
   };
 }
+function sendPaymentError(state) {
+  return {
+    ...state,
+    sendingPayment: false,
+  };
+}
 function sendingOffer(state) {
   return {
     ...state,
@@ -85,6 +91,7 @@ export default createReducer(initialState, {
   [types.CREATE_TRUSTLINE]: creatingTrustline,
   [types.CREATE_TRUSTLINE_SUCCESS]: creatingTrustlineSuccess,
   [types.SEND_PAYMENT]: sendingPayment,
+  [types.SEND_PAYMENT_ERROR]: sendPaymentError,
   [types.SEND_PAYMENT_SUCCESS]: sendPaymentSuccess,
   [types.SEND_OFFER]: sendingOffer,
   [types.SEND_OFFER_SUCCESS]: sendOfferSuccess,

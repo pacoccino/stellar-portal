@@ -1,11 +1,18 @@
 import React, { PropTypes } from 'react';
-import { Button, Header, Table } from 'semantic-ui-react'
+import { Button, Icon, Header, Table } from 'semantic-ui-react'
 import moment from 'moment';
 
 import Asset from '../../../components/stellar/Asset';
 import AccountId from '../../../components/stellar/AccountId';
 import AmountComponent from '../../../components/stellar/Amount';
 
+function PaymentArrow({ toMe }) {
+  return (
+    <div>
+      {toMe ? <Icon name="arrow left" color="green" /> : <Icon name="arrow right" color="red" />}
+    </div>
+  );
+}
 class Payments extends React.Component {
 
   getDate(transaction) {
@@ -22,19 +29,20 @@ class Payments extends React.Component {
     }
   }
   getPaymentRow(payment, index) {
+    const isToMyAccount = this.props.account.account_id === payment.to;
     return (
-      <Table.Row key={index}>
+      <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
-          <AccountId myAccountId={this.props.account.account_id} accountId={payment.from} />
+          <PaymentArrow toMe={isToMyAccount} />
         </Table.Cell>
         <Table.Cell>
-          <AccountId myAccountId={this.props.account.account_id} accountId={payment.to} />
-        </Table.Cell>
-        <Table.Cell>
-          <AmountComponent accountId={this.props.account.account_id} payment={payment} />
+          <AmountComponent payment={payment} />
         </Table.Cell>
         <Table.Cell>
           <Asset {...payment} />
+        </Table.Cell>
+        <Table.Cell>
+          <AccountId accountId={isToMyAccount ? payment.from : payment.to} />
         </Table.Cell>
         <Table.Cell>
           {this.getDate(payment.transaction)}
@@ -53,16 +61,17 @@ class Payments extends React.Component {
   }
 
   getPathPaymentRow(payment, index) {
+    const isToMyAccount = this.props.account.account_id === payment.to;
     return (
-      <Table.Row key={index}>
+      <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
-          <AccountId myAccountId={this.props.account.account_id} accountId={payment.from} />
+          <PaymentArrow toMe={isToMyAccount} />
         </Table.Cell>
         <Table.Cell>
-          <AccountId myAccountId={this.props.account.account_id} accountId={payment.to} />
+          <AmountComponent payment={payment} />
         </Table.Cell>
         <Table.Cell>
-          <AmountComponent account={this.props.account} payment={payment} />
+          <AccountId accountId={isToMyAccount ? payment.from : payment.to} />
         </Table.Cell>
         <Table.Cell>
           <Asset
@@ -91,33 +100,42 @@ class Payments extends React.Component {
 
   render() {
     const { payments } = this.props;
+    const directPayments = payments.filter(p => (p.type === 'payment'));
+    const pathPayments = payments.filter(p => (p.type === 'path_payment'));
     return (
       <div>
         <Header as="h2" textAlign="center">Account payments</Header>
-        <Table singleLine size="small" compact unstackable>
+        <Table singleLine size="small" compact unstackable definition>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>From</Table.HeaderCell>
-              <Table.HeaderCell>To</Table.HeaderCell>
+              <Table.HeaderCell />
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>Asset</Table.HeaderCell>
+              <Table.HeaderCell>Account</Table.HeaderCell>
               <Table.HeaderCell>Date</Table.HeaderCell>
               <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
-            {payments.filter(p => (p.type === 'payment')).map(::this.getPaymentRow)}
+            {directPayments.length ?
+              directPayments.map(::this.getPaymentRow)
+              :
+              <Table.Row>
+                <Table.Cell/>
+                <Table.Cell colSpan="5" textAlign="center">No payments</Table.Cell>
+              </Table.Row>
+            }
           </Table.Body>
         </Table>
 
         <Header as="h3">Path payments</Header>
-        <Table singleLine size="small" compact unstackable>
+        <Table singleLine size="small" compact unstackable definition>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>From account</Table.HeaderCell>
-              <Table.HeaderCell>To account</Table.HeaderCell>
+              <Table.HeaderCell/>
               <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.HeaderCell>Account</Table.HeaderCell>
               <Table.HeaderCell>From asset</Table.HeaderCell>
               <Table.HeaderCell>To asset</Table.HeaderCell>
               <Table.HeaderCell>Date</Table.HeaderCell>
@@ -126,7 +144,14 @@ class Payments extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {payments.filter(p => (p.type === 'path_payment')).map(::this.getPathPaymentRow)}
+            {pathPayments.length ?
+              pathPayments.map(::this.getPathPaymentRow)
+              :
+              <Table.Row>
+                <Table.Cell/>
+                <Table.Cell colSpan="5" textAlign="center">No path payments</Table.Cell>
+              </Table.Row>
+            }
           </Table.Body>
         </Table>
       </div>
