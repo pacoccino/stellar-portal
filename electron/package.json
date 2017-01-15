@@ -16,14 +16,19 @@
     "appId": "app.stellar.portal",
     "electronVersion": "1.4.14",
     "productName": "Stellar Portal",
-    "mac" : {
+    "mac": {
       "icon": "icons/icon.icns",
       "iconSize": 180,
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "category": "public.app-category.finance"
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": [
+        "AppImage"
+      ]
     },
     "dmg": {
       "icon": "icons/icon.icns",
@@ -39,7 +44,11 @@
     },
     "win": {
       "icon": "icons/icon.ico",
-      "target": ["nsis", "squirrel", "zip"]
+      "target": [
+        "nsis",
+        "squirrel",
+        "zip"
+      ]
     }
   },
   "main": "./index.js",
@@ -53,5 +62,7 @@
     "electron-builder": "^11.2.5",
     "electron-rebuild": "^1.5.6"
   },
-  "dependencies": {}
+  "dependencies": {
+    "electron-builder-squirrel-windows": "^11.4.0"
+  }
 }
