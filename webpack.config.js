@@ -11,6 +11,20 @@ const plugins = require('./webpack.plugins');
 const DIRNAME = __dirname + '/';
 const buildDir = __dirname + '/build/';
 
+function imageLoader () {
+
+  return (context) => ({
+    module: {
+      loaders: [
+        {
+          test: context.fileType('image'),
+          loaders: [ 'file-loader?name=assets/img-[hash:4].[ext]' ],
+        }
+      ]
+    }
+  })
+}
+
 module.exports = createConfig([
   setOutput({
     filename: 'assets/[hash].[name].js',
@@ -18,6 +32,7 @@ module.exports = createConfig([
   }),
   babel(),
   cssModules(),
+  imageLoader(),
   addPlugins(plugins.basePlugins),
   defineConstants({
     'process.env.NODE_ENV': process.env.NODE_ENV || 'development'

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const NotFound = () =>
-  <div>
+  <div className="pages-container">
     <div>
       <h1>
         Not found

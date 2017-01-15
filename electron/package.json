@@ -1,0 +1,56 @@
+{
+  "name": "stellar-portal",
+  "version": "0.1.0",
+  "description": "Decentralized stellar platform",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "electron": "electron .",
+    "build-mac": "npm run _build_common && build --mac --x64",
+    "build-linux": "npm run _build_common && build --linux --x64",
+    "_build_common": "npm run _clean-app && npm run _cp-app",
+    "_cp-app": "cp -r ../build app",
+    "_clean-app": "rm -r dist app"
+  },
+  "build": {
+    "appId": "app.stellar.portal",
+    "electronVersion": "1.4.14",
+    "productName": "Stellar Portal",
+    "mac" : {
+      "icon": "icons/icon.icns",
+      "iconSize": 180,
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.finance"
+    },
+    "linux": {
+      "target": ["AppImage"]
+    },
+    "dmg": {
+      "icon": "icons/icon.icns",
+      "iconSize": 180
+    },
+    "nsis": {
+      "oneClick": false,
+      "installerIcon": "icons/icon.ico",
+      "installerHeaderIcon": "icons/icon.ico"
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://github.com/pakokrew/stellar-portal/blob/master/electron/icons/icon.ico?raw=true"
+    },
+    "win": {
+      "icon": "icons/icon.ico",
+      "target": ["nsis", "squirrel", "zip"]
+    }
+  },
+  "main": "./index.js",
+  "author": {
+    "name": "ngfar",
+    "email": "pakokrew@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.4.14",
+    "electron-builder": "^11.2.5",
+    "electron-rebuild": "^1.5.6"
+  },
+  "dependencies": {}
+}

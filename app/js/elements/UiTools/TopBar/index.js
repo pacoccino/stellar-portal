@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux'
 
-import Layout from './Layout';
+import TopBar from './TopBar';
 import { getKeypair, isModalKeypairOpen } from '../../../helpers/selector';
 import { openKeypairModal, closeKeypairModal } from '../../../actions/ui';
 
@@ -16,4 +16,4 @@ const mapDispatchToProps = dispatch => ({
   goHome: () => dispatch(push('/')),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

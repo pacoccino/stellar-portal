@@ -5,11 +5,13 @@ import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
 import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
 import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
+import icon from '../../../../../content/assets/images/favicon-32x32.png';
+
 const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
     <Menu fixed="top" inverted>
       <Container>
         <Menu.Item>
-          <img src="/assets/images/favicon-32x32.png" />
+          <img src={icon} />
         </Menu.Item>
         <Menu.Item header onClick={goHome}>
           Stellar Portal
