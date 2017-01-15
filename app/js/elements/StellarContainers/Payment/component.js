@@ -77,16 +77,6 @@ class Payment extends Component {
 
     return (
       <div>
-        <Form.Field
-          name="destination"
-          error={!this.state.validDestination}
-          onChange={::this.checkDestination}
-          label='Destination account'
-          control='input'
-          type='text'
-          placeholder='GRDT...'
-          required
-        />
         <Form.Select
           label='Source asset'
           name='asset'
@@ -133,16 +123,6 @@ class Payment extends Component {
 
     return (
       <div>
-        <Form.Field
-          name="destination"
-          label='Destination account'
-          control='input'
-          type='text'
-          placeholder='GRDT...'
-          error={!this.state.validDestination}
-          onChange={::this.checkDestination}
-          required
-        />
         <Form.Group>
           <Form.Select
             label='Source asset'
@@ -206,16 +186,6 @@ class Payment extends Component {
     return (
       <div>
         <Form.Field
-          name="destination"
-          label='Destination account'
-          control='input'
-          type='text'
-          placeholder='GRDT...'
-          error={!this.state.validDestination}
-          onChange={::this.checkDestination}
-          required
-        />
-        <Form.Field
           name="asset_code"
           label='Code'
           control='input'
@@ -240,16 +210,6 @@ class Payment extends Component {
   getCreateAccountForm() {
     return (
       <div>
-        <Form.Field
-          name="destination"
-          label='Destination account'
-          control='input'
-          type='text'
-          placeholder='GRDT...'
-          error={!this.state.validDestination}
-          onChange={::this.checkDestination}
-          required
-        />
         <p>
           Click on "Generate keypair" on the menu bar to get a new couple of public and secret key.
         </p>
@@ -268,20 +228,7 @@ class Payment extends Component {
   }
 
   getAccountMergeForm() {
-    return (
-      <div>
-        <Form.Field
-          name="destination"
-          label='Destination account'
-          control='input'
-          type='text'
-          placeholder='GRDT...'
-          error={!this.state.validDestination}
-          onChange={::this.checkDestination}
-          required
-        />
-      </div>
-    );
+    return null;
   }
 
   getNoSigner() {
@@ -317,6 +264,16 @@ class Payment extends Component {
         />
         <Form onSubmit={::this.submitForm}
               loading={this.props.sendingPayment}>
+          <Form.Field
+            name="destination"
+            label='Destination account'
+            control='input'
+            type='text'
+            placeholder='GRDT...'
+            error={!this.state.validDestination}
+            onChange={::this.checkDestination}
+            required
+          />
 
           {this.state.type === 'payment' ? this.getPaymentForm() : null}
           {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
