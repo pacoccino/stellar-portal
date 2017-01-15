@@ -51,8 +51,9 @@ a {
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
+
 @keyframes levitate {
-    from {transform:translateY(0);scale(1);}
-    50% {transform:translateY(8px);scale(1.5);}
+    from {transform:translateY(0);}
+    50% {transform:translateY(8px);}
     to {transform:translateY(0);}
 }
