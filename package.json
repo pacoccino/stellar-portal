@@ -1,6 +1,6 @@
 {
   "name": "stellar-portal",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Decentralized Stellar web client.",
   "scripts": {
     "dev": "webpack-dev-server --devtool source-map --inline --content-base public --history-api-fallback --config webpack.config.js",
