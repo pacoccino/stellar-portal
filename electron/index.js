@@ -22,12 +22,9 @@ function createWindow(){
     slashes: true
   }));
 
-  // if(process.env.NODE_ENV !== 'production'){
 
-    win.setMenu(null);
-    win.webContents.openDevTools();
-
-  // }
+  // win.webContents.openDevTools();
+  win.setMenu(null);
 
   win.webContents.on('did-finish-load', () => {
     win.show();

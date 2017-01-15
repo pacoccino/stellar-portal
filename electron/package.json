@@ -11,15 +11,15 @@
     "_clean-app": "rm -rf app"
   },
   "build": {
-    "appId": "stellar-portal",
+    "appId": "app.stellar.portal",
     "electronVersion": "1.4.14",
+    "productName": "Stellar portal",
     "mac" : {
       "icon": "icons/icon.icns",
       "iconSize": 180,
       "background": "icons/background.png"
     },
-    "linux": {
-    }
+    "linux": {}
   },
   "main": "./index.js",
   "author": {
@@ -32,6 +32,5 @@
     "electron-builder": "^11.2.5",
     "electron-rebuild": "^1.5.6"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
