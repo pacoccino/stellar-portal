@@ -15,7 +15,7 @@ const Layout = ({ children }) =>
       <Container>
         <Menu.Item>
           <span style={light}>
-          Made with &nbsp; <Icon name="heart" /> by &nbsp;<a href="https://ngfar.io" target="_blank">ngfar</a>
+          Made with &nbsp; <Icon color="red" name="heart" /> by &nbsp;<a href="https://ngfar.io" target="_blank">ngfar</a>
           </span>
         </Menu.Item>
         <Menu.Item>
