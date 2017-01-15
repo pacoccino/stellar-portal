@@ -10,7 +10,7 @@ const Layout = ({ goDesktop }) =>
     <Container>
       <Menu.Item>
           <span style={light}>
-          Made with &nbsp; <Icon name="heart" /> by &nbsp;<a href="https://ngfar.io" target="_blank">ngfar</a>
+          Made with &nbsp; <Icon name="heart" color="red" /> by &nbsp;<a href="https://ngfar.io" target="_blank">ngfar</a>
           </span>
       </Menu.Item>
       <Menu.Item>
