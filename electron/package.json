@@ -1,18 +1,25 @@
 {
   "name": "stellar-portal",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Decentralized stellar platform",
   "scripts": {
     "postinstall": "install-app-deps",
     "build-mac": "npm run _build_common && build --mac --x64 AppImage",
     "build-linux": "npm run _build_common && build --linux --x64 AppImage",
-    "_build_common": "npm run _clean_app && npm run _cp_app",
-    "_cp_app": "cp -r ../build app",
-    "_clean_app": "rm -rf app"
+    "_build_common": "npm run _clean-app && npm run _cp-app",
+    "_cp-app": "cp -r ../build app",
+    "_clean-app": "rm -rf app"
   },
   "build": {
     "appId": "stellar-portal",
-    "category": "public.app-category.graphics-design"
+    "electronVersion": "1.4.14",
+    "mac" : {
+      "icon": "icons/icon.icns",
+      "iconSize": 128,
+      "background": "icons/background.png"
+    },
+    "linux": {
+    }
   },
   "main": "./index.js",
   "author": {

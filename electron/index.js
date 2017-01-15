@@ -25,7 +25,7 @@ function createWindow(){
   // if(process.env.NODE_ENV !== 'production'){
 
     win.setMenu(null);
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
   // }
 
