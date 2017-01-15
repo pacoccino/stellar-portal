@@ -16,7 +16,7 @@
     "productName": "Stellar Portal",
     "mac" : {
       "icon": "icons/icon.icns",
-      "iconSize": 180,
+      "iconSize": 180
     },
     "linux": {},
     "dmg": {}
