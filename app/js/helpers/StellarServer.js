@@ -48,6 +48,16 @@ export const OffersStream = (accountId, callback) => {
   return () => clearInterval(timerId);
 };
 
+export const EffectsStream = (accountId, onmessage) => {
+  const timerId = getServerInstance()
+    .effects()
+    .forAccount(accountId)
+    .order('desc')
+    .stream({ onmessage });
+
+  return () => clearInterval(timerId);
+};
+
 export const switchNetwork = (network) => {
   switch(network) {
     case 'perso':

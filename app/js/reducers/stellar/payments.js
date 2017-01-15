@@ -13,6 +13,13 @@ function resetAccount() {
   return initialState;
 }
 
+function resetStream(state) {
+  return {
+    ...state,
+    data: [],
+  }
+}
+
 function getPaymentsSuccess(state, action) {
   const { payments } = action;
   return {
@@ -27,13 +34,6 @@ function getPaymentsStream(state, action) {
   return {
     ...state,
     data: state.data.concat(payment),
-  }
-}
-
-function resetStream(state) {
-  return {
-    ...state,
-    data: [],
   }
 }
 

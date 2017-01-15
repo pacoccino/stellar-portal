@@ -67,6 +67,7 @@
     "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4",
     "semantic-ui-react": "^0.63.1",
     "stellar-sdk": "^0.6.2",
     "webpack": "^2.2.0-rc.1",

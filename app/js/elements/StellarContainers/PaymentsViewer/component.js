@@ -99,9 +99,9 @@ class Payments extends React.Component {
   }
 
   render() {
-    const { payments } = this.props;
-    const directPayments = payments.filter(p => (p.type === 'payment'));
-    const pathPayments = payments.filter(p => (p.type === 'path_payment'));
+    const directPayments = this.props.payments;
+    const pathPayments = this.props.pathPayments;
+
     return (
       <div>
         <Header as="h2" textAlign="center">Account payments</Header>
@@ -162,6 +162,7 @@ class Payments extends React.Component {
 Payments.propTypes = {
   account: PropTypes.object,
   payments: PropTypes.array,
+  pathPayments: PropTypes.array,
 };
 
 export default Payments;

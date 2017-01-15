@@ -1,14 +1,14 @@
 import * as actions from '../actions/account';
-import { getServerInstance, OffersStream } from '../helpers/StellarServer';
+import { getServerInstance, OffersStream, EffectsStream } from '../helpers/StellarServer';
 import { getAccountSuccess } from '../actions/account';
-import { getPaymentsStream, getOffersStream, getOffersSuccess } from '../actions/stellar';
+import { getPaymentsStream, getEffectsStream, getOffersSuccess } from '../actions/stellar';
 import { newStream, killStreams } from '../helpers/monoStreamer';
 
 function traceError(e) {
   // console.error(e);
 }
 
-const stellarMiddleware = store => next => action => {
+const stellarStreamerMiddleware = store => next => action => {
   switch (action.type) {
     case actions.RESET_ACCOUNT: {
       killStreams();
@@ -29,6 +29,12 @@ const stellarMiddleware = store => next => action => {
               },
               onerror: traceError
             }));
+
+        // Stream effects
+        newStream('effects',
+          EffectsStream(account.account_id, effect => {
+            store.dispatch(getEffectsStream(effect));
+          }));
 
         // Stream payment
         newStream('payment',
@@ -71,4 +77,4 @@ const stellarMiddleware = store => next => action => {
   next(action);
 };
 
-export default stellarMiddleware;
+export default stellarStreamerMiddleware;

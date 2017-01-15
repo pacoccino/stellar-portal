@@ -8,12 +8,12 @@ import { routerMiddleware } from 'react-router-redux'
 
 import reducers from '../reducers';
 
-import stellarMiddleware from '../middlewares/Stellar';
+import stellarStreamerMiddleware from '../middlewares/StellarStreamer';
 
 const enhancer = compose(
   applyMiddleware(
     thunk,
-    stellarMiddleware,
+    stellarStreamerMiddleware,
     routerMiddleware(browserHistory),
   ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
