@@ -52,7 +52,7 @@ export const EffectsStream = (accountId, onmessage) => {
   const timerId = getServerInstance()
     .effects()
     .forAccount(accountId)
-    .order('desc')
+    .order('asc')
     .stream({ onmessage });
 
   return () => clearInterval(timerId);

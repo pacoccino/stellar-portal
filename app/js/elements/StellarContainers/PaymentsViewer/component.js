@@ -99,8 +99,8 @@ class Payments extends React.Component {
   }
 
   render() {
-    const directPayments = this.props.payments;
-    const pathPayments = this.props.pathPayments;
+    const directPayments = this.props.payments.slice().reverse();
+    const pathPayments = this.props.pathPayments.slice().reverse();
 
     return (
       <div>

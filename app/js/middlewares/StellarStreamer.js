@@ -41,7 +41,7 @@ const stellarStreamerMiddleware = store => next => action => {
           getServerInstance()
             .payments()
             .forAccount(account.account_id)
-            .order('desc')
+            .order('asc')
             .stream({
               onmessage: payment => {
                 payment.transaction().then(transaction => {
