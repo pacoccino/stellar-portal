@@ -22,7 +22,11 @@ class Payment extends Component {
 
   checkDestination(e) {
     const destinationAddress = e.target.value;
-    this.setState({ validDestination: validPk(destinationAddress)})
+    const validDestination = validPk(destinationAddress);
+    this.setState({ validDestination });
+    if(validDestination) {
+      this.props.getDestinationTrustlines(destinationAddress);
+    }
   }
 
   submitForm(e, {formData}) {
@@ -104,15 +108,11 @@ class Payment extends Component {
         value: index,
         text: Asset.getAssetString(asset),
       }));
-    const destAssets = this.props.trustlines.map((asset, index) => (
+    const destAssets = this.props.destinationTruslines.map((asset, index) => (
       {
         value: index,
         text: Asset.getAssetString(asset),
       }));
-    destAssets.push({
-      value: "custom",
-      text: "Custom",
-    });
     function onSelectDestination(e, b) {
       if(b.value === 'custom') {
         this.setState({ customDestination: true })
@@ -123,7 +123,7 @@ class Payment extends Component {
 
     return (
       <div>
-        <Form.Group>
+        <Form.Group widths="2">
           <Form.Select
             label='Source asset'
             name='asset_source'
@@ -138,24 +138,6 @@ class Payment extends Component {
             placeholder='Asset to receive'
             onChange={onSelectDestination.bind(this)}
           />
-          {this.state.customDestination ?
-            <Form.Group>
-              <Form.Field
-                name="asset_destination_code"
-                label='Code'
-                control='input'
-                type='text'
-                placeholder='EUR'
-              />
-              <Form.Field
-                name="asset_destination_issuer"
-                label='Issuer'
-                control='input'
-                type='text'
-                placeholder='GDB...'
-              />
-            </Form.Group>
-            : null}
         </Form.Group>
         <Form.Field
           name="max_amount"
@@ -318,8 +300,10 @@ Payment.propTypes = {
   sendIssuePayment: PropTypes.func.isRequired,
   sendCreateAccount: PropTypes.func.isRequired,
   sendAccountMerge: PropTypes.func.isRequired,
+  getDestinationTrustlines: PropTypes.func.isRequired,
   account: PropTypes.object,
   trustlines: PropTypes.array,
+  destinationTruslines: PropTypes.array,
   canSign: PropTypes.bool,
 };
 

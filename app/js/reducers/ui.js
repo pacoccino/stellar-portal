@@ -2,11 +2,13 @@
 import { merge } from 'lodash';
 
 import * as types from '../actions/ui';
+import * as stellarTypes from '../actions/stellar';
 import { createReducer } from '../helpers/redux';
 
 const initialState = {
   creatingTrustline: false,
   sendingPayment: false,
+  destinationTruslines: [],
   sendingOffer: false,
   errorOpen: false,
   errorData: null,
@@ -87,6 +89,14 @@ function creatingTrustlineSuccess(state) {
   };
 }
 
+function setDestinationTrustlines(state, action) {
+  const { destinationTruslines } = action;
+  return {
+    ...state,
+    destinationTruslines,
+  };
+}
+
 export default createReducer(initialState, {
   [types.CREATE_TRUSTLINE]: creatingTrustline,
   [types.CREATE_TRUSTLINE_SUCCESS]: creatingTrustlineSuccess,
@@ -99,4 +109,5 @@ export default createReducer(initialState, {
   [types.CLOSE_ERROR_MODAL]: closeErrorModal,
   [types.OPEN_KEYPAIR_MODAL]: openKeypairModal,
   [types.CLOSE_KEYPAIR_MODAL]: closeKeypairModal,
+  [stellarTypes.SET_DESTINATION_TRUSTLINES]: setDestinationTrustlines,
 });

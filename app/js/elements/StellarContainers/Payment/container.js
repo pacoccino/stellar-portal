@@ -7,14 +7,25 @@ import {
   sendPathPayment,
   sendCreateAccount,
   sendAccountMerge,
+  getDestinationTrustlines,
 } from '../../../actions-creators/stellar';
-import { canSign, getAccount, getTrustlines, isSendingPayment } from '../../../helpers/selector';
+import {
+  canSign,
+  getAccount,
+  getTrustlines,
+  isSendingPayment,
+} from '../../../helpers/selector';
+
+import {
+  getDestinationTrustlines as getDestinationTrustlinesSelector,
+} from '../../../selectors/stellarData';
 
 const mapStateToProps = (state) => ({
   account: getAccount(state),
   trustlines: getTrustlines(state),
   canSign: canSign(state),
   sendingPayment: isSendingPayment(state),
+  destinationTruslines: getDestinationTrustlinesSelector(state),
 });
 const mapDispatchToProps = {
   sendPayment,
@@ -22,6 +33,7 @@ const mapDispatchToProps = {
   sendPathPayment,
   sendCreateAccount,
   sendAccountMerge,
+  getDestinationTrustlines,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

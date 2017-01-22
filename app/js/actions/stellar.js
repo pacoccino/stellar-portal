@@ -7,6 +7,8 @@ export const GET_EFFECT_STREAM = "stellar:effect:stream";
 export const GET_ORDERBOOK = "stellar:orderbook:fetching";
 export const GET_ORDERBOOK_SUCCESS = "stellar:orderbook:success";
 
+export const SET_DESTINATION_TRUSTLINES = "stellar:payment:desttrust";
+
 export function getPaymentsSuccess(payments) {
   return {
     type: GET_PAYMENTS_SUCCESS,
@@ -46,5 +48,11 @@ export function getOrderbookSuccess(orderbook) {
   return {
     type: GET_ORDERBOOK_SUCCESS,
     orderbook,
+  };
+}
+export function setDestinationTrustlines(destinationTruslines) {
+  return {
+    type: SET_DESTINATION_TRUSTLINES,
+    destinationTruslines,
   };
 }

@@ -2,6 +2,7 @@ import * as StellarOperations from '../helpers/StellarOperations';
 
 import { newStream } from '../helpers/monoStreamer';
 import { getAuthData } from '../helpers/selector';
+import { AssetInstance } from '../helpers/StellarTools';
 import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
@@ -133,4 +134,14 @@ export const setOrderbook = ({ selling, buying }) => dispatch => {
       })
   );
   return true;
+};
+
+export const getDestinationTrustlines = accountId => dispatch => {
+  StellarServer.getAccount(accountId)
+    .then(account => account.balances.map(balance => ({
+      asset_type: balance.asset_type,
+      asset_code: balance.asset_code,
+      asset_issuer: balance.asset_issuer,
+    })).map(AssetInstance))
+    .then(trustlines => dispatch(StellarActions.setDestinationTrustlines(trustlines)));
 };
