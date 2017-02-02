@@ -41,18 +41,8 @@ class Payment extends Component {
         break;
       }
       case 'path_payment': {
-        if(formData.asset_source === formData.asset_destination) {
-          return;
-        }
         formData.asset_source = this.props.trustlines[formData.asset_source];
-        if(formData.asset_destination === 'custom') {
-          formData.asset_destination = AssetInstance({
-            asset_code: formData.asset_destination_code,
-            asset_issuer: formData.asset_destination_issuer,
-          });
-        } else {
-          formData.asset_destination = this.props.trustlines[formData.asset_destination];
-        }
+        formData.asset_destination = this.props.destinationTruslines[formData.asset_destination];
         this.props.sendPathPayment(formData);
         break;
       }
@@ -113,13 +103,6 @@ class Payment extends Component {
         value: index,
         text: Asset.getAssetString(asset),
       }));
-    function onSelectDestination(e, b) {
-      if(b.value === 'custom') {
-        this.setState({ customDestination: true })
-      } else {
-        this.setState({ customDestination: false })
-      }
-    }
 
     return (
       <div>
@@ -136,7 +119,7 @@ class Payment extends Component {
             name='asset_destination'
             options={destAssets}
             placeholder='Asset to receive'
-            onChange={onSelectDestination.bind(this)}
+            required
           />
         </Form.Group>
         <Form.Field
