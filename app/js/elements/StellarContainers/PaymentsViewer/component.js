@@ -28,6 +28,7 @@ class Payments extends React.Component {
       window.open(url);
     }
   }
+
   getPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
     return (
@@ -43,6 +44,9 @@ class Payments extends React.Component {
         </Table.Cell>
         <Table.Cell>
           <AccountId accountId={isToMyAccount ? payment.from : payment.to} />
+        </Table.Cell>
+        <Table.Cell>
+          {payment.transaction.memo}
         </Table.Cell>
         <Table.Cell>
           {this.getDate(payment.transaction)}
@@ -83,6 +87,9 @@ class Payments extends React.Component {
           <Asset {...payment} />
         </Table.Cell>
         <Table.Cell>
+          {payment.transaction.memo}
+        </Table.Cell>
+        <Table.Cell>
           {this.getDate(payment.transaction)}
         </Table.Cell>
         <Table.Cell>
@@ -112,6 +119,7 @@ class Payments extends React.Component {
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>Asset</Table.HeaderCell>
               <Table.HeaderCell>Account</Table.HeaderCell>
+              <Table.HeaderCell>Memo</Table.HeaderCell>
               <Table.HeaderCell>Date</Table.HeaderCell>
               <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>
@@ -138,6 +146,7 @@ class Payments extends React.Component {
               <Table.HeaderCell>Account</Table.HeaderCell>
               <Table.HeaderCell>From asset</Table.HeaderCell>
               <Table.HeaderCell>To asset</Table.HeaderCell>
+              <Table.HeaderCell>Memo</Table.HeaderCell>
               <Table.HeaderCell>Date</Table.HeaderCell>
               <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>

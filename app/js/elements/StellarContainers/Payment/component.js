@@ -2,13 +2,55 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, Header, Form, Message } from 'semantic-ui-react'
 
 import Asset from '../../../components/stellar/Asset';
-import { STROOP, AssetInstance, validPk } from '../../../helpers/StellarTools';
+import { STROOP, validPk } from '../../../helpers/StellarTools';
 const styles = {
   padV: {
     margin: '1rem 0',
   },
 };
 
+function MemoFields() {
+  const types = [
+    {
+      value: "none",
+      text: "None",
+    },
+    {
+      value: "text",
+      text: "Text",
+    },
+    {
+      value: "id",
+      text: "ID",
+    },
+    {
+      value: "hash",
+      text: "Hash",
+    },
+    {
+      value: "returnHash",
+      text: "Return Hash",
+    },
+  ];
+
+  return (
+    <Form.Group widths="two">
+      <Form.Select
+        label='Memo type'
+        name='memo.type'
+        options={types}
+        defaultValue='none'
+      />
+      <Form.Field
+        name="memo.value"
+        label='Memo Value'
+        control='input'
+        type='text'
+        placeholder='Memo'
+      />
+    </Form.Group>
+  )
+}
 class Payment extends Component {
 
   constructor(props) {
@@ -34,6 +76,10 @@ class Payment extends Component {
     if(!validPk(formData.destination)) {
       return;
     }
+    formData.memo = {
+      type: formData['memo.type'],
+      value: formData['memo.value'],
+    };
     switch(this.state.type) {
       case 'payment': {
         formData.asset = this.props.trustlines[formData.asset];
@@ -88,6 +134,7 @@ class Payment extends Component {
           placeholder='0'
           required
         />
+        <MemoFields/>
       </div>
     );
   }
@@ -142,6 +189,7 @@ class Payment extends Component {
           placeholder='0'
           required
         />
+        <MemoFields/>
       </div>
     );
   }
