@@ -9,9 +9,11 @@ import {
   getAccount,
   getAccountError,
   getKeypair,
-  getNetwork,
   canSign,
-} from '../../../helpers/selector';
+} from '../../../selectors/account';
+import {
+  getNetwork,
+} from '../../../selectors/stellarData';
 
 const mapStateToProps = (state) => ({
   isAccountLoading: isAccountLoading(state),

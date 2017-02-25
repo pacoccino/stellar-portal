@@ -1,7 +1,7 @@
 import * as StellarOperations from '../helpers/StellarOperations';
 
 import { newStream } from '../helpers/monoStreamer';
-import { getAuthData } from '../helpers/selector';
+import { getAuthData } from '../selectors/account';
 import { AssetInstance } from '../helpers/StellarTools';
 import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';

@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import Component from './component'
 
-import { canSign, getOffers, getTrustlines, isSendingOffer } from '../../../helpers/selector';
+import { isSendingOffer } from '../../../selectors/ui';
+import { canSign } from '../../../selectors/account';
+import { getOffers, getTrustlines } from '../../../selectors/stellarData';
 import { createOffer, deleteOffer } from '../../../actions-creators/stellar';
 
 const mapStateToProps = (state) => ({

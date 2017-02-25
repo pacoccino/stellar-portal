@@ -3,7 +3,7 @@ import * as StellarServer from '../helpers/StellarServer';
 import * as AccountActions from '../actions/account';
 import { switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
-import { getNetwork } from '../helpers/selector';
+import { getNetwork } from '../selectors/stellarData';
 import { push } from 'react-router-redux';
 
 export const setAccount = keys => (dispatch, getState) => {

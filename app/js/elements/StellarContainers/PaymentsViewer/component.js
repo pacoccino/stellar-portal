@@ -13,6 +13,7 @@ function PaymentArrow({ toMe }) {
     </div>
   );
 }
+
 class Payments extends React.Component {
 
   getDate(transaction) {

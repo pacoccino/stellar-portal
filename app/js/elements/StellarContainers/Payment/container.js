@@ -12,9 +12,10 @@ import {
 import {
   canSign,
   getAccount,
+} from '../../../selectors/account';
+import {
   getTrustlines,
-  isSendingPayment,
-} from '../../../helpers/selector';
+} from '../../../selectors/stellarData';
 
 import {
   getDestinationTrustlines as getDestinationTrustlinesSelector,
