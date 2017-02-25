@@ -63,7 +63,7 @@ class WelcomeScreen extends Component {
           </Header>
           <p style={styles.paragraph}>
             Stellar Portal is a web app designed to access the
-            <a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
+            &nbsp;<a style={styles.link} href="https://www.stellar.org/">Stellar Network</a>.
             <br />
             It allows you to consult account informations such as balances and offers,
             see orderbook and to make transactions.

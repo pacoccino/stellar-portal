@@ -11,7 +11,6 @@ export const isAccountLoading = asyncSelectorObject(ASYNC_FETCH_ACCOUNT).isLoadi
 
 export const isCreatingTestAccount = asyncSelectorObject(ASYNC_CREATE_TEST_ACCOUNT).isLoading;
 
-export const getBalances = selectProperty([ACCOUNT_STATE_KEY, 'data', 'balances'], []);
 export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], null);
 
 export const getAuthData = createSelector(
@@ -21,6 +20,10 @@ export const getAuthData = createSelector(
     keypair,
     sourceAccount,
   }),
+);
+export const getBalances = createSelector(
+  getAccount,
+  account => (account && account.balances) || [],
 );
 
 export const canSign = createSelector(

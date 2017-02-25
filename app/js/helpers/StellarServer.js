@@ -102,7 +102,7 @@ export async function generateTestPair() {
   const pair = Stellar.Keypair.random();
 
   try {
-    await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.accountId()}`);
+    await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.publicKey()}`);
     return pair;
   } catch (e) {
     throw e;
