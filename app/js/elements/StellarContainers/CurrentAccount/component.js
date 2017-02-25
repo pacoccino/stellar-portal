@@ -20,9 +20,9 @@ class CurrentAccount extends Component {
     let url = '/?';
     url += `network=${this.props.network}`;
     if (this.props.keypair.canSign()) {
-      url += `&secretSeed=${this.props.keypair.seed()}`;
+      url += `&secretSeed=${this.props.keypair.secret()}`;
     } else {
-      url += `&accountId=${this.props.keypair.accountId()}`;
+      url += `&accountId=${this.props.keypair.publicKey()}`;
     }
     window.open(url);
   }
@@ -79,7 +79,7 @@ class CurrentAccount extends Component {
               Public address
             </Table.HeaderCell>
             <Table.Cell>
-              {keypair.accountId()}
+              {keypair.publicKey()}
             </Table.Cell>
             <Table.Cell textAlign="right">
               <Button
@@ -89,7 +89,7 @@ class CurrentAccount extends Component {
                 icon="clipboard"
                 content="Copy"
                 color="blue"
-                data-clipboard-text={keypair.accountId()}
+                data-clipboard-text={keypair.publicKey()}
               />
             </Table.Cell>
           </Table.Row>
@@ -100,7 +100,7 @@ class CurrentAccount extends Component {
                 Secret seed
               </Table.HeaderCell>
               <Table.Cell>
-                {keypair.seed()}
+                {keypair.secret()}
               </Table.Cell>
               <Table.Cell textAlign="right">
                 <Button
@@ -110,7 +110,7 @@ class CurrentAccount extends Component {
                   icon="clipboard"
                   content="Copy"
                   color="red"
-                  data-clipboard-text={keypair.seed()}
+                  data-clipboard-text={keypair.secret()}
                 />
               </Table.Cell>
             </Table.Row>

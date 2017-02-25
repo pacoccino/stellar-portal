@@ -72,7 +72,7 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "semantic-ui-react": "^0.63.1",
-    "stellar-sdk": "^0.6.2",
+    "stellar-sdk": "^0.7.2",
     "webpack": "^2.2.0",
     "webpack-dev-server": "2.2.0"
   }

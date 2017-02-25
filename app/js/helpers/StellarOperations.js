@@ -53,7 +53,7 @@ const addMemo = (transactionBuilder, memo) => {
 export const sendTransaction = (authData, { operations, operation, memo }) => {
   const keypair = KeypairInstance(authData.keypair);
   const sourceAccount = authData.sourceAccount;
-  const sourceAddress = keypair.accountId();
+  const sourceAddress = keypair.publicKey();
   const sequenceNumber = sourceAccount.sequence;
   const transAccount = new Account(sourceAddress, sequenceNumber);
 

@@ -21,25 +21,25 @@ const stellarStreamerMiddleware = store => next => (action) => {
       try {
         // Stream account
         newStream('account',
-          AccountStream(keypair.accountId(), (streamAccount) => {
+          AccountStream(keypair.publicKey(), (streamAccount) => {
             store.dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, streamAccount));
           }));
 
         // Stream effects
         newStream('effects',
-          EffectsStream(keypair.accountId(), (effect) => {
+          EffectsStream(keypair.publicKey(), (effect) => {
             store.dispatch(getEffectsStream(effect));
           }));
 
         // Stream payment
         newStream('payment',
-          PaymentStream(keypair.accountId(), (payment) => {
+          PaymentStream(keypair.publicKey(), (payment) => {
             store.dispatch(getPaymentsStream(payment));
           }));
 
         // Stream offers
         newStream('offers',
-          OffersStream(keypair.accountId(), (offers) => {
+          OffersStream(keypair.publicKey(), (offers) => {
             store.dispatch(getOffersSuccess(offers));
           }));
       } catch (e) {

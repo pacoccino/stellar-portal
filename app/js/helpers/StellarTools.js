@@ -1,18 +1,11 @@
-import { Asset, Keypair } from 'stellar-sdk';
+import { Asset, StrKey, Keypair } from 'stellar-sdk';
 import Decimal from 'decimal.js';
 
 export const STROOP = 0.0000001;
 export const REFRESH_INTERVAL = 2000;
 
-export const validPk = pk => Keypair.isValidPublicKey(pk);
-export const validSeed = (seed) => {
-  try {
-    Keypair.fromSeed(seed);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+export const validPk = pk => StrKey.isValidEd25519PublicKey(pk);
+export const validSeed = seed => StrKey.isValidEd25519SecretSeed(seed);
 
 export const AssetInstance = (asset) => {
   if (!asset) return null;
@@ -43,9 +36,9 @@ export const KeypairInstance = (keypair) => {
     return keypair;
   }
   if (keypair.secretSeed) {
-    return Keypair.fromSeed(keypair.secretSeed);
+    return Keypair.fromSecret(keypair.secretSeed);
   }
-  return Keypair.fromAccountId(keypair.publicKey);
+  return Keypair.fromPublicKey(keypair.publicKey);
 };
 
 export const AmountInstance = (number) => {
@@ -60,3 +53,19 @@ export const augmentAccount = account => ({
     asset: AssetInstance(b),
   })),
 });
+
+export const areSameAssets = (a1, a2) => {
+  try {
+    const as1 = AssetInstance(a1);
+    const as2 = AssetInstance(a2);
+
+    if (as1 === as2 === null) {
+      return true;
+    } else if (!as1 || !as2) {
+      return false;
+    }
+    return as1.equals(as2);
+  } catch (e) {
+    return false;
+  }
+};

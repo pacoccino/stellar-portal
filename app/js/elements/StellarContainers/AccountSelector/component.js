@@ -23,8 +23,8 @@ class AccountSelector extends Component {
       showSeed: false,
     };
     if (this.props.keypair) {
-      this.state.accountId = this.props.keypair.accountId();
-      this.state.secretSeed = this.props.keypair.canSign() ? this.props.keypair.seed() : '';
+      this.state.accountId = this.props.keypair.publicKey();
+      this.state.secretSeed = this.props.keypair.canSign() ? this.props.keypair.secret() : '';
     }
   }
 
@@ -32,8 +32,8 @@ class AccountSelector extends Component {
     if (this.props.keypair !== newProps.keypair) {
       if (newProps.keypair) {
         this.setState({
-          accountId: newProps.keypair.accountId(),
-          secretSeed: newProps.keypair.canSign() ? newProps.keypair.seed() : '',
+          accountId: newProps.keypair.publicKey(),
+          secretSeed: newProps.keypair.canSign() ? newProps.keypair.secret() : '',
         });
       } else {
         this.setState({
