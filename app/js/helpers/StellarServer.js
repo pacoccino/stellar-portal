@@ -1,28 +1,48 @@
 import Stellar from 'stellar-sdk';
 
 // import StellarOffline from './StellarOffline';
-import { AssetInstance, REFRESH_INTERVAL } from './StellarTools';
+import { augmentAccount, AssetInstance, REFRESH_INTERVAL } from './StellarTools';
 
 let Server;
 
+function traceError() {
+  // console.error(e);
+}
 export const getServerInstance = () => Server;
-  // if(process.env.NODE_ENV !== 'production') {
-  //   return StellarOffline();
-  // }
+// if(process.env.NODE_ENV !== 'production') {
+//   return StellarOffline();
+// }
 
-export const getAccount = accountId => getServerInstance()
-    .loadAccount(accountId);
+export const getAccount = accountId =>
+  getServerInstance()
+    .loadAccount(accountId)
+    .then(augmentAccount);
 
-export const Orderbook = ({ selling, buying }) => getServerInstance()
+export const Orderbook = ({ selling, buying }) =>
+  getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .call();
-export const OrderbookStream = ({ selling, buying }, onmessage) => getServerInstance()
+export const OrderbookStream = ({ selling, buying }, onmessage) =>
+  getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .stream({ onmessage });
-export const OrderbookDetail = ({ selling, buying }) => getServerInstance()
+
+export const OrderbookDetail = ({ selling, buying }) =>
+  getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .trades()
     .call();
+
+export const AccountStream = (accountId, callback) =>
+  getServerInstance()
+    .accounts()
+    .accountId(accountId)
+    .stream({
+      onmessage: (streamAccount) => {
+        callback(augmentAccount(streamAccount));
+      },
+      onerror: traceError,
+    });
 
 export const OffersStream = (accountId, callback) => {
   const timerId = setInterval(() => {
@@ -36,13 +56,29 @@ export const OffersStream = (accountId, callback) => {
   return () => clearInterval(timerId);
 };
 
-export const EffectsStream = (accountId, onmessage) => {
-  return getServerInstance()
+export const EffectsStream = (accountId, onmessage) =>
+  getServerInstance()
     .effects()
     .forAccount(accountId)
     .order('asc')
     .stream({ onmessage });
-};
+
+export const PaymentStream = (accountId, onmessage) =>
+  getServerInstance()
+    .payments()
+    .forAccount(accountId)
+    .order('asc')
+    .stream({
+      onmessage: (payment) => {
+        payment.transaction().then((transaction) => {
+          onmessage({
+            ...payment,
+            transaction,
+          });
+        });
+      },
+      onerror: traceError,
+    });
 
 export const switchNetwork = (network) => {
   switch (network) {

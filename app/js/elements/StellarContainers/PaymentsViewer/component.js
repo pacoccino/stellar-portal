@@ -18,7 +18,6 @@ PaymentArrow.propTypes = {
 };
 
 class Payments extends React.Component {
-
   getDate(transaction) {
     const mo = moment(transaction.created_at);
     return mo.calendar();

@@ -1,12 +1,15 @@
 import { createSelector } from 'reselect';
 import { selectProperty } from '../helpers/redux';
 
+import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
 import { ACCOUNT_STATE_KEY } from '../constants/reducerKeys';
+import { asyncSelectorObject } from '../helpers/asyncActions/selectors';
 
-export const isAccountLoading = selectProperty([ACCOUNT_STATE_KEY, 'isLoading'], false);
+export const getAccount = asyncSelectorObject(ASYNC_FETCH_ACCOUNT).data;
+export const getAccountError = asyncSelectorObject(ASYNC_FETCH_ACCOUNT).error;
+export const isAccountLoading = asyncSelectorObject(ASYNC_FETCH_ACCOUNT).isLoading;
+
 export const isCreatingTestAccount = selectProperty([ACCOUNT_STATE_KEY, 'isCreatingTestAccount'], false);
-export const getAccount = selectProperty([ACCOUNT_STATE_KEY, 'data'], null);
-export const getAccountError = selectProperty([ACCOUNT_STATE_KEY, 'error'], {});
 export const getBalances = selectProperty([ACCOUNT_STATE_KEY, 'data', 'balances'], []);
 export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], null);
 export const getAuthData = createSelector(
@@ -27,7 +30,8 @@ export const canSign = createSelector(
 );
 export const accountSet = createSelector(
   getAuthData,
-  authData => (
-    !!authData && !!authData.keypair
+  getAccount,
+  (authData, account) => (
+    !!authData && !!authData.keypair && !!account
   ),
 );

@@ -3,11 +3,7 @@ export const SWITCH_NETWORK = 'network:switch';
 export const RESET_ACCOUNT = 'account:reset';
 export const CREATE_TEST_ACCOUNT = 'account:create-test:fetching';
 export const CREATE_TEST_ACCOUNT_SUCCESS = 'account:create-test:success';
-export const SET_ACCOUNT_SUCCESS = 'account:set';
-
-export const GET_ACCOUNT = 'account:fetching';
-export const GET_ACCOUNT_SUCCESS = 'account:success';
-export const GET_ACCOUNT_ERROR = 'account:error';
+export const SET_KEYPAIR = 'keypair:set';
 
 
 export function resetAccount() {
@@ -15,31 +11,11 @@ export function resetAccount() {
     type: RESET_ACCOUNT,
   };
 }
-export function setAccountSuccess(account, keypair) {
+
+export function setKeypair(keypair) {
   return {
-    type: SET_ACCOUNT_SUCCESS,
-    account,
+    type: SET_KEYPAIR,
     keypair,
-  };
-}
-
-export function fetchingAccount() {
-  return {
-    type: GET_ACCOUNT,
-  };
-}
-
-export function getAccountError(error) {
-  return {
-    type: GET_ACCOUNT_ERROR,
-    error,
-  };
-}
-
-export function getAccountSuccess(account) {
-  return {
-    type: GET_ACCOUNT_SUCCESS,
-    account,
   };
 }
 

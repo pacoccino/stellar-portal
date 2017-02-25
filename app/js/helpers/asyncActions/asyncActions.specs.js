@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { ASYNC_STATE_KEY, AsyncActions, asyncReducer, getAsyncState } from './index';
+import { asyncSelector, asyncDataSelector, asyncIsLoadingSelector, asyncErrorSelector } from './selectors';
 
 describe('asyncActions helper', () => {
   describe('asyncActions reducer', () => {
@@ -122,6 +123,26 @@ describe('asyncActions helper', () => {
   });
 
   describe('asyncActions selectors', () => {
+    it('asyncSelector', () => {
+      const state = {
+        [ASYNC_STATE_KEY]: {
+          actions: {
+            exact: {
+              isLoading: true,
+              error: 'exerr',
+            },
+            act: {
+              isLoading: false,
+              error: 'err',
+            },
+          },
+        },
+      };
+
+      expect(asyncSelector('exact')(state)).to.equal(state[ASYNC_STATE_KEY].actions.exact);
+      expect(asyncSelector('act')(state)).to.equal(state[ASYNC_STATE_KEY].actions.act);
+    });
+
     it('gets async state', () => {
       const state = {
         [ASYNC_STATE_KEY]: {
@@ -140,6 +161,24 @@ describe('asyncActions helper', () => {
 
       expect(getAsyncState(state, 'exact')).to.equal(state[ASYNC_STATE_KEY].actions.exact);
       expect(getAsyncState(state, 'act')).to.equal(state[ASYNC_STATE_KEY].actions.act);
+    });
+
+    it('gets data, error, isloading selectors', () => {
+      const state = {
+        [ASYNC_STATE_KEY]: {
+          actions: {
+            exact: {
+              data: 'data',
+              isLoading: true,
+              error: 'exerr',
+            },
+          },
+        },
+      };
+
+      expect(asyncDataSelector('exact')(state)).to.equal(state[ASYNC_STATE_KEY].actions.exact.data);
+      expect(asyncErrorSelector('exact')(state)).to.equal(state[ASYNC_STATE_KEY].actions.exact.error);
+      expect(asyncIsLoadingSelector('exact')(state)).to.equal(state[ASYNC_STATE_KEY].actions.exact.isLoading);
     });
   });
 });

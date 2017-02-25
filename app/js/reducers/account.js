@@ -8,7 +8,6 @@ import { AssetInstance } from '../helpers/StellarTools';
 
 const initialState = {
   keypair: null,
-  data: null,
   isLoading: false,
   isCreatingTestAccount: false,
   error: null,
@@ -18,49 +17,15 @@ function resetAccount() {
   return initialState;
 }
 
-function augmentAccount(account) {
-  return {
-    ...account,
-    balances: account.balances.map(b => ({
-      ...b,
-      asset: AssetInstance(b),
-    })),
-  };
-}
-
-function setAccount(state, action) {
-  const { account, keypair } = action;
+function setKeypair(state, action) {
+  const { keypair } = action;
 
   return {
     ...state,
-    data: augmentAccount(account),
     keypair,
-    isLoading: false,
   };
 }
-function getAccount(state) {
-  return {
-    ...state,
-    isLoading: true,
-  };
-}
-function getAccountSuccess(state, action) {
-  const { account } = action;
-  return {
-    ...state,
-    data: augmentAccount(account),
-    isLoading: false,
-    error: null,
-  };
-}
-function getAccountError(state, action) {
-  const { error } = action;
-  return {
-    ...state,
-    isLoading: false,
-    error,
-  };
-}
+
 function createTestAccount(state) {
   return {
     ...state,
@@ -93,9 +58,6 @@ export default createReducer(initialState, {
   [types.RESET_ACCOUNT]: resetAccount,
   [types.CREATE_TEST_ACCOUNT]: createTestAccount,
   [types.CREATE_TEST_ACCOUNT_SUCCESS]: createTestAccountSuccess,
-  [types.SET_ACCOUNT_SUCCESS]: setAccount,
-  [types.GET_ACCOUNT]: getAccount,
-  [types.GET_ACCOUNT_SUCCESS]: getAccountSuccess,
-  [types.GET_ACCOUNT_ERROR]: getAccountError,
+  [types.SET_KEYPAIR]: setKeypair,
   [DELETE_TRUSTLINE]: deletingTrustline,
 });

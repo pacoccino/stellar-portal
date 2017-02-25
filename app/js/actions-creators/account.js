@@ -1,19 +1,24 @@
 import { push } from 'react-router-redux';
 
+import { AsyncActions } from '../helpers/asyncActions';
 import * as AccountActions from '../actions/account';
+import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
 
 import { getAccount, switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
 import { getNetwork } from '../selectors/stellarData';
 
 export const setAccount = keys => (dispatch, getState) => {
-  dispatch(AccountActions.fetchingAccount());
+  dispatch(AsyncActions.startFetch(ASYNC_FETCH_ACCOUNT));
 
   const keypair = KeypairInstance(keys);
   const network = getNetwork(getState());
 
   return getAccount(keypair.accountId())
     .then((account) => {
+      dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, account));
+      dispatch(AccountActions.setKeypair(keypair));
+
       const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
       const query = {
         accountId: putSecret ? undefined : keypair.accountId(),
@@ -22,10 +27,9 @@ export const setAccount = keys => (dispatch, getState) => {
       };
       dispatch(push({ query }));
 
-      dispatch(AccountActions.setAccountSuccess(account, keypair));
       return account;
     })
-    .catch(error => dispatch(AccountActions.getAccountError(error)));
+    .catch(error => dispatch(AsyncActions.errorFetch(ASYNC_FETCH_ACCOUNT, error)));
 };
 
 export const resetAccount = () => (dispatch) => {

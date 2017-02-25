@@ -52,3 +52,11 @@ export const AmountInstance = (number) => {
   const decimal = new Decimal(number);
   return decimal.toString();
 };
+
+export const augmentAccount = account => ({
+  ...account,
+  balances: account.balances.map(b => ({
+    ...b,
+    asset: AssetInstance(b),
+  })),
+});
