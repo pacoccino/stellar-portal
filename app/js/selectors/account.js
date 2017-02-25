@@ -23,7 +23,7 @@ export const getAuthData = createSelector(
 );
 export const getBalances = createSelector(
   getAccount,
-  account => (account && account.balances) || [],
+  account => (account && account.balances) || [],
 );
 
 export const canSign = createSelector(
