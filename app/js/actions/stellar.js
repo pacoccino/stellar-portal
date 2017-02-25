@@ -15,6 +15,7 @@ export function getPaymentsSuccess(payments) {
     payments,
   };
 }
+
 export function getPaymentsStream(payment) {
   return {
     type: GET_PAYMENTS_STREAM,
@@ -39,17 +40,7 @@ export function getEffectsStream(effect) {
     effect,
   };
 }
-export function getOrderbook() {
-  return {
-    type: GET_ORDERBOOK,
-  };
-}
-export function getOrderbookSuccess(orderbook) {
-  return {
-    type: GET_ORDERBOOK_SUCCESS,
-    orderbook,
-  };
-}
+
 export function setDestinationTrustlines(destinationTruslines) {
   return {
     type: SET_DESTINATION_TRUSTLINES,

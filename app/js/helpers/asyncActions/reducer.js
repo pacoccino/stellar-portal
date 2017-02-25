@@ -55,10 +55,19 @@ function fetchError(state, { actionName, error }) {
   );
 }
 
+function reset(state, { actionName }) {
+  const newState = { ...state };
+  if (newState.actions) {
+    delete newState.actions[actionName];
+  }
+  return newState;
+}
+
 export default createReducer(initialState, {
   [actions.ASYNC_START_LOADING]: setIsLoading.bind(null, true),
   [actions.ASYNC_STOP_LOADING]: setIsLoading.bind(null, false),
   [actions.ASYNC_FETCH_START]: fetchStart,
   [actions.ASYNC_FETCH_SUCCESS]: fetchSuccess,
   [actions.ASYNC_FETCH_ERROR]: fetchError,
+  [actions.ASYNC_RESET_ACTION]: reset,
 });

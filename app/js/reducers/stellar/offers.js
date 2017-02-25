@@ -55,7 +55,7 @@ function resetStream(state) {
 
 export const offersReducer = createReducer(initialState, {
   [typesAccount.RESET_ACCOUNT]: resetAccount,
-  [typesAccount.SET_ACCOUNT_SUCCESS]: resetStream,
+  [typesAccount.SET_KEYPAIR]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,
   [types.GET_OFFERS_STREAM]: getOffersStream,
   [DELETE_OFFER]: deletingOffer,

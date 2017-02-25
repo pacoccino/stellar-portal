@@ -154,6 +154,12 @@ class OrderBook extends React.Component {
   }
 
   render() {
+    const baseAsset = this.props.orderbook
+      && this.props.orderbook.base
+      && AssetInstance(this.props.orderbook.base);
+    const counterAsset = this.props.orderbook
+      && this.props.orderbook.counter
+      && AssetInstance(this.props.orderbook.counter);
     return (
       <div>
         <Header as="h2">
@@ -164,7 +170,12 @@ class OrderBook extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Header as="h3" textAlign="center">
-                Base <Asset asset={AssetInstance(this.props.orderbook.base)} />
+                {
+                  baseAsset ?
+                    <div>Base <Asset asset={baseAsset} /></div>
+                    :
+                    'Choose a base asset'
+                }
               </Header>
 
               <Dropdown
@@ -176,7 +187,12 @@ class OrderBook extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Header as="h3" textAlign="center">
-                Counter <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+                {
+                  baseAsset ?
+                    <div>Counter <Asset asset={counterAsset} /></div>
+                    :
+                    'Choose a counter asset'
+                }
               </Header>
 
               <Dropdown

@@ -1,6 +1,8 @@
 import * as StellarOperations from '../helpers/StellarOperations';
 
 import { newStream } from '../helpers/monoStreamer';
+import { ASYNC_SEND_OPERATION, ASYNC_CREATE_TRUSTLINE, ASYNC_GET_ORDERBOOK } from '../constants/asyncActions';
+import { AsyncActions } from '../helpers/asyncActions';
 import { getAuthData } from '../selectors/account';
 import { AssetInstance } from '../helpers/StellarTools';
 import * as StellarServer from '../helpers/StellarServer';
@@ -8,14 +10,14 @@ import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
 
 const sendOperation = (transaction, dispatch) => {
-  dispatch(UiActions.sendingPayment());
+  dispatch(AsyncActions.startFetch(ASYNC_SEND_OPERATION));
 
   return transaction
     .then((d) => {
-      dispatch(UiActions.sendPaymentSuccess(d));
+      dispatch(AsyncActions.successFetch(ASYNC_SEND_OPERATION, d));
     })
     .catch((error) => {
-      dispatch(UiActions.sendPaymentError(error));
+      dispatch(AsyncActions.errorFetch(ASYNC_SEND_OPERATION, error));
       dispatch(UiActions.openErrorModal(error));
     });
 };
@@ -69,14 +71,15 @@ const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
 };
 
 export const createTrustline = asset => (dispatch) => {
-  dispatch(UiActions.creatingTrustline(asset));
+  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TRUSTLINE));
 
   dispatch(changeTrust({ asset, limit: null }))
     .then(() => {
-      dispatch(UiActions.creatingTrustlineSuccess());
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TRUSTLINE));
     })
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TRUSTLINE));
     });
 };
 
@@ -124,13 +127,13 @@ export const deleteOffer = offer => (dispatch, getState) => {
 };
 
 export const setOrderbook = ({ selling, buying }) => (dispatch) => {
-  dispatch(StellarActions.getOrderbook());
+  dispatch(AsyncActions.startFetch(ASYNC_GET_ORDERBOOK));
 
   // TODO move to middleware
   newStream('orderbook',
     StellarServer
       .OrderbookStream({ selling, buying }, (orderbook) => {
-        dispatch(StellarActions.getOrderbookSuccess(orderbook));
+        dispatch(AsyncActions.successFetch(ASYNC_GET_ORDERBOOK, orderbook));
       }),
   );
   return true;

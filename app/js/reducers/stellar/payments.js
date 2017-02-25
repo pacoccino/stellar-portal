@@ -39,7 +39,7 @@ function getPaymentsStream(state, action) {
 
 export const paymentsReducer = createReducer(initialState, {
   [typesAccount.RESET_ACCOUNT]: resetAccount,
-  [typesAccount.SET_ACCOUNT_SUCCESS]: resetStream,
+  [typesAccount.SET_KEYPAIR]: resetStream,
   [types.GET_PAYMENTS_SUCCESS]: getPaymentsSuccess,
   [types.GET_PAYMENTS_STREAM]: getPaymentsStream,
 });

@@ -2,7 +2,7 @@ import { push } from 'react-router-redux';
 
 import { AsyncActions } from '../helpers/asyncActions';
 import * as AccountActions from '../actions/account';
-import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
+import { ASYNC_FETCH_ACCOUNT, ASYNC_CREATE_TEST_ACCOUNT } from '../constants/asyncActions';
 
 import { getAccount, switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
@@ -48,11 +48,11 @@ export const switchNetwork = network => (dispatch, getState) => {
 };
 
 export const createTestAccount = () => (dispatch) => {
-  dispatch(AccountActions.createTestAccount());
+  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TEST_ACCOUNT));
   generateTestPair()
     .then((newPair) => {
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TEST_ACCOUNT));
       dispatch(setAccount(newPair));
-      dispatch(AccountActions.createTestAccountSuccess());
     })
     .catch(console.error);
 };

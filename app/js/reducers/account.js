@@ -4,12 +4,9 @@ import { findIndex } from 'lodash';
 import * as types from '../actions/account';
 import { DELETE_TRUSTLINE } from '../actions/ui';
 import { editInArray, createReducer } from '../helpers/redux';
-import { AssetInstance } from '../helpers/StellarTools';
 
 const initialState = {
   keypair: null,
-  isLoading: false,
-  isCreatingTestAccount: false,
   error: null,
 };
 
@@ -23,19 +20,6 @@ function setKeypair(state, action) {
   return {
     ...state,
     keypair,
-  };
-}
-
-function createTestAccount(state) {
-  return {
-    ...state,
-    isCreatingTestAccount: true,
-  };
-}
-function createTestAccountSuccess(state) {
-  return {
-    ...state,
-    isCreatingTestAccount: false,
   };
 }
 
@@ -56,8 +40,6 @@ function deletingTrustline(state, action) {
 
 export default createReducer(initialState, {
   [types.RESET_ACCOUNT]: resetAccount,
-  [types.CREATE_TEST_ACCOUNT]: createTestAccount,
-  [types.CREATE_TEST_ACCOUNT_SUCCESS]: createTestAccountSuccess,
   [types.SET_KEYPAIR]: setKeypair,
   [DELETE_TRUSTLINE]: deletingTrustline,
 });

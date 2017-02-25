@@ -5,8 +5,8 @@ import { newStream, killStreams } from '../helpers/monoStreamer';
 import { AsyncActions } from '../helpers/asyncActions';
 import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
 
-function traceError() {
-  // console.error(e);
+function traceError(e) {
+  console.error(e);
 }
 
 const stellarStreamerMiddleware = store => next => (action) => {
@@ -15,32 +15,31 @@ const stellarStreamerMiddleware = store => next => (action) => {
       killStreams();
       break;
     }
-    // TODO augment account on async fetch account
     case actions.SET_KEYPAIR: {
-      const { account } = action;
+      const { keypair } = action;
 
       try {
         // Stream account
-        // newStream('account',
-        //   AccountStream(account.account_id, (streamAccount) => {
-        //     store.dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, streamAccount));
-        //   }));
+        newStream('account',
+          AccountStream(keypair.accountId(), (streamAccount) => {
+            store.dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, streamAccount));
+          }));
 
         // Stream effects
         newStream('effects',
-          EffectsStream(account.account_id, (effect) => {
+          EffectsStream(keypair.accountId(), (effect) => {
             store.dispatch(getEffectsStream(effect));
           }));
 
         // Stream payment
         newStream('payment',
-          PaymentStream(account.account_id, (payment) => {
+          PaymentStream(keypair.accountId(), (payment) => {
             store.dispatch(getPaymentsStream(payment));
           }));
 
         // Stream offers
         newStream('offers',
-          OffersStream(account.account_id, (offers) => {
+          OffersStream(keypair.accountId(), (offers) => {
             store.dispatch(getOffersSuccess(offers));
           }));
       } catch (e) {
