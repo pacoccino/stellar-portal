@@ -1,5 +1,5 @@
-import* as actions from'./actions';
-import{ createReducer } from'../redux';
+import * as actions from './actions';
+import { createReducer } from '../redux';
 
 const initialState = {
   actions: {},
@@ -7,7 +7,7 @@ const initialState = {
 
 function editActionState(state, actionName, data) {
   const stateActions = state.actions || {};
-  return{
+  return {
     ...state,
     actions: {
       ...stateActions,

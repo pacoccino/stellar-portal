@@ -15,7 +15,7 @@ render(
   document.getElementById('app'),
 );
 
-if(module.hot) {
+if (module.hot) {
   module.hot.accept('./bootstrap/App', () => {
     const NewApp = require('./bootstrap/App').default;
     render(

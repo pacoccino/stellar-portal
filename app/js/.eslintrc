@@ -28,20 +28,5 @@
     "import/import-firsts": 0,
     "import/prefer-default-export": 0,
     "react/forbid-prop-types": [2, { "forbid": ["any"] }],
-    "keyword-spacing": [2,
-      {
-        "after": false,
-        "overrides": {
-          "import": {
-            "before": true,
-            "after": true
-          },
-          "from": {
-            "before": true,
-            "after": true
-          }
-        }
-      }
-    ]
   }
 }

@@ -6,13 +6,13 @@ class ErrorModal extends React.Component {
   render() {
     const error = this.props.errorData;
 
-    if(!error) {
+    if (!error) {
       return null;
     }
 
     const resultCodes = get(error, 'extras.result_codes.operations', null);
 
-    return(
+    return (
       <Modal open={this.props.open}>
         <Modal.Header style={{ color: 'red' }}>Operation error</Modal.Header>
         <Modal.Content >

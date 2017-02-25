@@ -17,8 +17,8 @@ function resetAccount() {
 }
 
 function getOffersSuccess(state, action) {
-  const{ offers } = action;
-  return{
+  const { offers } = action;
+  return {
     ...state,
     data: offers,
     isLoading: false,
@@ -26,28 +26,28 @@ function getOffersSuccess(state, action) {
 }
 
 function deletingOffer(state, action) {
-  const{ offer } = action;
+  const { offer } = action;
   const offerIndex = findIndex(state.data, { id: offer.id });
   const props = {
     isRemoving: true,
   };
 
-  return{
+  return {
     ...state,
     data: editInArray(state.data, props, offerIndex),
   };
 }
 
 function getOffersStream(state, action) {
-  const{ offer } = action;
-  return{
+  const { offer } = action;
+  return {
     ...state,
     data: state.data.concat(offer),
   };
 }
 
 function resetStream(state) {
-  return{
+  return {
     ...state,
     data: [],
   };

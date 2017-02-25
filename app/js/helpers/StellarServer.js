@@ -35,7 +35,7 @@ export const OffersStream = (accountId, callback) => {
       .then(result => callback(result.records));
   }, REFRESH_INTERVAL);
 
-  return() => clearInterval(timerId);
+  return () => clearInterval(timerId);
 };
 
 export const EffectsStream = (accountId, onmessage) => {
@@ -45,21 +45,21 @@ export const EffectsStream = (accountId, onmessage) => {
     .order('asc')
     .stream({ onmessage });
 
-  return() => clearInterval(timerId);
+  return () => clearInterval(timerId);
 };
 
 export const switchNetwork = (network) => {
-  switch(network) {
-    case'perso':
+  switch (network) {
+    case 'perso':
       Server = new Stellar.Server('http://192.168.1.67:8000', { allowHttp: true });
       Stellar.Network.useTestNetwork();
       break;
-    case'public':
+    case 'public':
       Server = new Stellar.Server('https://horizon.stellar.org');
       Stellar.Network.usePublicNetwork();
       break;
     default:
-    case'test':
+    case 'test':
       Server = new Stellar.Server('https://horizon-testnet.stellar.org');
       Stellar.Network.useTestNetwork();
       break;
@@ -69,10 +69,10 @@ export const switchNetwork = (network) => {
 export async function generateTestPair() {
   const pair = Stellar.Keypair.random();
 
-  try{
+  try {
     await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.accountId()}`);
     return pair;
-  } catch(e) {
+  } catch (e) {
     throw e;
   }
 }

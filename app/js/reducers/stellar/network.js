@@ -8,8 +8,8 @@ const initialState = {
 };
 
 function switchNetwork(state, action) {
-  const{ network } = action;
-  return{
+  const { network } = action;
+  return {
     ...state,
     network,
   };

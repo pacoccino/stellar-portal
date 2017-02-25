@@ -8,7 +8,7 @@ import OffersViewer from '../../elements/StellarContainers/OffersViewer';
 import OrderBook from '../../elements/StellarContainers/OrderBook';
 
 function PublicView() {
-  return(
+  return (
     <div className="pages-container">
       <CurrentAccount />
       <Divider />

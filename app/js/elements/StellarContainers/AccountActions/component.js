@@ -5,9 +5,9 @@ import PaymentContainer from '../Payment';
 
 class AccountActions extends Component {
   render() {
-    if(!this.props.account) return null;
+    if (!this.props.account) return null;
 
-    return(
+    return (
       <div>
         <Header as="h2">
           Actions

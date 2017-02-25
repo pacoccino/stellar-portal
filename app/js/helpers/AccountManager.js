@@ -7,11 +7,11 @@ export const setStore = (newStore) => {
 };
 
 export const onPageLoad = (nextState) => {
-  const{ location: { query } } = nextState;
-  if(query.network) {
+  const { location: { query } } = nextState;
+  if (query.network) {
     store.dispatch(switchNetwork(query.network));
   }
-  if(!!query.accountId || !!query.secretSeed) {
+  if (!!query.accountId || !!query.secretSeed) {
     store.dispatch(setAccount({ publicKey: query.accountId, secretSeed: query.secretSeed }));
   }
 };

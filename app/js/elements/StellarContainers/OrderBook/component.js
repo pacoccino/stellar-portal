@@ -15,7 +15,7 @@ class OrderBook extends React.Component {
   }
 
   getBidRow(bid, index) {
-    return(
+    return (
       <Table.Row key={index}>
         <Table.Cell textAlign="right">
           <Amount amount={bid.amount} />
@@ -29,8 +29,8 @@ class OrderBook extends React.Component {
   }
   getBids() {
     const bids = this.props.orderbook.bids;
-    if(!bids) return null;
-    return(
+    if (!bids) return null;
+    return (
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
@@ -56,7 +56,7 @@ class OrderBook extends React.Component {
   }
 
   getAskRow(ask, index) {
-    return(
+    return (
       <Table.Row key={index}>
         <Table.Cell>
           <Amount amount={ask.price} />
@@ -70,8 +70,8 @@ class OrderBook extends React.Component {
   }
   getAsks() {
     const asks = this.props.orderbook.asks;
-    if(!asks) return null;
-    return(
+    if (!asks) return null;
+    return (
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
@@ -100,14 +100,14 @@ class OrderBook extends React.Component {
   }
 
   getOrderbook() {
-    if(!this.props.isFetching && isEmpty(this.props.orderbook)) {
-      return(
+    if (!this.props.isFetching && isEmpty(this.props.orderbook)) {
+      return (
         <Grid.Row centered>
           <Header as="h3">Please select a pair of assets to see an orderbook.</Header>
         </Grid.Row>
       );
     }
-    return(
+    return (
       <Grid.Row>
         <Dimmer inverted active={this.props.isFetching}>
           <Loader inverted active={this.props.isFetching} />
@@ -123,7 +123,7 @@ class OrderBook extends React.Component {
   }
 
   reverseOrderbook() {
-    if(this.state.selling && this.state.buying) {
+    if (this.state.selling && this.state.buying) {
       this.setState({
         selling: this.state.buying,
         buying: this.state.selling,
@@ -148,13 +148,13 @@ class OrderBook extends React.Component {
   }
 
   updateOrderbook() {
-    if(this.state.selling && this.state.buying) {
+    if (this.state.selling && this.state.buying) {
       this.props.setOrderbook(this.state);
     }
   }
 
   render() {
-    return(
+    return (
       <div>
         <Header as="h2">
           Order Book

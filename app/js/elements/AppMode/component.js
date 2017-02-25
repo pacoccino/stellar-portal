@@ -6,7 +6,7 @@ import PrivateView from '../../components/views/PrivateView';
 import PublicView from '../../components/views/PublicView';
 
 function AppMode({ isAccountLoading, accountSet, canSign }) {
-  return(
+  return (
     <div>
       <Dimmer inverted active={isAccountLoading}>
         <Loader inverted active={isAccountLoading} />

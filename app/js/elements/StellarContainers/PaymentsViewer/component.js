@@ -7,7 +7,7 @@ import AccountId from '../../../components/stellar/AccountId';
 import AmountComponent from '../../../components/stellar/Amount';
 
 function PaymentArrow({ toMe }) {
-  return(
+  return (
     <div>
       {toMe ? <Icon name="arrow left" color="green" /> : <Icon name="arrow right" color="red" />}
     </div>
@@ -26,7 +26,7 @@ class Payments extends React.Component {
 
   getPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
-    return(
+    return (
       <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
           <PaymentArrow toMe={isToMyAccount} />
@@ -61,7 +61,7 @@ class Payments extends React.Component {
 
   getPathPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
-    return(
+    return (
       <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
           <PaymentArrow toMe={isToMyAccount} />
@@ -102,7 +102,7 @@ class Payments extends React.Component {
   }
 
   openTransaction(transaction) {
-    return(e) => {
+    return (e) => {
       e.preventDefault();
       const id = transaction.id;
       const url = `http://testnet.stellarchain.io/tx/${id}`;
@@ -114,7 +114,7 @@ class Payments extends React.Component {
     const directPayments = this.props.payments.slice().reverse();
     const pathPayments = this.props.pathPayments.slice().reverse();
 
-    return(
+    return (
       <div>
         <Header as="h2" textAlign="center">Account payments</Header>
         <Table singleLine size="small" compact unstackable definition>

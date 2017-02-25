@@ -8,8 +8,8 @@ class AccountId extends React.Component {
   }
 
   render() {
-    const{ accountId, myAccountId } = this.props;
-    return(
+    const { accountId, myAccountId } = this.props;
+    return (
       <Popup
         hoverable
         trigger={
@@ -39,13 +39,13 @@ class AccountId extends React.Component {
 }
 
 AccountId.getAccountIdText = (issuer, myAccountId) => {
-  if(myAccountId && issuer === myAccountId) {
-    return'Me';
+  if (myAccountId && issuer === myAccountId) {
+    return 'Me';
   }
   const size = 4;
   const firstThree = issuer.slice(0, size);
   const lastThree = issuer.slice(-size);
-  return`${firstThree}...${lastThree}`;
+  return `${firstThree}...${lastThree}`;
 };
 
 AccountId.propTypes = {

@@ -53,7 +53,7 @@ const styles = {
 
 class WelcomeScreen extends Component {
   render() {
-    return(
+    return (
       <div className="welcome-container">
         <div className="welcome-container-overlay" />
         <Container textAlign="center">

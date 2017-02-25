@@ -10,48 +10,48 @@ export const GET_ORDERBOOK_SUCCESS = 'stellar:orderbook:success';
 export const SET_DESTINATION_TRUSTLINES = 'stellar:payment:desttrust';
 
 export function getPaymentsSuccess(payments) {
-  return{
+  return {
     type: GET_PAYMENTS_SUCCESS,
     payments,
   };
 }
 export function getPaymentsStream(payment) {
-  return{
+  return {
     type: GET_PAYMENTS_STREAM,
     payment,
   };
 }
 export function getOffersSuccess(offers) {
-  return{
+  return {
     type: GET_OFFERS_SUCCESS,
     offers,
   };
 }
 export function getOffersStream(offer) {
-  return{
+  return {
     type: GET_OFFERS_STREAM,
     offer,
   };
 }
 export function getEffectsStream(effect) {
-  return{
+  return {
     type: GET_EFFECT_STREAM,
     effect,
   };
 }
 export function getOrderbook() {
-  return{
+  return {
     type: GET_ORDERBOOK,
   };
 }
 export function getOrderbookSuccess(orderbook) {
-  return{
+  return {
     type: GET_ORDERBOOK_SUCCESS,
     orderbook,
   };
 }
 export function setDestinationTrustlines(destinationTruslines) {
-  return{
+  return {
     type: SET_DESTINATION_TRUSTLINES,
     destinationTruslines,
   };

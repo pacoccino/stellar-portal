@@ -26,15 +26,15 @@ const addOperations = (transactionBuilder, { operations = [], operation = null }
  * @param memo.value {String} Memo value
  */
 const addMemo = (transactionBuilder, memo) => {
-  if(!transactionBuilder || !memo) return;
+  if (!transactionBuilder || !memo) return;
 
-  const{ type, value } = memo;
+  const { type, value } = memo;
   let xdrMemo;
 
-  if(isFunction(Memo[type])) {
+  if (isFunction(Memo[type])) {
     xdrMemo = Memo[type](value);
   }
-  if(xdrMemo) {
+  if (xdrMemo) {
     transactionBuilder.addMemo(xdrMemo);
   }
 };
@@ -69,14 +69,14 @@ export const sendTransaction = (authData, { operations, operation, memo }) => {
 };
 
 export const sendPayment = ({ asset, destination, amount, memo }, authData) => {
-  try{
+  try {
     const operation = Operation.payment({
       destination,
       asset: AssetInstance(asset),
       amount: AmountInstance(amount),
     });
     return sendTransaction(authData, { operation, memo });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -89,7 +89,7 @@ export const sendPathPayment = ({
   max_amount,
   memo,
 }, authData) => {
-  try{
+  try {
     const operation = Operation.pathPayment({
       sendAsset: AssetInstance(asset_source),
       sendMax: AmountInstance(max_amount),
@@ -98,13 +98,13 @@ export const sendPathPayment = ({
       destAmount: AmountInstance(amount_destination),
     });
     return sendTransaction(authData, { operation, memo });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
 
 export const changeTrust = ({ asset, limit }, authData) => {
-  try{
+  try {
     const trustLimit = (isNumber(limit) || isString(limit)) ? AmountInstance(limit) : undefined;
     const operation = Operation.changeTrust({
       asset: AssetInstance(asset),
@@ -112,13 +112,13 @@ export const changeTrust = ({ asset, limit }, authData) => {
     });
 
     return sendTransaction(authData, { operation });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
 
 export const manageOffer = ({ selling, buying, amount, price, passive, id }, authData) => {
-  try{
+  try {
     const operations = [];
 
     const offerId = isNumber(id) ? id : 0;
@@ -129,39 +129,39 @@ export const manageOffer = ({ selling, buying, amount, price, passive, id }, aut
       price: AmountInstance(price),
       offerId,
     };
-    if(passive) {
+    if (passive) {
       operations.push(Operation.createPassiveOffer(offer));
-    } else{
+    } else {
       operations.push(Operation.manageOffer(offer));
     }
 
     return sendTransaction(authData, { operations });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
 
 export const createAccount = ({ destination, amount }, authData) => {
-  try{
+  try {
     const operation = Operation.createAccount({
       destination,
       startingBalance: amount,
     });
 
     return sendTransaction(authData, { operation });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
 
 export const accountMerge = ({ destination }, authData) => {
-  try{
+  try {
     const operation = Operation.accountMerge({
       destination,
     });
 
     return sendTransaction(authData, { operation });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };

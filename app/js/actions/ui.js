@@ -13,81 +13,81 @@ export const CREATE_TRUSTLINE_SUCCESS = 'trustline:create:success';
 export const DELETE_TRUSTLINE = 'trustline:delete:fetching';
 
 export function openKeypairModal() {
-  return{
+  return {
     type: OPEN_KEYPAIR_MODAL,
   };
 }
 export function closeKeypairModal() {
-  return{
+  return {
     type: CLOSE_KEYPAIR_MODAL,
   };
 }
 export function openErrorModal(errorData) {
-  return{
+  return {
     type: OPEN_ERROR_MODAL,
     errorData,
   };
 }
 export function closeErrorModal() {
-  return{
+  return {
     type: CLOSE_ERROR_MODAL,
   };
 }
 
 export function sendingPayment() {
-  return{
+  return {
     type: SEND_PAYMENT,
   };
 }
 
 export function sendPaymentSuccess(data) {
-  return{
+  return {
     type: SEND_PAYMENT_SUCCESS,
     data,
   };
 }
 
 export function sendPaymentError(error) {
-  return{
+  return {
     type: SEND_PAYMENT_ERROR,
     error,
   };
 }
 
 export function deletingOffer(offer) {
-  return{
+  return {
     type: DELETE_OFFER,
     offer,
   };
 }
 export function sendingOffer() {
-  return{
+  return {
     type: SEND_OFFER,
   };
 }
 
 export function sendOfferSuccess(data) {
-  return{
+  return {
     type: SEND_OFFER_SUCCESS,
     data,
   };
 }
 
 export function deletingTrustline(trustline) {
-  return{
+  return {
     type: DELETE_TRUSTLINE,
     trustline,
   };
 }
 
 export function creatingTrustline() {
-  return{
+  return {
     type: CREATE_TRUSTLINE,
   };
 }
 
 export function creatingTrustlineSuccess(data) {
-  return{
+  return {
     type: CREATE_TRUSTLINE_SUCCESS,
     data,
   };

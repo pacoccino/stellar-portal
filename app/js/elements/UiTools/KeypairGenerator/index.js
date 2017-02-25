@@ -17,7 +17,7 @@ class KeypairGenerator extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <Modal open={this.props.open}>
         <Modal.Header>Keypair generator</Modal.Header>
         <Modal.Content>

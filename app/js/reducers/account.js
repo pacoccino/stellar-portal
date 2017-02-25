@@ -19,7 +19,7 @@ function resetAccount() {
 }
 
 function augmentAccount(account) {
-  return{
+  return {
     ...account,
     balances: account.balances.map(b => ({
       ...b,
@@ -29,9 +29,9 @@ function augmentAccount(account) {
 }
 
 function setAccount(state, action) {
-  const{ account, keypair } = action;
+  const { account, keypair } = action;
 
-  return{
+  return {
     ...state,
     data: augmentAccount(account),
     keypair,
@@ -39,14 +39,14 @@ function setAccount(state, action) {
   };
 }
 function getAccount(state) {
-  return{
+  return {
     ...state,
     isLoading: true,
   };
 }
 function getAccountSuccess(state, action) {
-  const{ account } = action;
-  return{
+  const { account } = action;
+  return {
     ...state,
     data: augmentAccount(account),
     isLoading: false,
@@ -54,33 +54,33 @@ function getAccountSuccess(state, action) {
   };
 }
 function getAccountError(state, action) {
-  const{ error } = action;
-  return{
+  const { error } = action;
+  return {
     ...state,
     isLoading: false,
     error,
   };
 }
 function createTestAccount(state) {
-  return{
+  return {
     ...state,
     isCreatingTestAccount: true,
   };
 }
 function createTestAccountSuccess(state) {
-  return{
+  return {
     ...state,
     isCreatingTestAccount: false,
   };
 }
 
 function deletingTrustline(state, action) {
-  const{ trustline } = action;
+  const { trustline } = action;
   const trustlineIndex = findIndex(state.data.balances, t => t.asset.equals(trustline));
   const props = {
     isDeleting: true,
   };
-  return{
+  return {
     ...state,
     data: {
       ...(state.data),

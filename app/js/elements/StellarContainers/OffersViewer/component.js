@@ -23,14 +23,14 @@ class Offers extends React.Component {
   }
 
   deleteOffer(offer) {
-    return(e) => {
+    return (e) => {
       e.preventDefault();
       this.props.deleteOffer(offer);
     };
   }
 
   getOfferRow(offer, index) {
-    return(
+    return (
       <Table.Row key={index}>
         <Table.Cell>
           <Asset {...offer.selling} />
@@ -62,7 +62,7 @@ class Offers extends React.Component {
   }
 
   getOfferTable() {
-    return(
+    return (
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
@@ -88,7 +88,7 @@ class Offers extends React.Component {
         text: Asset.getAssetString(asset),
       }));
 
-    return(
+    return (
       <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
         <Form.Group widths="2">
           <Form.Select
@@ -143,7 +143,7 @@ class Offers extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <Header as="h2">Offers</Header>
         {this.props.canSign ?

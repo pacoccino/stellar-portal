@@ -3,9 +3,9 @@ import { Button } from 'semantic-ui-react';
 
 class AccountSwitcher extends React.Component {
   render() {
-    const{ resetAccount } = this.props;
+    const { resetAccount } = this.props;
 
-    return(
+    return (
       <Button
         primary compact
         icon="user"

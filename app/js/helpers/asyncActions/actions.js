@@ -11,7 +11,7 @@ export const ASYNC_FETCH_ERROR = 'async-action:fetch-error';
  * @returns {Object}
  */
 export function startLoading(actionName) {
-  return{
+  return {
     type: ASYNC_START_LOADING,
     actionName,
   };
@@ -26,7 +26,7 @@ export function startLoading(actionName) {
  * @returns {Object}
  */
 export function stopLoading(actionName) {
-  return{
+  return {
     type: ASYNC_STOP_LOADING,
     actionName,
   };
@@ -34,21 +34,21 @@ export function stopLoading(actionName) {
 
 
 export function startFetch(actionName) {
-  return{
+  return {
     type: ASYNC_FETCH_START,
     actionName,
   };
 }
 
 export function successFetch(actionName, data) {
-  return{
+  return {
     type: ASYNC_FETCH_SUCCESS,
     actionName,
     data,
   };
 }
 export function errorFetch(actionName, error) {
-  return{
+  return {
     type: ASYNC_FETCH_ERROR,
     actionName,
     error,

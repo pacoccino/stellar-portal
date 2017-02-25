@@ -14,8 +14,8 @@ function reset() {
 }
 
 function getEffectsStream(state, action) {
-  const{ effect } = action;
-  return{
+  const { effect } = action;
+  return {
     ...state,
     data: state.data.concat(effect),
   };

@@ -22,7 +22,7 @@ class Balances extends React.Component {
   getBalanceRows() {
     return this.props.balances.map((balance, index) => {
       const bnBalance = new Decimal(balance.balance);
-      return(
+      return (
         <Table.Row key={index}>
           <Table.Cell>
             <Asset {...balance} />
@@ -54,10 +54,10 @@ class Balances extends React.Component {
   }
 
   getTrustlineForm() {
-    if(!this.props.canSign) {
+    if (!this.props.canSign) {
       return null;
     }
-    return(
+    return (
       <div>
         <Form
           onSubmit={::this.addTrustline}
@@ -99,7 +99,7 @@ class Balances extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <Header as="h2">Balances</Header>
         {this.getTrustlineForm()}

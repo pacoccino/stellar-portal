@@ -34,7 +34,7 @@ function MemoFields() {
     },
   ];
 
-  return(
+  return (
     <Form.Group widths="two">
       <Form.Select
         label="Memo type"
@@ -70,7 +70,7 @@ class Payment extends Component {
         text: Asset.getAssetString(asset),
       }));
 
-    return(
+    return (
       <div>
         <Form.Select
           label="Source asset"
@@ -106,7 +106,7 @@ class Payment extends Component {
         text: Asset.getAssetString(asset),
       }));
 
-    return(
+    return (
       <div>
         <Form.Group widths="2">
           <Form.Select
@@ -150,7 +150,7 @@ class Payment extends Component {
   }
 
   getIssueForm() {
-    return(
+    return (
       <div>
         <Form.Field
           name="asset_code"
@@ -175,7 +175,7 @@ class Payment extends Component {
   }
 
   getCreateAccountForm() {
-    return(
+    return (
       <div>
         <p>
           Click on "Generate keypair" on the menu bar to get a new couple of public and secret key.
@@ -199,7 +199,7 @@ class Payment extends Component {
   }
 
   getNoSigner() {
-    return(
+    return (
       <div>
         Cannot make payment with public key.
       </div>
@@ -208,7 +208,7 @@ class Payment extends Component {
 
   submitForm(e, { formData }) {
     e.preventDefault();
-    if(!validPk(formData.destination)) {
+    if (!validPk(formData.destination)) {
       return;
     }
     const enhancedFormData = { ...formData };
@@ -216,13 +216,13 @@ class Payment extends Component {
       type: enhancedFormData['memo.type'],
       value: enhancedFormData['memo.value'],
     };
-    switch(this.state.type) {
-      case'payment': {
+    switch (this.state.type) {
+      case 'payment': {
         enhancedFormData.asset = this.props.trustlines[enhancedFormData.asset];
         this.props.sendPayment(enhancedFormData);
         break;
       }
-      case'path_payment': {
+      case 'path_payment': {
         enhancedFormData.asset_source =
           this.props.trustlines[enhancedFormData.asset_source];
         enhancedFormData.asset_destination =
@@ -230,16 +230,16 @@ class Payment extends Component {
         this.props.sendPathPayment(enhancedFormData);
         break;
       }
-      case'issue_asset': {
+      case 'issue_asset': {
         enhancedFormData.accountId = this.props.account.account_id;
         this.props.sendIssuePayment(enhancedFormData);
         break;
       }
-      case'create_account': {
+      case 'create_account': {
         this.props.sendCreateAccount(enhancedFormData);
         break;
       }
-      case'account_merge': {
+      case 'account_merge': {
         this.props.sendAccountMerge(enhancedFormData);
         break;
       }
@@ -250,15 +250,15 @@ class Payment extends Component {
     const destinationAddress = e.target.value;
     const validDestination = validPk(destinationAddress);
     this.setState({ validDestination });
-    if(validDestination) {
+    if (validDestination) {
       this.props.getDestinationTrustlines(destinationAddress);
     }
   }
 
   render() {
-    if(!this.props.canSign) return this.getNoSigner();
+    if (!this.props.canSign) return this.getNoSigner();
 
-    return(
+    return (
       <div>
         <Header as="h2" textAlign="center">
           Operations

@@ -1,5 +1,5 @@
-import{ expect } from'chai';
-import{ ASYNC_STATE_KEY, AsyncActions, asyncReducer, getAsyncState } from'./index';
+import { expect } from 'chai';
+import { ASYNC_STATE_KEY, AsyncActions, asyncReducer, getAsyncState } from './index';
 
 describe('asyncActions helper', () => {
   describe('asyncActions reducer', () => {

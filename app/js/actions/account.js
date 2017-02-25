@@ -11,12 +11,12 @@ export const GET_ACCOUNT_ERROR = 'account:error';
 
 
 export function resetAccount() {
-  return{
+  return {
     type: RESET_ACCOUNT,
   };
 }
 export function setAccountSuccess(account, keypair) {
-  return{
+  return {
     type: SET_ACCOUNT_SUCCESS,
     account,
     keypair,
@@ -24,40 +24,40 @@ export function setAccountSuccess(account, keypair) {
 }
 
 export function fetchingAccount() {
-  return{
+  return {
     type: GET_ACCOUNT,
   };
 }
 
 export function getAccountError(error) {
-  return{
+  return {
     type: GET_ACCOUNT_ERROR,
     error,
   };
 }
 
 export function getAccountSuccess(account) {
-  return{
+  return {
     type: GET_ACCOUNT_SUCCESS,
     account,
   };
 }
 
 export function switchNetwork(network) {
-  return{
+  return {
     type: SWITCH_NETWORK,
     network,
   };
 }
 
 export function createTestAccount() {
-  return{
+  return {
     type: CREATE_TEST_ACCOUNT,
   };
 }
 
 export function createTestAccountSuccess() {
-  return{
+  return {
     type: CREATE_TEST_ACCOUNT_SUCCESS,
   };
 }

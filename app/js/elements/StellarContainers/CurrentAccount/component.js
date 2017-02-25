@@ -19,9 +19,9 @@ class CurrentAccount extends Component {
   openOnNewTab() {
     let url = '/?';
     url += `network=${this.props.network}`;
-    if(this.props.keypair.canSign()) {
+    if (this.props.keypair.canSign()) {
       url += `&secretSeed=${this.props.keypair.seed()}`;
-    } else{
+    } else {
       url += `&accountId=${this.props.keypair.accountId()}`;
     }
     window.open(url);
@@ -29,12 +29,12 @@ class CurrentAccount extends Component {
 
 
   accountInfo() {
-    if(!this.props.keypair) { return null; }
+    if (!this.props.keypair) { return null; }
 
-    const{ keypair } = this.props;
+    const { keypair } = this.props;
     const canSign = keypair.canSign();
 
-    return(
+    return (
       <Table compact>
         <Table.Header>
           <Table.Row>
@@ -120,7 +120,7 @@ class CurrentAccount extends Component {
     );
   }
   render() {
-    return(
+    return (
       <div>
         <Container textAlign="center">
           {this.accountInfo()}

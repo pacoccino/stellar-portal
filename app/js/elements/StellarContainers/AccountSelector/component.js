@@ -22,20 +22,20 @@ class AccountSelector extends Component {
       keypair: null,
       showSeed: false,
     };
-    if(this.props.keypair) {
+    if (this.props.keypair) {
       this.state.accountId = this.props.keypair.accountId();
       this.state.secretSeed = this.props.keypair.canSign() ? this.props.keypair.seed() : '';
     }
   }
 
   componentWillReceiveProps(newProps) {
-    if(this.props.keypair !== newProps.keypair) {
-      if(newProps.keypair) {
+    if (this.props.keypair !== newProps.keypair) {
+      if (newProps.keypair) {
         this.setState({
           accountId: newProps.keypair.accountId(),
           secretSeed: newProps.keypair.canSign() ? newProps.keypair.seed() : '',
         });
-      } else{
+      } else {
         this.setState({
           accountId: '',
           secretSeed: '',
@@ -54,10 +54,10 @@ class AccountSelector extends Component {
     const isSeed = StellarHelper.validSeed(address);
 
     let keypair = null;
-    if(isPk) {
+    if (isPk) {
       keypair = StellarHelper.KeypairInstance({ publicKey: address });
     }
-    if(isSeed) {
+    if (isSeed) {
       keypair = StellarHelper.KeypairInstance({ secretSeed: address });
     }
 
@@ -77,7 +77,7 @@ class AccountSelector extends Component {
   handleSet(e) {
     e.preventDefault();
     const keypair = this.state.keypair;
-    if(!keypair) return;
+    if (!keypair) return;
 
     this.props.setAccount(keypair);
   }
@@ -87,18 +87,18 @@ class AccountSelector extends Component {
     const buttonContent = 'Go';
     let buttonColor = 'red';
     let disabled = true;
-    if(this.state.keypair) {
+    if (this.state.keypair) {
       buttonColor = 'green';
       disabled = false;
-      if(this.state.keypair.canSign()) {
+      if (this.state.keypair.canSign()) {
         buttonLabel = 'Seed';
-      } else{
+      } else {
         buttonLabel = 'Public address';
       }
-    } else if(!this.state.address) {
+    } else if (!this.state.address) {
       buttonLabel = 'No address';
     }
-    return(
+    return (
       <div style={styles.inputCntainer}>
         <Input
           input={{ value: this.state.address }}
@@ -122,7 +122,7 @@ class AccountSelector extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <Container textAlign="center">
           {this.newForm()}

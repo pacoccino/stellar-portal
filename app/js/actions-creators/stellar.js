@@ -32,7 +32,7 @@ export const sendPathPayment = paymentData => (dispatch, getState) => {
 
 export const sendIssuePayment = formData => (dispatch, getState) => {
   const authData = getAuthData(getState());
-  const{ accountId, asset_code, amount, destination } = formData;
+  const { accountId, asset_code, amount, destination } = formData;
   const asset = { asset_code, asset_issuer: accountId };
   const paymentData = {
     asset,
@@ -54,7 +54,7 @@ export const sendAccountMerge = accountData => (dispatch, getState) => {
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
   const authData = getAuthData(getState());
-  if(!authData) return Promise.reject();
+  if (!authData) return Promise.reject();
 
   const transactionData = {
     asset,
@@ -92,7 +92,7 @@ export const deleteTrustline = asset => (dispatch) => {
 export const createOffer = offer => (dispatch, getState) => {
   dispatch(UiActions.sendingOffer());
   const authData = getAuthData(getState());
-  if(!authData) return Promise.reject();
+  if (!authData) return Promise.reject();
 
   return StellarOperations
     .manageOffer(offer, authData)
@@ -108,7 +108,7 @@ export const deleteOffer = offer => (dispatch, getState) => {
   dispatch(UiActions.deletingOffer(offer));
 
   const authData = getAuthData(getState());
-  if(!authData) return Promise.reject();
+  if (!authData) return Promise.reject();
 
   const transactionData = {
     ...offer,

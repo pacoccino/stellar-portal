@@ -21,23 +21,23 @@ class Asset extends React.Component {
   }
 
   render() {
-    const{ asset, asset_type, asset_code, asset_issuer } = this.props;
-    if(!asset && !asset_type) {
+    const { asset, asset_type, asset_code, asset_issuer } = this.props;
+    if (!asset && !asset_type) {
       return null;
     }
     let objAsset = asset;
-    if(!objAsset) {
-      if(asset_type === 'native') {
+    if (!objAsset) {
+      if (asset_type === 'native') {
         objAsset = Stellar.Asset.native();
-      } else{
+      } else {
         objAsset = new Stellar.Asset(asset_code, asset_issuer);
       }
     }
-    if(objAsset.isNative()) {
-      return<div style={style}>XLM</div>;
+    if (objAsset.isNative()) {
+      return <div style={style}>XLM</div>;
     }
 
-    return(
+    return (
       <Popup
         hoverable
         trigger={
@@ -71,7 +71,7 @@ class Asset extends React.Component {
 Asset.getIssuerText = (issuer) => {
   const firstThree = issuer.slice(0, 3);
   const lastThree = issuer.slice(-3);
-  return`${firstThree}...${lastThree}`;
+  return `${firstThree}...${lastThree}`;
 };
 
 Asset.getAssetString = asset => (

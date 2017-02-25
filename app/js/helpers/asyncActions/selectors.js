@@ -1,5 +1,5 @@
-import{ ASYNC_STATE_KEY } from'./index';
-import{ selectProperty } from'../redux';
+import { ASYNC_STATE_KEY } from './index';
+import { selectProperty } from '../redux';
 
 export function getAsyncState(state, actionName) {
   return selectProperty(

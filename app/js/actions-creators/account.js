@@ -35,7 +35,7 @@ export const resetAccount = () => (dispatch) => {
 
 export const switchNetwork = network => (dispatch, getState) => {
   const currentNetwork = getNetwork(getState());
-  if(network === currentNetwork) return;
+  if (network === currentNetwork) return;
 
   dispatch(resetAccount());
 

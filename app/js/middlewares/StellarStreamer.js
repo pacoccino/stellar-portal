@@ -8,15 +8,15 @@ function traceError() {
 }
 
 const stellarStreamerMiddleware = store => next => (action) => {
-  switch(action.type) {
+  switch (action.type) {
     case actions.RESET_ACCOUNT: {
       killStreams();
       break;
     }
     case actions.SET_ACCOUNT_SUCCESS: {
-      const{ account } = action;
+      const { account } = action;
 
-      try{
+      try {
         // Stream account
         newStream('account',
           getServerInstance()
@@ -67,7 +67,7 @@ const stellarStreamerMiddleware = store => next => (action) => {
             },
             onerror: traceError
           }));*/
-      } catch(e) {
+      } catch (e) {
         traceError(e);
       }
       break;

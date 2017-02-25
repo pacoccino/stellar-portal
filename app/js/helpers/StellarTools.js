@@ -6,20 +6,20 @@ export const REFRESH_INTERVAL = 2000;
 
 export const validPk = pk => Keypair.isValidPublicKey(pk);
 export const validSeed = (seed) => {
-  try{
+  try {
     Keypair.fromSeed(seed);
     return true;
-  } catch(e) {
+  } catch (e) {
     return false;
   }
 };
 
 export const AssetInstance = (asset) => {
-  if(!asset) return null;
-  if(asset instanceof Asset) {
+  if (!asset) return null;
+  if (asset instanceof Asset) {
     return asset;
   }
-  if(asset.asset_type === 'native') {
+  if (asset.asset_type === 'native') {
     return Asset.native();
   }
   return new Asset(asset.asset_code, asset.asset_issuer);
@@ -28,8 +28,8 @@ export const AssetInstance = (asset) => {
 export const AssetUid = (rawAsset) => {
   const asset = AssetInstance(rawAsset);
 
-  if(asset.isNative()) {
-    return'native';
+  if (asset.isNative()) {
+    return 'native';
   }
   let str = 'custom:';
   str += asset.getCode();
@@ -39,10 +39,10 @@ export const AssetUid = (rawAsset) => {
 };
 
 export const KeypairInstance = (keypair) => {
-  if(keypair instanceof Keypair) {
+  if (keypair instanceof Keypair) {
     return keypair;
   }
-  if(keypair.secretSeed) {
+  if (keypair.secretSeed) {
     return Keypair.fromSeed(keypair.secretSeed);
   }
   return Keypair.fromAccountId(keypair.publicKey);

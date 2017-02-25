@@ -3,22 +3,22 @@ import { Dropdown } from 'semantic-ui-react';
 
 class NetworkSwitcher extends React.Component {
   render() {
-    const{ switchNetwork, network } = this.props;
+    const { switchNetwork, network } = this.props;
 
     let text = null;
-    switch(network) {
-      case'public':
+    switch (network) {
+      case 'public':
         text = 'Public';
         break;
-      case'test':
+      case 'test':
         text = 'TestNet';
         break;
-      case'perso':
+      case 'perso':
         text = 'Perso';
         break;
       default:
     }
-    return(
+    return (
       <Dropdown
         labeled compact
         className="icon"
