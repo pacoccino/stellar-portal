@@ -11,7 +11,7 @@
     "clean": "rm -rf ./build",
     "build-electron": "npm run build && cd electron && npm i && npm run build-mac",
     "test": "npm run test:lint && npm run test:unit",
-    "test:lint": "eslint app --fix"
+    "test:lint": "eslint app --fix",
     "test:unit": "mocha --compilers js:babel-core/register **/*.specs.js"
   },
   "author": "ngfar pakokrew@gmail.com",
