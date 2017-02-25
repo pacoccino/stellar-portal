@@ -5,12 +5,10 @@ import { AssetInstance, REFRESH_INTERVAL } from './StellarTools';
 
 let Server;
 
-export const getServerInstance = () =>
+export const getServerInstance = () => Server;
   // if(process.env.NODE_ENV !== 'production') {
   //   return StellarOffline();
   // }
-
-   Server;
 
 export const getAccount = accountId => getServerInstance()
     .loadAccount(accountId);
@@ -39,13 +37,11 @@ export const OffersStream = (accountId, callback) => {
 };
 
 export const EffectsStream = (accountId, onmessage) => {
-  const timerId = getServerInstance()
+  return getServerInstance()
     .effects()
     .forAccount(accountId)
     .order('asc')
     .stream({ onmessage });
-
-  return () => clearInterval(timerId);
 };
 
 export const switchNetwork = (network) => {
