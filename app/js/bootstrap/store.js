@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 
 import reducers from '../reducers';
-
+import { setStore } from '../helpers/AccountManager';
 import stellarStreamerMiddleware from '../middlewares/StellarStreamer';
 
 const enhancer = compose(
@@ -22,5 +22,7 @@ const store = createStore(
   reducers,
   enhancer,
 );
+
+setStore(store);
 
 export default store;

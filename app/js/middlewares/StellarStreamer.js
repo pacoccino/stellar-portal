@@ -22,7 +22,7 @@ const stellarStreamerMiddleware = store => next => (action) => {
           getServerInstance()
             .accounts()
             .accountId(account.account_id)
-            .streamé({
+            .stream({
               onmessage: (streamAccount) => {
                 store.dispatch(actions.getAccountSuccess(streamAccount));
               },
