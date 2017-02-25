@@ -14,27 +14,27 @@ function resetAccount() {
 }
 
 function resetStream(state) {
-  return {
+  return{
     ...state,
     data: [],
-  }
+  };
 }
 
 function getPaymentsSuccess(state, action) {
-  const { payments } = action;
-  return {
+  const{ payments } = action;
+  return{
     ...state,
     data: payments,
     isLoading: false,
-  }
+  };
 }
 
 function getPaymentsStream(state, action) {
-  const { payment } = action;
-  return {
+  const{ payment } = action;
+  return{
     ...state,
     data: state.data.concat(payment),
-  }
+  };
 }
 
 export const paymentsReducer = createReducer(initialState, {

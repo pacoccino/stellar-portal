@@ -1,5 +1,4 @@
 /* eslint new-cap: 0 */
-import { merge } from 'lodash';
 
 import { combineReducers } from 'redux';
 import { paymentsReducer } from './stellar/payments';

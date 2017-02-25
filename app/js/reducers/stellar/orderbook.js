@@ -8,18 +8,18 @@ const initialState = {
 };
 
 function getOrderbook(state) {
-  return {
+  return{
     ...state,
     isLoading: true,
-  }
+  };
 }
 function getOrderbookSuccess(state, action) {
-  const { orderbook } = action;
-  return {
+  const{ orderbook } = action;
+  return{
     ...state,
     data: orderbook,
     isLoading: false,
-  }
+  };
 }
 
 

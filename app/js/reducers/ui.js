@@ -1,5 +1,4 @@
 /* eslint new-cap: 0 */
-import { merge } from 'lodash';
 
 import * as types from '../actions/ui';
 import * as stellarTypes from '../actions/stellar';
@@ -16,21 +15,21 @@ const initialState = {
 };
 
 function openKeypairModal(state) {
-  return {
+  return{
     ...state,
     modalKeypair: true,
   };
 }
 
 function closeKeypairModal(state) {
-  return {
+  return{
     ...state,
     modalKeypair: false,
   };
 }
 
 function closeErrorModal(state) {
-  return {
+  return{
     ...state,
     errorOpen: false,
     errorData: null,
@@ -38,8 +37,8 @@ function closeErrorModal(state) {
 }
 
 function openErrorModal(state, action) {
-  const { errorData } = action;
-  return {
+  const{ errorData } = action;
+  return{
     ...state,
     errorOpen: true,
     errorData,
@@ -47,51 +46,51 @@ function openErrorModal(state, action) {
 }
 
 function sendingPayment(state) {
-  return {
+  return{
     ...state,
     sendingPayment: true,
   };
 }
 function sendPaymentSuccess(state) {
-  return {
+  return{
     ...state,
     sendingPayment: false,
   };
 }
 function sendPaymentError(state) {
-  return {
+  return{
     ...state,
     sendingPayment: false,
   };
 }
 function sendingOffer(state) {
-  return {
+  return{
     ...state,
     sendingOffer: true,
   };
 }
 function sendOfferSuccess(state) {
-  return {
+  return{
     ...state,
     sendingOffer: false,
   };
 }
 function creatingTrustline(state) {
-  return {
+  return{
     ...state,
     creatingTrustline: true,
   };
 }
 function creatingTrustlineSuccess(state) {
-  return {
+  return{
     ...state,
     creatingTrustline: false,
   };
 }
 
 function setDestinationTrustlines(state, action) {
-  const { destinationTruslines } = action;
-  return {
+  const{ destinationTruslines } = action;
+  return{
     ...state,
     destinationTruslines,
   };

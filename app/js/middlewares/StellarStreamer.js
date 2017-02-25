@@ -1,38 +1,37 @@
 import * as actions from '../actions/account';
 import { getServerInstance, OffersStream, EffectsStream } from '../helpers/StellarServer';
-import { getAccountSuccess } from '../actions/account';
 import { getPaymentsStream, getEffectsStream, getOffersSuccess } from '../actions/stellar';
 import { newStream, killStreams } from '../helpers/monoStreamer';
 
-function traceError(e) {
+function traceError() {
   // console.error(e);
 }
 
-const stellarStreamerMiddleware = store => next => action => {
-  switch (action.type) {
+const stellarStreamerMiddleware = store => next => (action) => {
+  switch(action.type) {
     case actions.RESET_ACCOUNT: {
       killStreams();
       break;
     }
     case actions.SET_ACCOUNT_SUCCESS: {
-      const { account } = action;
+      const{ account } = action;
 
-      try {
+      try{
         // Stream account
         newStream('account',
           getServerInstance()
             .accounts()
             .accountId(account.account_id)
-            .stream({
-              onmessage: account => {
-                store.dispatch(getAccountSuccess(account));
+            .streamé({
+              onmessage: (streamAccount) => {
+                store.dispatch(actions.getAccountSuccess(streamAccount));
               },
-              onerror: traceError
+              onerror: traceError,
             }));
 
         // Stream effects
         newStream('effects',
-          EffectsStream(account.account_id, effect => {
+          EffectsStream(account.account_id, (effect) => {
             store.dispatch(getEffectsStream(effect));
           }));
 
@@ -43,21 +42,23 @@ const stellarStreamerMiddleware = store => next => action => {
             .forAccount(account.account_id)
             .order('asc')
             .stream({
-              onmessage: payment => {
-                payment.transaction().then(transaction => {
-                  payment.transaction = transaction;
-                  store.dispatch(getPaymentsStream(payment));
+              onmessage: (payment) => {
+                payment.transaction().then((transaction) => {
+                  store.dispatch(getPaymentsStream({
+                    ...payment,
+                    transaction,
+                  }));
                 });
               },
-              onerror: traceError
+              onerror: traceError,
             }));
 
         // Stream offers
         newStream('offers',
-          OffersStream(account.account_id, offers => {
+          OffersStream(account.account_id, (offers) => {
             store.dispatch(getOffersSuccess(offers));
           }));
-        /*getServerInstance()
+        /* getServerInstance()
           .offers('accounts', account.account_id)
           .order('desc')
           .stream({
@@ -66,12 +67,12 @@ const stellarStreamerMiddleware = store => next => action => {
             },
             onerror: traceError
           }));*/
-
       } catch(e) {
         traceError(e);
       }
       break;
     }
+    default:
   }
 
   next(action);

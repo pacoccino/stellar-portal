@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Button, Icon, Header, Table } from 'semantic-ui-react'
+import { Button, Icon, Header, Table } from 'semantic-ui-react';
 import moment from 'moment';
 
 import Asset from '../../../components/stellar/Asset';
@@ -7,12 +7,15 @@ import AccountId from '../../../components/stellar/AccountId';
 import AmountComponent from '../../../components/stellar/Amount';
 
 function PaymentArrow({ toMe }) {
-  return (
+  return(
     <div>
       {toMe ? <Icon name="arrow left" color="green" /> : <Icon name="arrow right" color="red" />}
     </div>
   );
 }
+PaymentArrow.propTypes = {
+  toMe: PropTypes.bool.isRequired,
+};
 
 class Payments extends React.Component {
 
@@ -21,18 +24,9 @@ class Payments extends React.Component {
     return mo.calendar();
   }
 
-  openTransaction(transaction) {
-    return e => {
-      e.preventDefault();
-      const id = transaction.id;
-      const url = `http://testnet.stellarchain.io/tx/${id}`;
-      window.open(url);
-    }
-  }
-
   getPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
-    return (
+    return(
       <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
           <PaymentArrow toMe={isToMyAccount} />
@@ -67,7 +61,7 @@ class Payments extends React.Component {
 
   getPathPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
-    return (
+    return(
       <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
           <PaymentArrow toMe={isToMyAccount} />
@@ -82,7 +76,8 @@ class Payments extends React.Component {
           <Asset
             asset_type={payment.source_asset_type}
             asset_issuer={payment.source_asset_issuer}
-            asset_code={payment.source_asset_code} />
+            asset_code={payment.source_asset_code}
+          />
         </Table.Cell>
         <Table.Cell>
           <Asset {...payment} />
@@ -106,11 +101,20 @@ class Payments extends React.Component {
     );
   }
 
+  openTransaction(transaction) {
+    return(e) => {
+      e.preventDefault();
+      const id = transaction.id;
+      const url = `http://testnet.stellarchain.io/tx/${id}`;
+      window.open(url);
+    };
+  }
+
   render() {
     const directPayments = this.props.payments.slice().reverse();
     const pathPayments = this.props.pathPayments.slice().reverse();
 
-    return (
+    return(
       <div>
         <Header as="h2" textAlign="center">Account payments</Header>
         <Table singleLine size="small" compact unstackable definition>
@@ -131,7 +135,7 @@ class Payments extends React.Component {
               directPayments.map(::this.getPaymentRow)
               :
               <Table.Row>
-                <Table.Cell/>
+                <Table.Cell />
                 <Table.Cell colSpan="5" textAlign="center">No payments</Table.Cell>
               </Table.Row>
             }
@@ -142,7 +146,7 @@ class Payments extends React.Component {
         <Table singleLine size="small" compact unstackable definition>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell/>
+              <Table.HeaderCell />
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>Account</Table.HeaderCell>
               <Table.HeaderCell>From asset</Table.HeaderCell>
@@ -158,7 +162,7 @@ class Payments extends React.Component {
               pathPayments.map(::this.getPathPaymentRow)
               :
               <Table.Row>
-                <Table.Cell/>
+                <Table.Cell />
                 <Table.Cell colSpan="5" textAlign="center">No path payments</Table.Cell>
               </Table.Row>
             }

@@ -1,40 +1,30 @@
 import Stellar from 'stellar-sdk';
 
-import StellarOffline from './StellarOffline';
+// import StellarOffline from './StellarOffline';
 import { AssetInstance, REFRESH_INTERVAL } from './StellarTools';
 
 let Server;
 
-export const getServerInstance = () => {
-  if(false && process.env.NODE_ENV !== 'production') {
-    return StellarOffline();
-  }
+export const getServerInstance = () =>
+  // if(process.env.NODE_ENV !== 'production') {
+  //   return StellarOffline();
+  // }
 
-  return Server;
-};
+   Server;
 
-export const getAccount = (accountId) => {
-  return getServerInstance()
+export const getAccount = accountId => getServerInstance()
     .loadAccount(accountId);
-};
 
-export const Orderbook = ({ selling, buying }) => {
-  return getServerInstance()
+export const Orderbook = ({ selling, buying }) => getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .call();
-};
-export const OrderbookStream = ({ selling, buying }, onmessage) => {
-  return getServerInstance()
+export const OrderbookStream = ({ selling, buying }, onmessage) => getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .stream({ onmessage });
-};
-export const OrderbookDetail = ({ selling, buying }) => {
-  debugger;
-  return getServerInstance()
+export const OrderbookDetail = ({ selling, buying }) => getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .trades()
     .call();
-};
 
 export const OffersStream = (accountId, callback) => {
   const timerId = setInterval(() => {
@@ -45,7 +35,7 @@ export const OffersStream = (accountId, callback) => {
       .then(result => callback(result.records));
   }, REFRESH_INTERVAL);
 
-  return () => clearInterval(timerId);
+  return() => clearInterval(timerId);
 };
 
 export const EffectsStream = (accountId, onmessage) => {
@@ -55,31 +45,31 @@ export const EffectsStream = (accountId, onmessage) => {
     .order('asc')
     .stream({ onmessage });
 
-  return () => clearInterval(timerId);
+  return() => clearInterval(timerId);
 };
 
 export const switchNetwork = (network) => {
   switch(network) {
-    case 'perso':
+    case'perso':
       Server = new Stellar.Server('http://192.168.1.67:8000', { allowHttp: true });
       Stellar.Network.useTestNetwork();
       break;
-    case 'public':
+    case'public':
       Server = new Stellar.Server('https://horizon.stellar.org');
       Stellar.Network.usePublicNetwork();
       break;
     default:
-    case 'test':
+    case'test':
       Server = new Stellar.Server('https://horizon-testnet.stellar.org');
       Stellar.Network.useTestNetwork();
       break;
   }
 };
 
-export async function generateTestPair(){
+export async function generateTestPair() {
   const pair = Stellar.Keypair.random();
 
-  try {
+  try{
     await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.accountId()}`);
     return pair;
   } catch(e) {

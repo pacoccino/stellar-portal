@@ -12,7 +12,9 @@ import { AssetInstance, KeypairInstance, AmountInstance } from './StellarTools';
  * @param operation {Object} One operation
  */
 const addOperations = (transactionBuilder, { operations = [], operation = null }) => {
-  [operation].concat(operations).filter(o => !!o).forEach(op => transactionBuilder.addOperation(op));
+  [operation].concat(operations)
+    .filter(o => !!o)
+    .forEach(op => transactionBuilder.addOperation(op));
 };
 
 /**
@@ -26,7 +28,7 @@ const addOperations = (transactionBuilder, { operations = [], operation = null }
 const addMemo = (transactionBuilder, memo) => {
   if(!transactionBuilder || !memo) return;
 
-  const { type, value } = memo;
+  const{ type, value } = memo;
   let xdrMemo;
 
   if(isFunction(Memo[type])) {
@@ -67,9 +69,9 @@ export const sendTransaction = (authData, { operations, operation, memo }) => {
 };
 
 export const sendPayment = ({ asset, destination, amount, memo }, authData) => {
-  try {
+  try{
     const operation = Operation.payment({
-      destination: destination,
+      destination,
       asset: AssetInstance(asset),
       amount: AmountInstance(amount),
     });
@@ -79,14 +81,21 @@ export const sendPayment = ({ asset, destination, amount, memo }, authData) => {
   }
 };
 
-export const sendPathPayment = ({ asset_source, asset_destination, amount_destination, destination, max_amount, memo }, authData) => {
-  try {
+export const sendPathPayment = ({
+  asset_source,
+  asset_destination,
+  amount_destination,
+  destination,
+  max_amount,
+  memo,
+}, authData) => {
+  try{
     const operation = Operation.pathPayment({
-      sendAsset:    AssetInstance(asset_source),
-      sendMax:      AmountInstance(max_amount),
-      destination:  destination,
-      destAsset:    AssetInstance(asset_destination),
-      destAmount:   AmountInstance(amount_destination),
+      sendAsset: AssetInstance(asset_source),
+      sendMax: AmountInstance(max_amount),
+      destination,
+      destAsset: AssetInstance(asset_destination),
+      destAmount: AmountInstance(amount_destination),
     });
     return sendTransaction(authData, { operation, memo });
   } catch(e) {
@@ -95,7 +104,7 @@ export const sendPathPayment = ({ asset_source, asset_destination, amount_destin
 };
 
 export const changeTrust = ({ asset, limit }, authData) => {
-  try {
+  try{
     const trustLimit = (isNumber(limit) || isString(limit)) ? AmountInstance(limit) : undefined;
     const operation = Operation.changeTrust({
       asset: AssetInstance(asset),
@@ -109,7 +118,7 @@ export const changeTrust = ({ asset, limit }, authData) => {
 };
 
 export const manageOffer = ({ selling, buying, amount, price, passive, id }, authData) => {
-  try {
+  try{
     const operations = [];
 
     const offerId = isNumber(id) ? id : 0;
@@ -122,7 +131,7 @@ export const manageOffer = ({ selling, buying, amount, price, passive, id }, aut
     };
     if(passive) {
       operations.push(Operation.createPassiveOffer(offer));
-    } else {
+    } else{
       operations.push(Operation.manageOffer(offer));
     }
 
@@ -133,7 +142,7 @@ export const manageOffer = ({ selling, buying, amount, price, passive, id }, aut
 };
 
 export const createAccount = ({ destination, amount }, authData) => {
-  try {
+  try{
     const operation = Operation.createAccount({
       destination,
       startingBalance: amount,
@@ -146,7 +155,7 @@ export const createAccount = ({ destination, amount }, authData) => {
 };
 
 export const accountMerge = ({ destination }, authData) => {
-  try {
+  try{
     const operation = Operation.accountMerge({
       destination,
     });

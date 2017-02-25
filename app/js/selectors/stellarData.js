@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectProperty } from '../helpers/redux';
 
+import { getBalances } from './account';
 import { STELLAR_STATE_KEY } from '../constants/reducerKeys';
 import { EFFECTS_KEY, PAYMENTS_KEY, OFFERS_KEY, ORDERBOOK_KEY, NETWORK_KEY } from '../reducers/stellar';
 
@@ -12,7 +13,7 @@ export const isFetchingOrderbook = selectProperty([STELLAR_STATE_KEY, ORDERBOOK_
 
 export const getTrustlines = createSelector(
   getBalances,
-  balances => balances.map(b => b.asset)
+  balances => balances.map(b => b.asset),
 );
 
 const getPayments = selectProperty([STELLAR_STATE_KEY, PAYMENTS_KEY, 'data'], []);

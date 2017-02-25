@@ -12,9 +12,9 @@ class ErrorModal extends React.Component {
 
     const resultCodes = get(error, 'extras.result_codes.operations', null);
 
-    return (
+    return(
       <Modal open={this.props.open}>
-        <Modal.Header style={{color: 'red'}}>Operation error</Modal.Header>
+        <Modal.Header style={{ color: 'red' }}>Operation error</Modal.Header>
         <Modal.Content >
           <Modal.Description>
             <Message negative>
@@ -27,7 +27,7 @@ class ErrorModal extends React.Component {
                 Error codes :
                 <List bulleted>
                   {
-                    !!resultCodes ?
+                    resultCodes ?
                       resultCodes.map((o, i) => <List.Item key={i}>{o}</List.Item>)
                       : null
                   }

@@ -6,23 +6,23 @@ import { AppContainer } from 'react-hot-loader';
 import 'babel-polyfill';
 import 'isomorphic-fetch';
 
-import App from './App';
+import App from './bootstrap/App';
 
 render(
   <AppContainer>
-    <App/>
+    <App />
   </AppContainer>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );
 
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    const NewApp = require('./App').default;
+if(module.hot) {
+  module.hot.accept('./bootstrap/App', () => {
+    const NewApp = require('./bootstrap/App').default;
     render(
       <AppContainer>
-        <NewApp/>
+        <NewApp />
       </AppContainer>,
-      document.getElementById('app')
+      document.getElementById('app'),
     );
   });
 }

@@ -15,13 +15,14 @@ class OrderBook extends React.Component {
   }
 
   getBidRow(bid, index) {
-    return (
+    return(
       <Table.Row key={index}>
         <Table.Cell textAlign="right">
           <Amount amount={bid.amount} />
         </Table.Cell>
         <Table.Cell textAlign="right">
-          <Amount amount={bid.price} /> <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+          <Amount amount={bid.price} />
+          <Asset asset={AssetInstance(this.props.orderbook.counter)} />
         </Table.Cell>
       </Table.Row>
     );
@@ -29,7 +30,7 @@ class OrderBook extends React.Component {
   getBids() {
     const bids = this.props.orderbook.bids;
     if(!bids) return null;
-    return (
+    return(
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
@@ -55,10 +56,11 @@ class OrderBook extends React.Component {
   }
 
   getAskRow(ask, index) {
-    return (
+    return(
       <Table.Row key={index}>
         <Table.Cell>
-          <Amount amount={ask.price} /> <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+          <Amount amount={ask.price} />
+          <Asset asset={AssetInstance(this.props.orderbook.counter)} />
         </Table.Cell>
         <Table.Cell>
           <Amount amount={ask.amount} />
@@ -69,7 +71,7 @@ class OrderBook extends React.Component {
   getAsks() {
     const asks = this.props.orderbook.asks;
     if(!asks) return null;
-    return (
+    return(
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
@@ -95,18 +97,17 @@ class OrderBook extends React.Component {
         </Table.Body>
       </Table>
     );
-
   }
 
   getOrderbook() {
     if(!this.props.isFetching && isEmpty(this.props.orderbook)) {
-      return      (
+      return(
         <Grid.Row centered>
           <Header as="h3">Please select a pair of assets to see an orderbook.</Header>
         </Grid.Row>
       );
     }
-    return (
+    return(
       <Grid.Row>
         <Dimmer inverted active={this.props.isFetching}>
           <Loader inverted active={this.props.isFetching} />
@@ -121,11 +122,6 @@ class OrderBook extends React.Component {
     );
   }
 
-  updateOrderbook() {
-    if(this.state.selling && this.state.buying) {
-      this.props.setOrderbook(this.state);
-    }
-  }
   reverseOrderbook() {
     if(this.state.selling && this.state.buying) {
       this.setState({
@@ -144,15 +140,21 @@ class OrderBook extends React.Component {
     this.setState({ selling: asset }, ::this.updateOrderbook);
   }
   getTrustedAssets() {
-    return this.props.trustlines.map((asset, index) => (
-    {
-      value: AssetUid(asset),
-      text: Asset.getAssetString(asset),
-    }));
+    return this.props.trustlines.map(asset => (
+      {
+        value: AssetUid(asset),
+        text: Asset.getAssetString(asset),
+      }));
+  }
+
+  updateOrderbook() {
+    if(this.state.selling && this.state.buying) {
+      this.props.setOrderbook(this.state);
+    }
   }
 
   render() {
-    return (
+    return(
       <div>
         <Header as="h2">
           Order Book
@@ -168,7 +170,7 @@ class OrderBook extends React.Component {
               <Dropdown
                 selection fluid search
                 options={this.getTrustedAssets()}
-                placeholder='Asset sold'
+                placeholder="Asset sold"
                 onChange={::this.changeSellingAsset}
               />
             </Grid.Column>
@@ -180,7 +182,7 @@ class OrderBook extends React.Component {
               <Dropdown
                 selection fluid search
                 options={this.getTrustedAssets()}
-                placeholder='Asset bought'
+                placeholder="Asset bought"
                 onChange={::this.changeBuyingAsset}
               />
             </Grid.Column>

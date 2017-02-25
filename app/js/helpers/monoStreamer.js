@@ -8,7 +8,7 @@ export function newStream(name, stream) {
 }
 
 export function killStreams() {
-  Object.keys(streamers).forEach(k => {
+  Object.keys(streamers).forEach((k) => {
     streamers[k]();
     delete streamers[k];
   });

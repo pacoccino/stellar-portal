@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Form, Button, Header, Table } from 'semantic-ui-react'
+import { Form, Button, Header, Table } from 'semantic-ui-react';
 import Asset from '../../../components/stellar/Asset';
 import Amount from '../../../components/stellar/Amount';
 import { STROOP } from '../../../helpers/StellarTools';
@@ -23,14 +23,14 @@ class Offers extends React.Component {
   }
 
   deleteOffer(offer) {
-    return e => {
+    return(e) => {
       e.preventDefault();
       this.props.deleteOffer(offer);
     };
   }
 
   getOfferRow(offer, index) {
-    return (
+    return(
       <Table.Row key={index}>
         <Table.Cell>
           <Asset {...offer.selling} />
@@ -62,7 +62,7 @@ class Offers extends React.Component {
   }
 
   getOfferTable() {
-    return (
+    return(
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
           <Table.Row>
@@ -83,45 +83,45 @@ class Offers extends React.Component {
 
   getOfferForm() {
     const getAssetsOptions = assets => assets.map((asset, index) => (
-    {
-      value: index,
-      text: Asset.getAssetString(asset),
-    }));
+      {
+        value: index,
+        text: Asset.getAssetString(asset),
+      }));
 
-    return (
+    return(
       <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
         <Form.Group widths="2">
           <Form.Select
-            label='Sell'
-            name='sell_asset'
+            label="Sell"
+            name="sell_asset"
             options={getAssetsOptions(this.props.trustlines)}
-            placeholder='Asset to sell'
+            placeholder="Asset to sell"
             required
           />
           <Form.Select
-            label='Buy'
-            name='buy_asset'
+            label="Buy"
+            name="buy_asset"
             options={getAssetsOptions(this.props.trustlines)}
-            placeholder='Asset to buy'
+            placeholder="Asset to buy"
             required
           />
         </Form.Group>
         <Form.Group widths="2">
           <Form.Field
             name="amount"
-            label='Amount'
-            control='Input'
-            type='number'
-            placeholder='0'
+            label="Amount"
+            control="Input"
+            type="number"
+            placeholder="0"
             step={STROOP}
             required
           />
           <Form.Field
             name="price"
-            label='Price'
-            control='Input'
-            type='number'
-            placeholder='1'
+            label="Price"
+            control="Input"
+            type="number"
+            placeholder="1"
             step={STROOP}
             required
           />
@@ -129,10 +129,10 @@ class Offers extends React.Component {
         <Form.Group>
           <Form.Checkbox
             name="passive"
-            label='Passive offer'
+            label="Passive offer"
           />
           <Form.Button
-            type='submit'
+            type="submit"
             primary
             content="Create offer"
             icon="book"
@@ -143,7 +143,7 @@ class Offers extends React.Component {
   }
 
   render() {
-    return (
+    return(
       <div>
         <Header as="h2">Offers</Header>
         {this.props.canSign ?

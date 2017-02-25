@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Table, Container, Button, Header, Input, Message } from 'semantic-ui-react'
+import { Container, Button, Input, Message } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 
 import * as StellarHelper from '../../../helpers/StellarTools';
@@ -20,7 +20,7 @@ class AccountSelector extends Component {
     this.state = {
       address: '',
       keypair: null,
-      showSeed: false
+      showSeed: false,
     };
     if(this.props.keypair) {
       this.state.accountId = this.props.keypair.accountId();
@@ -35,7 +35,7 @@ class AccountSelector extends Component {
           accountId: newProps.keypair.accountId(),
           secretSeed: newProps.keypair.canSign() ? newProps.keypair.seed() : '',
         });
-      } else {
+      } else{
         this.setState({
           accountId: '',
           secretSeed: '',
@@ -45,7 +45,7 @@ class AccountSelector extends Component {
   }
 
   componentDidMount() {
-    new Clipboard(".account-address-copy");
+    new Clipboard('.account-address-copy'); // eslint-disable-line no-new
   }
 
   getKeypair() {
@@ -72,7 +72,7 @@ class AccountSelector extends Component {
       const keypair = this.getKeypair();
       this.setState({ keypair });
     });
-  };
+  }
 
   handleSet(e) {
     e.preventDefault();
@@ -84,7 +84,7 @@ class AccountSelector extends Component {
 
   newForm() {
     let buttonLabel = 'Invalid address';
-    let buttonContent = 'Go';
+    const buttonContent = 'Go';
     let buttonColor = 'red';
     let disabled = true;
     if(this.state.keypair) {
@@ -92,30 +92,28 @@ class AccountSelector extends Component {
       disabled = false;
       if(this.state.keypair.canSign()) {
         buttonLabel = 'Seed';
-      } else {
+      } else{
         buttonLabel = 'Public address';
       }
-    } else {
-      if(!this.state.address) {
-        buttonLabel = 'No address';
-      }
+    } else if(!this.state.address) {
+      buttonLabel = 'No address';
     }
-    return (
+    return(
       <div style={styles.inputCntainer}>
         <Input
-          input={{value: this.state.address}}
+          input={{ value: this.state.address }}
           onChange={::this.handleAddress}
-          placeholder='Please enter an account ID or Seed.'
+          placeholder="Please enter an account ID or Seed."
           error={!!this.state.address && !this.state.keypair}
-          label={{content: buttonLabel, width: 3, size: 'large', className: 'AccountSelector-inputTitle'}}
+          label={{ content: buttonLabel, width: 3, size: 'large', className: 'AccountSelector-inputTitle' }}
           fluid
           action={{
             color: buttonColor,
-            icon: "sign in",
-            disabled: disabled,
+            icon: 'sign in',
+            disabled,
             content: buttonContent,
             onClick: ::this.handleSet,
-            loading: this.props.isAccountLoading
+            loading: this.props.isAccountLoading,
           }}
         />
 
@@ -124,17 +122,18 @@ class AccountSelector extends Component {
   }
 
   render() {
-    return (
+    return(
       <div>
         <Container textAlign="center">
           {this.newForm()}
-          <br/>
+          <br />
           {
             this.props.error ?
               <Message negative>
                 <Message.Header>Account error</Message.Header>
                 <p>There was an error while fetching this account's data.</p>
-                <p>Either the account does not exists or you are on the wrong network. Try to switch to public/testnet.</p>
+                <p>Either the account does not exists or you are on the wrong network.
+                  Try to switch to public/testnet.</p>
               </Message>
               :
               null
@@ -142,7 +141,7 @@ class AccountSelector extends Component {
           {
             this.props.network === 'test' &&
             <div>
-              <p style={{color: 'white'}}>
+              <p style={{ color: 'white' }}>
                 Or
               </p>
               <Button
@@ -163,10 +162,10 @@ class AccountSelector extends Component {
 AccountSelector.propTypes = {
   isAccountLoading: PropTypes.bool,
   isCreatingTestAccount: PropTypes.bool,
-  account: PropTypes.object,
   error: PropTypes.object,
   keypair: PropTypes.object,
   setAccount: PropTypes.func.isRequired,
+  createTestAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,
 };
 

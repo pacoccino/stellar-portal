@@ -1,10 +1,10 @@
-import * as StellarServer from '../helpers/StellarServer';
+import { push } from 'react-router-redux';
 
 import * as AccountActions from '../actions/account';
-import { switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
+
+import { getAccount, switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
 import { getNetwork } from '../selectors/stellarData';
-import { push } from 'react-router-redux';
 
 export const setAccount = keys => (dispatch, getState) => {
   dispatch(AccountActions.fetchingAccount());
@@ -12,9 +12,8 @@ export const setAccount = keys => (dispatch, getState) => {
   const keypair = KeypairInstance(keys);
   const network = getNetwork(getState());
 
-  return StellarServer
-    .getAccount(keypair.accountId())
-    .then(account => {
+  return getAccount(keypair.accountId())
+    .then((account) => {
       const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
       const query = {
         accountId: putSecret ? undefined : keypair.accountId(),
@@ -29,11 +28,9 @@ export const setAccount = keys => (dispatch, getState) => {
     .catch(error => dispatch(AccountActions.getAccountError(error)));
 };
 
-export const resetAccount = () => dispatch => {
-
+export const resetAccount = () => (dispatch) => {
   dispatch(push({ query: {} }));
   dispatch(AccountActions.resetAccount());
-
 };
 
 export const switchNetwork = network => (dispatch, getState) => {
@@ -46,14 +43,13 @@ export const switchNetwork = network => (dispatch, getState) => {
   dispatch(AccountActions.switchNetwork(network));
 };
 
-export const createTestAccount = () =>  dispatch => {
+export const createTestAccount = () => (dispatch) => {
   dispatch(AccountActions.createTestAccount());
   generateTestPair()
-    .then(newPair => {
+    .then((newPair) => {
       dispatch(setAccount(newPair));
       dispatch(AccountActions.createTestAccountSuccess());
     })
     .catch(console.error);
 };
 
-// export const createTestAccount = () => async dispatch => dispatch(setAccount(await generatePair()));

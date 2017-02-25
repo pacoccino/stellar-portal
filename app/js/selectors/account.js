@@ -15,7 +15,7 @@ export const getAuthData = createSelector(
   (keypair, sourceAccount) => ({
     keypair,
     sourceAccount,
-  })
+  }),
 );
 
 export const canSign = createSelector(
@@ -23,11 +23,11 @@ export const canSign = createSelector(
   getKeypair,
   (authData, keypair) => (
     !!authData && !!authData.keypair && !!keypair.canSign() && !!authData.sourceAccount
-  )
+  ),
 );
 export const accountSet = createSelector(
   getAuthData,
   authData => (
     !!authData && !!authData.keypair
-  )
+  ),
 );

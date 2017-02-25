@@ -4,6 +4,6 @@ export const account = {
     {
       asset_type: 'native',
       balance: 1000.2,
-    }
-  ]
+    },
+  ],
 };

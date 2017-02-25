@@ -2,13 +2,13 @@ import { setAccount, switchNetwork } from '../actions-creators/account';
 
 let store = null;
 
-export const setStore = newStore => {
+export const setStore = (newStore) => {
   store = newStore;
 };
 
-export const onPageLoad = nextState => {
-  const { location: { query } } = nextState;
-  if(!!query.network) {
+export const onPageLoad = (nextState) => {
+  const{ location: { query } } = nextState;
+  if(query.network) {
     store.dispatch(switchNetwork(query.network));
   }
   if(!!query.accountId || !!query.secretSeed) {
