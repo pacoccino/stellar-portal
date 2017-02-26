@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, Header, Form, Message } from 'semantic-ui-react';
+import { Dropdown, Header, Input, Form, Message } from 'semantic-ui-react';
 
 import Asset from '../../../components/stellar/Asset';
-import { STROOP, validPk, resolveAddress } from '../../../helpers/StellarTools';
+import { STROOP, KeypairInstance, resolveAddress } from '../../../helpers/StellarTools';
 
 const styles = {
   padV: {
@@ -58,8 +58,8 @@ class Payment extends Component {
     super(props);
     this.state = {
       type: 'payment',
-      validDestination: true,
-      customDestination: false,
+      validDestination: false,
+      destinationKeypair: null,
     };
   }
 
@@ -208,10 +208,13 @@ class Payment extends Component {
 
   submitForm(e, { formData }) {
     e.preventDefault();
-    if (!validPk(formData.destination)) {
+    if (!this.state.destinationKeypair) {
       return;
     }
-    const enhancedFormData = { ...formData };
+    const enhancedFormData = {
+      ...formData,
+      destination: this.state.destinationKeypair.publicKey(),
+    };
     enhancedFormData.memo = {
       type: enhancedFormData['memo.type'],
       value: enhancedFormData['memo.value'],
@@ -253,21 +256,32 @@ class Payment extends Component {
     resolveAddress(destinationAddress)
       .then((resolved) => {
         this.props.getDestinationTrustlines(resolved.account_id);
+
         this.setState({
           validDestination: true,
           resolving: false,
+          destinationKeypair: KeypairInstance({ publicKey: resolved.account_id }),
         });
+        // TODO set memo
+        return null;
       })
       .catch(() => {
         this.setState({
           validDestination: false,
           resolving: false,
+          destinationKeypair: null,
         });
       });
   }
 
   render() {
     if (!this.props.canSign) return this.getNoSigner();
+
+    const destinationFormLabel = {
+      color: this.state.validDestination ? 'teal' : 'red',
+      icon: this.state.validDestination ? 'checkmark' : 'remove',
+      className: 'iconOnly',
+    };
 
     return (
       <div>
@@ -289,20 +303,21 @@ class Payment extends Component {
           value={this.state.type}
           onChange={(e, t) => this.setState({ type: t.value })}
         />
+        <div style={{ height: '1rem' }} />
         <Form
           onSubmit={::this.submitForm}
           loading={this.props.sendingPayment}
         >
-          <Form.Field
-            name="destination"
-            label="Destination account"
-            control="input"
-            type="text"
-            placeholder="GRDT..."
-            error={!this.state.validDestination}
-            onChange={::this.checkDestination}
-            required
-          />
+          <Form.Field>
+            <Input
+              name="destination"
+              onChange={::this.checkDestination}
+              placeholder="GRDT... or bob*federation.org"
+              label={destinationFormLabel}
+              labelPosition="right"
+              required
+            />
+          </Form.Field>
 
           {this.state.type === 'payment' ? this.getPaymentForm() : null}
           {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}

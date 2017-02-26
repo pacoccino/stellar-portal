@@ -50,15 +50,19 @@ class AccountSelector extends Component {
   }
 
   getKeypair() {
+    this.setState({ resolving: true });
     const address = this.state.address;
 
     const isSeed = StellarHelper.validSeed(address);
     if (isSeed) {
       const keypair = StellarHelper.KeypairInstance({ secretSeed: address });
-      this.setState({ keypair });
+      this.setState({
+        keypair,
+        resolving: false,
+      });
+      return;
     }
 
-    this.setState({ resolving: true });
     StellarHelper.resolveAddress(address)
       .then((resolved) => {
         const keypair = StellarHelper.KeypairInstance({ publicKey: resolved.account_id });
@@ -113,7 +117,7 @@ class AccountSelector extends Component {
         <Input
           input={{ value: this.state.address }}
           onChange={::this.handleAddress}
-          placeholder="Please enter an account ID or Seed."
+          placeholder="Please enter your seed, account ID or federation address."
           error={!!this.state.address && !this.state.keypair}
           label={{ content: buttonLabel, width: 3, size: 'large', className: 'AccountSelector-inputTitle' }}
           fluid
