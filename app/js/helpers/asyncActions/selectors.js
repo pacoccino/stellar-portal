@@ -22,6 +22,11 @@ export const asyncErrorSelector = actionName =>
     [ASYNC_STATE_KEY, 'actions', actionName, 'error'],
     null,
   );
+export const asyncMessageSelector = actionName =>
+  selectProperty(
+    [ASYNC_STATE_KEY, 'actions', actionName, 'displayMessage'],
+    false,
+  );
 
 export const getAsyncState = (state, actionName) =>
   asyncSelector(actionName)(state);
@@ -30,4 +35,5 @@ export const asyncSelectorObject = actionName => ({
   data: asyncDataSelector(actionName),
   isLoading: asyncIsLoadingSelector(actionName),
   error: asyncErrorSelector(actionName),
+  displayMessage: asyncMessageSelector(actionName),
 });

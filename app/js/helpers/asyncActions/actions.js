@@ -3,6 +3,7 @@ export const ASYNC_STOP_LOADING = 'async-action:stop-loading';
 export const ASYNC_FETCH_START = 'async-action:fetch-start';
 export const ASYNC_FETCH_SUCCESS = 'async-action:fetch-success';
 export const ASYNC_FETCH_ERROR = 'async-action:fetch-error';
+export const ASYNC_FETCH_END_MESSAGE = 'async-action:fetch-end-message';
 export const ASYNC_RESET_ACTION = 'async-action:reset';
 /**
  * Start the specified async action
@@ -26,10 +27,11 @@ export function startLoading(actionName) {
  *
  * @returns {Object}
  */
-export function stopLoading(actionName) {
+export function stopLoading(actionName, hide) {
   return {
     type: ASYNC_STOP_LOADING,
     actionName,
+    hide,
   };
 }
 
@@ -41,11 +43,12 @@ export function startFetch(actionName) {
   };
 }
 
-export function successFetch(actionName, data) {
+export function successFetch(actionName, data, hide) {
   return {
     type: ASYNC_FETCH_SUCCESS,
     actionName,
     data,
+    hide,
   };
 }
 export function errorFetch(actionName, error) {
@@ -54,6 +57,12 @@ export function errorFetch(actionName, error) {
     type: ASYNC_FETCH_ERROR,
     actionName,
     error,
+  };
+}
+export function hideFetchMessage(actionName) {
+  return {
+    type: ASYNC_FETCH_END_MESSAGE,
+    actionName,
   };
 }
 

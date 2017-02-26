@@ -1,14 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, Header, Form, Message } from 'semantic-ui-react';
+import { Dimmer, Dropdown, Header, Form, Message } from 'semantic-ui-react';
+
+import style from './style.css';
 
 import Asset from '../../../components/stellar/Asset';
 import { STROOP, validPk } from '../../../helpers/StellarTools';
-
-const styles = {
-  padV: {
-    margin: '1rem 0',
-  },
-};
 
 function MemoFields() {
   const types = [
@@ -260,6 +256,9 @@ class Payment extends Component {
 
     return (
       <div>
+        <Dimmer className="successDimmer" active={this.props.paymentSuccess}>
+          Sent
+        </Dimmer>
         <Header as="h2" textAlign="center">
           Operations
         </Header>
@@ -302,7 +301,7 @@ class Payment extends Component {
           <Form.Button
             type="submit"
             fluid
-            style={styles.padV}
+            className={style.padV}
             primary
             icon="send"
             content="Send"
@@ -337,6 +336,7 @@ Payment.propTypes = {
   sendCreateAccount: PropTypes.func.isRequired,
   sendAccountMerge: PropTypes.func.isRequired,
   getDestinationTrustlines: PropTypes.func.isRequired,
+  paymentSuccess: PropTypes.bool,
   account: PropTypes.object,
   trustlines: PropTypes.array,
   destinationTruslines: PropTypes.array,

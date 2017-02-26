@@ -1,7 +1,12 @@
 import * as StellarOperations from '../helpers/StellarOperations';
 
 import { newStream } from '../helpers/monoStreamer';
-import { ASYNC_SEND_OPERATION, ASYNC_CREATE_TRUSTLINE, ASYNC_GET_ORDERBOOK } from '../constants/asyncActions';
+import {
+  ASYNC_SEND_OPERATION,
+  ASYNC_CREATE_TRUSTLINE,
+  ASYNC_GET_ORDERBOOK,
+  ASYNC_CREATE_OFFER,
+} from '../constants/asyncActions';
 import { AsyncActions } from '../helpers/asyncActions';
 import { getAuthData } from '../selectors/account';
 import { AssetInstance } from '../helpers/StellarTools';
@@ -14,7 +19,7 @@ const sendOperation = (transaction, dispatch) => {
 
   return transaction
     .then((d) => {
-      dispatch(AsyncActions.successFetch(ASYNC_SEND_OPERATION, d));
+      dispatch(AsyncActions.successFetch(ASYNC_SEND_OPERATION, d, true));
     })
     .catch((error) => {
       dispatch(AsyncActions.errorFetch(ASYNC_SEND_OPERATION, error));
@@ -93,14 +98,14 @@ export const deleteTrustline = asset => (dispatch) => {
 };
 
 export const createOffer = offer => (dispatch, getState) => {
-  dispatch(UiActions.sendingOffer());
+  dispatch(AsyncActions.startLoading(ASYNC_CREATE_OFFER));
   const authData = getAuthData(getState());
   if (!authData) return Promise.reject();
 
   return StellarOperations
     .manageOffer(offer, authData)
-    .then((d) => {
-      dispatch(UiActions.sendOfferSuccess(d));
+    .then(() => {
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_OFFER, true));
     })
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));

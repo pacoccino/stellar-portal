@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Form, Button, Header, Table } from 'semantic-ui-react';
+import { Dimmer, Form, Button, Header, Table } from 'semantic-ui-react';
 import Asset from '../../../components/stellar/Asset';
 import Amount from '../../../components/stellar/Amount';
 import { STROOP } from '../../../helpers/StellarTools';
@@ -90,6 +90,9 @@ class Offers extends React.Component {
 
     return (
       <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
+        <Dimmer className="successDimmer" active={this.props.offerSuccess}>
+          Created
+        </Dimmer>
         <Form.Group widths="2">
           <Form.Select
             label="Sell"
@@ -166,6 +169,7 @@ Offers.propTypes = {
   deleteOffer: PropTypes.func.isRequired,
   canSign: PropTypes.bool,
   sendingOffer: PropTypes.bool,
+  offerSuccess: PropTypes.bool,
 };
 
 export default Offers;
