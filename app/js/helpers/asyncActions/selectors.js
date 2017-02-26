@@ -22,7 +22,6 @@ export const asyncErrorSelector = actionName =>
     [ASYNC_STATE_KEY, 'actions', actionName, 'error'],
     null,
   );
-
 export const getAsyncState = (state, actionName) =>
   asyncSelector(actionName)(state);
 
