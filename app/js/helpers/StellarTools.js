@@ -1,4 +1,4 @@
-import { Asset, StrKey, Keypair } from 'stellar-sdk';
+import { Asset, FederationServer, StrKey, Keypair } from 'stellar-sdk';
 import Decimal from 'decimal.js';
 
 export const STROOP = 0.0000001;
@@ -6,6 +6,11 @@ export const REFRESH_INTERVAL = 2000;
 
 export const validPk = pk => StrKey.isValidEd25519PublicKey(pk);
 export const validSeed = seed => StrKey.isValidEd25519SecretSeed(seed);
+
+export const resolveAddress = address =>
+  FederationServer.resolve(address);
+export const validDestination = address =>
+  resolveAddress(address).then(() => true).catch(() => false);
 
 export const AssetInstance = (asset) => {
   if (!asset) return null;

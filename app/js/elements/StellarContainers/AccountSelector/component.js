@@ -21,6 +21,7 @@ class AccountSelector extends Component {
       address: '',
       keypair: null,
       showSeed: false,
+      resolving: false,
     };
     if (this.props.keypair) {
       this.state.accountId = this.props.keypair.publicKey();
@@ -50,18 +51,28 @@ class AccountSelector extends Component {
 
   getKeypair() {
     const address = this.state.address;
-    const isPk = StellarHelper.validPk(address);
+
     const isSeed = StellarHelper.validSeed(address);
-
-    let keypair = null;
-    if (isPk) {
-      keypair = StellarHelper.KeypairInstance({ publicKey: address });
-    }
     if (isSeed) {
-      keypair = StellarHelper.KeypairInstance({ secretSeed: address });
+      const keypair = StellarHelper.KeypairInstance({ secretSeed: address });
+      this.setState({ keypair });
     }
 
-    return keypair;
+    this.setState({ resolving: true });
+    StellarHelper.resolveAddress(address)
+      .then((resolved) => {
+        const keypair = StellarHelper.KeypairInstance({ publicKey: resolved.account_id });
+        this.setState({
+          keypair,
+          resolving: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          keypair: null,
+          resolving: false,
+        });
+      });
   }
 
   handleAddress(e) {
@@ -69,8 +80,7 @@ class AccountSelector extends Component {
     this.setState({
       address,
     }, () => {
-      const keypair = this.getKeypair();
-      this.setState({ keypair });
+      this.getKeypair();
     });
   }
 
@@ -113,7 +123,7 @@ class AccountSelector extends Component {
             disabled,
             content: buttonContent,
             onClick: ::this.handleSet,
-            loading: this.props.isAccountLoading,
+            loading: this.state.resolving || this.props.isAccountLoading,
           }}
         />
 

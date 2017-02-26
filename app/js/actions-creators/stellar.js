@@ -146,5 +146,6 @@ export const getDestinationTrustlines = accountId => (dispatch) => {
       asset_code: balance.asset_code,
       asset_issuer: balance.asset_issuer,
     })).map(AssetInstance))
-    .then(trustlines => dispatch(StellarActions.setDestinationTrustlines(trustlines)));
+    .then(trustlines => dispatch(StellarActions.setDestinationTrustlines(trustlines)))
+    .catch(() => dispatch(StellarActions.setDestinationTrustlines([])));
 };

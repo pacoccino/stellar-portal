@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, Header, Form, Message } from 'semantic-ui-react';
 
 import Asset from '../../../components/stellar/Asset';
-import { STROOP, validPk } from '../../../helpers/StellarTools';
+import { STROOP, validPk, resolveAddress } from '../../../helpers/StellarTools';
 
 const styles = {
   padV: {
@@ -248,11 +248,22 @@ class Payment extends Component {
 
   checkDestination(e) {
     const destinationAddress = e.target.value;
-    const validDestination = validPk(destinationAddress);
-    this.setState({ validDestination });
-    if (validDestination) {
-      this.props.getDestinationTrustlines(destinationAddress);
-    }
+
+    this.setState({ resolving: true });
+    resolveAddress(destinationAddress)
+      .then((resolved) => {
+        this.props.getDestinationTrustlines(resolved.account_id);
+        this.setState({
+          validDestination: true,
+          resolving: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          validDestination: false,
+          resolving: false,
+        });
+      });
   }
 
   render() {
@@ -306,6 +317,7 @@ class Payment extends Component {
             primary
             icon="send"
             content="Send"
+            disabled={this.state.resolving || !this.state.validDestination}
           />
 
           <Message
