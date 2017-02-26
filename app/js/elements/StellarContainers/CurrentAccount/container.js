@@ -4,8 +4,10 @@ import CurrentAccount from './component';
 
 import {
   getKeypair,
+} from '../../../selectors/account';
+import {
   getNetwork,
-} from '../../../helpers/selector';
+} from '../../../selectors/stellarData';
 
 const mapStateToProps = (state, ownProps) => ({
   keypair: ownProps.keypair || getKeypair(state),

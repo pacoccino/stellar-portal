@@ -12,7 +12,9 @@ import { AssetInstance, KeypairInstance, AmountInstance } from './StellarTools';
  * @param operation {Object} One operation
  */
 const addOperations = (transactionBuilder, { operations = [], operation = null }) => {
-  [operation].concat(operations).filter(o => !!o).forEach(op => transactionBuilder.addOperation(op));
+  [operation].concat(operations)
+    .filter(o => !!o)
+    .forEach(op => transactionBuilder.addOperation(op));
 };
 
 /**
@@ -24,15 +26,15 @@ const addOperations = (transactionBuilder, { operations = [], operation = null }
  * @param memo.value {String} Memo value
  */
 const addMemo = (transactionBuilder, memo) => {
-  if(!transactionBuilder || !memo) return;
+  if (!transactionBuilder || !memo) return;
 
   const { type, value } = memo;
   let xdrMemo;
 
-  if(isFunction(Memo[type])) {
+  if (isFunction(Memo[type])) {
     xdrMemo = Memo[type](value);
   }
-  if(xdrMemo) {
+  if (xdrMemo) {
     transactionBuilder.addMemo(xdrMemo);
   }
 };
@@ -51,7 +53,7 @@ const addMemo = (transactionBuilder, memo) => {
 export const sendTransaction = (authData, { operations, operation, memo }) => {
   const keypair = KeypairInstance(authData.keypair);
   const sourceAccount = authData.sourceAccount;
-  const sourceAddress = keypair.accountId();
+  const sourceAddress = keypair.publicKey();
   const sequenceNumber = sourceAccount.sequence;
   const transAccount = new Account(sourceAddress, sequenceNumber);
 
@@ -69,27 +71,34 @@ export const sendTransaction = (authData, { operations, operation, memo }) => {
 export const sendPayment = ({ asset, destination, amount, memo }, authData) => {
   try {
     const operation = Operation.payment({
-      destination: destination,
+      destination,
       asset: AssetInstance(asset),
       amount: AmountInstance(amount),
     });
     return sendTransaction(authData, { operation, memo });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
 
-export const sendPathPayment = ({ asset_source, asset_destination, amount_destination, destination, max_amount, memo }, authData) => {
+export const sendPathPayment = ({
+  asset_source,
+  asset_destination,
+  amount_destination,
+  destination,
+  max_amount,
+  memo,
+}, authData) => {
   try {
     const operation = Operation.pathPayment({
-      sendAsset:    AssetInstance(asset_source),
-      sendMax:      AmountInstance(max_amount),
-      destination:  destination,
-      destAsset:    AssetInstance(asset_destination),
-      destAmount:   AmountInstance(amount_destination),
+      sendAsset: AssetInstance(asset_source),
+      sendMax: AmountInstance(max_amount),
+      destination,
+      destAsset: AssetInstance(asset_destination),
+      destAmount: AmountInstance(amount_destination),
     });
     return sendTransaction(authData, { operation, memo });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -103,7 +112,7 @@ export const changeTrust = ({ asset, limit }, authData) => {
     });
 
     return sendTransaction(authData, { operation });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -120,14 +129,14 @@ export const manageOffer = ({ selling, buying, amount, price, passive, id }, aut
       price: AmountInstance(price),
       offerId,
     };
-    if(passive) {
+    if (passive) {
       operations.push(Operation.createPassiveOffer(offer));
     } else {
       operations.push(Operation.manageOffer(offer));
     }
 
     return sendTransaction(authData, { operations });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -140,7 +149,7 @@ export const createAccount = ({ destination, amount }, authData) => {
     });
 
     return sendTransaction(authData, { operation });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -152,7 +161,7 @@ export const accountMerge = ({ destination }, authData) => {
     });
 
     return sendTransaction(authData, { operation });
-  } catch(e) {
+  } catch (e) {
     return Promise.reject(e);
   }
 };

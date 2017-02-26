@@ -12,15 +12,17 @@ import {
 import {
   canSign,
   getAccount,
+} from '../../../selectors/account';
+import {
   getTrustlines,
-  isSendingPayment,
-} from '../../../helpers/selector';
+} from '../../../selectors/stellarData';
 
 import {
   getDestinationTrustlines as getDestinationTrustlinesSelector,
-} from '../../../selectors/stellarData';
+  isSendingPayment,
+} from '../../../selectors/ui';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   account: getAccount(state),
   trustlines: getTrustlines(state),
   canSign: canSign(state),

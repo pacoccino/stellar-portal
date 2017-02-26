@@ -4,7 +4,7 @@ import Clipboard from 'clipboard';
 
 class AccountId extends React.Component {
   componentDidMount() {
-    new Clipboard(".accountId-copy")
+    new Clipboard('.accountId-copy'); // eslint-disable-line no-new
   }
 
   render() {
@@ -39,8 +39,8 @@ class AccountId extends React.Component {
 }
 
 AccountId.getAccountIdText = (issuer, myAccountId) => {
-  if(myAccountId && issuer === myAccountId) {
-    return "Me";
+  if (myAccountId && issuer === myAccountId) {
+    return 'Me';
   }
   const size = 4;
   const firstThree = issuer.slice(0, size);

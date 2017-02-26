@@ -1,44 +1,45 @@
-import * as StellarServer from '../helpers/StellarServer';
-
-import * as AccountActions from '../actions/account';
-import { switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
-import { KeypairInstance } from '../helpers/StellarTools';
-import { getNetwork } from '../helpers/selector';
 import { push } from 'react-router-redux';
 
+import { AsyncActions } from '../helpers/asyncActions';
+import * as AccountActions from '../actions/account';
+import { ASYNC_FETCH_ACCOUNT, ASYNC_CREATE_TEST_ACCOUNT } from '../constants/asyncActions';
+
+import { getAccount, switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
+import { KeypairInstance } from '../helpers/StellarTools';
+import { getNetwork } from '../selectors/stellarData';
+
 export const setAccount = keys => (dispatch, getState) => {
-  dispatch(AccountActions.fetchingAccount());
+  dispatch(AsyncActions.startFetch(ASYNC_FETCH_ACCOUNT));
 
   const keypair = KeypairInstance(keys);
   const network = getNetwork(getState());
 
-  return StellarServer
-    .getAccount(keypair.accountId())
-    .then(account => {
+  return getAccount(keypair.publicKey())
+    .then((account) => {
+      dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, account));
+      dispatch(AccountActions.setKeypair(keypair));
+
       const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
       const query = {
-        accountId: putSecret ? undefined : keypair.accountId(),
-        secretSeed: putSecret ? keypair.seed() : undefined,
+        accountId: putSecret ? undefined : keypair.publicKey(),
+        secretSeed: putSecret ? keypair.secret() : undefined,
         network,
       };
       dispatch(push({ query }));
 
-      dispatch(AccountActions.setAccountSuccess(account, keypair));
       return account;
     })
-    .catch(error => dispatch(AccountActions.getAccountError(error)));
+    .catch(error => dispatch(AsyncActions.errorFetch(ASYNC_FETCH_ACCOUNT, error)));
 };
 
-export const resetAccount = () => dispatch => {
-
+export const resetAccount = () => (dispatch) => {
   dispatch(push({ query: {} }));
   dispatch(AccountActions.resetAccount());
-
 };
 
 export const switchNetwork = network => (dispatch, getState) => {
   const currentNetwork = getNetwork(getState());
-  if(network === currentNetwork) return;
+  if (network === currentNetwork) return;
 
   dispatch(resetAccount());
 
@@ -46,14 +47,13 @@ export const switchNetwork = network => (dispatch, getState) => {
   dispatch(AccountActions.switchNetwork(network));
 };
 
-export const createTestAccount = () =>  dispatch => {
-  dispatch(AccountActions.createTestAccount());
+export const createTestAccount = () => (dispatch) => {
+  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TEST_ACCOUNT));
   generateTestPair()
-    .then(newPair => {
+    .then((newPair) => {
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TEST_ACCOUNT));
       dispatch(setAccount(newPair));
-      dispatch(AccountActions.createTestAccountSuccess());
     })
     .catch(console.error);
 };
 
-// export const createTestAccount = () => async dispatch => dispatch(setAccount(await generatePair()));

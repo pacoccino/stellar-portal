@@ -6,17 +6,17 @@ import AccountSelector from './component';
 import {
   isAccountLoading,
   isCreatingTestAccount,
-  getAccount,
   getAccountError,
   getKeypair,
-  getNetwork,
   canSign,
-} from '../../../helpers/selector';
+} from '../../../selectors/account';
+import {
+  getNetwork,
+} from '../../../selectors/stellarData';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAccountLoading: isAccountLoading(state),
   isCreatingTestAccount: isCreatingTestAccount(state),
-  account: getAccount(state),
   canSign: canSign(state),
   error: getAccountError(state),
   keypair: getKeypair(state),

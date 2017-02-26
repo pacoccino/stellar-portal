@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Divider } from 'semantic-ui-react'
+import { Container, Grid, Divider } from 'semantic-ui-react';
 
 import CurrentAccount from '../../elements/StellarContainers/CurrentAccount';
 import BalancesContainer from '../../elements/StellarContainers/Balances';

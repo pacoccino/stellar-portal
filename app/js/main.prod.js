@@ -4,6 +4,6 @@ import { render } from 'react-dom';
 import 'babel-polyfill';
 import 'isomorphic-fetch';
 
-import App from './App';
+import App from './bootstrap/App';
 
-render(<App/>, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

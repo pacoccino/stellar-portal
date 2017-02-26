@@ -1,77 +1,53 @@
 import * as actions from '../actions/account';
-import { getServerInstance, OffersStream, EffectsStream } from '../helpers/StellarServer';
-import { getAccountSuccess } from '../actions/account';
+import { OffersStream, EffectsStream, AccountStream, PaymentStream } from '../helpers/StellarServer';
 import { getPaymentsStream, getEffectsStream, getOffersSuccess } from '../actions/stellar';
 import { newStream, killStreams } from '../helpers/monoStreamer';
+import { AsyncActions } from '../helpers/asyncActions';
+import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
 
 function traceError(e) {
-  // console.error(e);
+  console.error(e);
 }
 
-const stellarStreamerMiddleware = store => next => action => {
+const stellarStreamerMiddleware = store => next => (action) => {
   switch (action.type) {
     case actions.RESET_ACCOUNT: {
       killStreams();
       break;
     }
-    case actions.SET_ACCOUNT_SUCCESS: {
-      const { account } = action;
+    case actions.SET_KEYPAIR: {
+      const { keypair } = action;
 
       try {
         // Stream account
         newStream('account',
-          getServerInstance()
-            .accounts()
-            .accountId(account.account_id)
-            .stream({
-              onmessage: account => {
-                store.dispatch(getAccountSuccess(account));
-              },
-              onerror: traceError
-            }));
+          AccountStream(keypair.publicKey(), (streamAccount) => {
+            store.dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, streamAccount));
+          }));
 
         // Stream effects
         newStream('effects',
-          EffectsStream(account.account_id, effect => {
+          EffectsStream(keypair.publicKey(), (effect) => {
             store.dispatch(getEffectsStream(effect));
           }));
 
         // Stream payment
         newStream('payment',
-          getServerInstance()
-            .payments()
-            .forAccount(account.account_id)
-            .order('asc')
-            .stream({
-              onmessage: payment => {
-                payment.transaction().then(transaction => {
-                  payment.transaction = transaction;
-                  store.dispatch(getPaymentsStream(payment));
-                });
-              },
-              onerror: traceError
-            }));
+          PaymentStream(keypair.publicKey(), (payment) => {
+            store.dispatch(getPaymentsStream(payment));
+          }));
 
         // Stream offers
         newStream('offers',
-          OffersStream(account.account_id, offers => {
+          OffersStream(keypair.publicKey(), (offers) => {
             store.dispatch(getOffersSuccess(offers));
           }));
-        /*getServerInstance()
-          .offers('accounts', account.account_id)
-          .order('desc')
-          .stream({
-            onmessage: offer => {
-              store.dispatch(getOffersStream(offer));
-            },
-            onerror: traceError
-          }));*/
-
-      } catch(e) {
+      } catch (e) {
         traceError(e);
       }
       break;
     }
+    default:
   }
 
   next(action);
