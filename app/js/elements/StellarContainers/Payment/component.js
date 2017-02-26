@@ -257,12 +257,16 @@ class Payment extends Component {
       .then((resolved) => {
         this.props.getDestinationTrustlines(resolved.account_id);
 
+        const { memo_type, memo } = resolved;
+        if (memo_type && memo) {
+          // TODO set memo to fields
+        }
+
         this.setState({
           validDestination: true,
           resolving: false,
           destinationKeypair: KeypairInstance({ publicKey: resolved.account_id }),
         });
-        // TODO set memo
         return null;
       })
       .catch(() => {
