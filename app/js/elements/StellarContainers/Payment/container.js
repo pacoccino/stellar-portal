@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
 
+import { asyncMessageSelector } from 'js/helpers/asyncActions/selectors';
+import { ASYNC_SEND_OPERATION } from 'js/constants/asyncActions';
+
 import Payment from './component';
 import {
   sendPayment,
@@ -28,6 +31,7 @@ const mapStateToProps = state => ({
   canSign: canSign(state),
   sendingPayment: isSendingPayment(state),
   destinationTruslines: getDestinationTrustlinesSelector(state),
+  paymentSuccess: asyncMessageSelector(ASYNC_SEND_OPERATION)(state),
 });
 const mapDispatchToProps = {
   sendPayment,
