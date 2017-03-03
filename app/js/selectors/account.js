@@ -40,3 +40,5 @@ export const accountSet = createSelector(
     !!authData && !!authData.keypair && !!account
   ),
 );
+
+export const getAccounts = selectProperty([ACCOUNT_STATE_KEY, 'accounts']);

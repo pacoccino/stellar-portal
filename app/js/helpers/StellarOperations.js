@@ -166,6 +166,20 @@ export const accountMerge = ({ destination }, authData) => {
   }
 };
 
+export const manageData = (data, authData) => {
+  try {
+    const props = Object.key(data);
+    const operations = props.map(prop => Operation.manageData({
+      name: prop,
+      value: data[prop],
+    }));
+
+    return sendTransaction(authData, { operations });
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 /*
  Endpoints
 

@@ -1,14 +1,33 @@
-credit background
 
-buy untrusted asset
-modal comfirm payments
+
+BUGS
+network disconected
+
+TECHNICAL
+redux Form
+debug
+stream from last timestamp
+merge stream/get
+get limit
+
+FEATURES
+Sign with account's data seed
+multi account
+buy/offer untrusted asset
 resume statistic dashboard with money values
+pagination
+pre-anchors
 
-webpack2/redux forms
 
-ASYNC actions
+THINK
+
+UI V2
+see sterllarterm
+serve federation
 
 Toaster
+
+credit background
 
 - desktop app link and page
 

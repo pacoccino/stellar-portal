@@ -1,6 +1,7 @@
 export const SWITCH_NETWORK = 'network:switch';
 
 export const RESET_ACCOUNT = 'account:reset';
+export const ADD_ACCOUNT = 'account:add';
 export const SET_KEYPAIR = 'keypair:set';
 
 
@@ -22,4 +23,16 @@ export function switchNetwork(network) {
     type: SWITCH_NETWORK,
     network,
   };
+}
+
+export function addAccount(account, accounts) {
+  return {
+    type: ADD_ACCOUNT,
+    account,
+    accounts,
+  };
+}
+
+export function addAccounts(accounts) {
+  return addAccount(null, accounts);
 }

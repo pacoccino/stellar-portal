@@ -4,10 +4,12 @@ import { findIndex } from 'lodash';
 import * as types from '../actions/account';
 import { DELETE_TRUSTLINE } from '../actions/ui';
 import { editInArray, createReducer } from '../helpers/redux';
+import { KeypairInstance } from '../helpers/StellarTools';
 
 const initialState = {
   keypair: null,
   error: null,
+  accounts: [],
 };
 
 function resetAccount() {
@@ -19,7 +21,28 @@ function setKeypair(state, action) {
 
   return {
     ...state,
-    keypair,
+    keypair: KeypairInstance(keypair),
+  };
+}
+
+function addAccount(state, action) {
+  const { account, accounts } = action;
+
+  let newAccounts = state.accounts.slice();
+  if (
+    account &&
+    (newAccounts.findIndex(a => (a.publicKey() === account.publicKey())) === -1)
+  ) {
+    newAccounts = newAccounts.concat(account);
+  }
+  if (accounts) {
+    newAccounts = newAccounts.concat(accounts);
+  }
+  newAccounts = newAccounts.map(KeypairInstance);
+
+  return {
+    ...state,
+    accounts: newAccounts,
   };
 }
 
@@ -41,5 +64,6 @@ function deletingTrustline(state, action) {
 export default createReducer(initialState, {
   [types.RESET_ACCOUNT]: resetAccount,
   [types.SET_KEYPAIR]: setKeypair,
+  [types.ADD_ACCOUNT]: addAccount,
   [DELETE_TRUSTLINE]: deletingTrustline,
 });
