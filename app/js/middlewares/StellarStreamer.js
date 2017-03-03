@@ -2,6 +2,7 @@ import { StellarStreamers } from 'stellar-toolkit';
 import * as actions from '../actions/account';
 import { getPaymentsStream, getEffectsStream, getOffersSuccess } from '../actions/stellar';
 import { newStream, killStreams } from '../helpers/monoStreamer';
+import { getAccounts } from '../selectors/account';
 import { AsyncActions } from '../helpers/asyncActions';
 import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
 
@@ -18,9 +19,12 @@ const stellarStreamerMiddleware = store => next => (action) => {
       break;
     }
     // case 'aaaa:': {
-    case actions.SET_KEYPAIR: {
-      const { keypair } = action;
+    case actions.SET_CURRENT_ACCOUNT_ID: {
+      const { id } = action;
 
+      const state = store.getState();
+      const currentAccount = getAccounts(state).find(a => a.id === id);
+      const keypair = currentAccount.keypair;
       try {
         // Stream account
         newStream('account',

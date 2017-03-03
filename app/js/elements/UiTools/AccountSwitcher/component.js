@@ -1,23 +1,54 @@
 import React, { PropTypes } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
+
+import AccountId from '../../../components/stellar/AccountId';
 
 class AccountSwitcher extends React.Component {
   render() {
-    const { resetAccount } = this.props;
+    const { currentAccount, openAccountId, accounts } = this.props;
+
+    if (accounts.length === 0) {
+      return null;
+    }
+
+    let currentId = 'null';
+
+    const options = accounts.map(a => ({
+      value: a.id,
+      text: AccountId.getAccountIdText(a.keypair.publicKey()),
+    }));
+
+    if (currentAccount) {
+      currentId = currentAccount.id;
+      options.push({
+        value: 'null',
+        text: 'Close account',
+      });
+    } else {
+      options.unshift({
+        value: 'null',
+        text: 'No account selected',
+      });
+    }
 
     return (
-      <Button
-        primary compact
-        icon="user"
-        onClick={resetAccount}
-        content="Change account"
+      <Dropdown
+        selection
+        button
+        color="blue"
+        label="Select account"
+        options={options}
+        value={currentId}
+        onChange={(e, d) => openAccountId(d.value)}
       />
     );
   }
 }
 
 AccountSwitcher.propTypes = {
-  resetAccount: PropTypes.func.isRequired,
+  accounts: PropTypes.array.isRequired,
+  currentAccount: PropTypes.object,
+  openAccountId: PropTypes.func.isRequired,
 };
 
 export default AccountSwitcher;

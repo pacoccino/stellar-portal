@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import { Container, Menu, Button } from 'semantic-ui-react';
 
 import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
-import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
+// import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
+import ChangeAccount from '../../../elements/UiTools/ChangeAccount';
 import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
 import icon from '../../../../../content/assets/images/favicon-32x32.png';
@@ -11,7 +12,7 @@ function duplicateTab() {
   window.open(window.location.href);
 }
 
-const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
+const TopBar = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal, currentAccount }) =>
   <Menu fixed="top" inverted>
     <Container>
       <Menu.Item>
@@ -27,9 +28,12 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
         />
         <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
       </Menu.Item>
-      {keypair &&
+      {/*<Menu.Item>
+       <AccountSwitcher />
+       </Menu.Item>*/}
+      { currentAccount &&
       <Menu.Item>
-        <AccountSwitcher />
+        <ChangeAccount />
       </Menu.Item>
       }
       <Menu.Item>
@@ -44,12 +48,12 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
     </Container>
   </Menu>;
 
-Layout.propTypes = {
+TopBar.propTypes = {
   goHome: PropTypes.func.isRequired,
   openKeypairModal: PropTypes.func.isRequired,
   closeKeypairModal: PropTypes.func.isRequired,
-  keypair: PropTypes.object,
   keypairModalOpen: PropTypes.bool,
+  currentAccount: PropTypes.object,
 };
 
-export default Layout;
+export default TopBar;

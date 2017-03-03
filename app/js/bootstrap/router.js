@@ -1,35 +1,52 @@
-import React from 'react';
-import { Router, Route, Redirect, browserHistory } from 'react-router';
+import React, { PropTypes } from 'react';
+import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import store from './store';
 
 import Layout from '../components/Layout';
+import Welcome from '../components/views/WelcomeView';
 import * as routes from '../constants/routes';
 
 import AppMode from '../elements/AppMode';
 // import NotFound from '../components/views/NotFound';
 import Desktop from '../components/views/Desktop';
-
-import * as AccountManager from '../helpers/AccountManager';
+import { onPageLoad as onPageLoadAction, onChangeAccountRoute as onChangeAccountRouteAction } from '../actions-creators/account';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const RouterContainer = () =>
+const RouterContainer = ({ onPageLoad, onChangeAccountRoute }) =>
   <Router history={history}>
-    <Route component={Layout}>
+    <Route
+      component={Layout}
+      onEnter={onPageLoad}
+      path={routes.Root}
+    >
       <Route
-        path={routes.Root}
+        path={routes.Account}
+        onEnter={onChangeAccountRoute}
         component={AppMode}
-        onEnter={AccountManager.onPageLoad}
       />
+
       <Route
         path={routes.Desktop}
         component={Desktop}
       />
 
-      <Redirect from="*" to="/" />
+      <IndexRoute component={Welcome} />
+      <Redirect from="*" to={routes.Root} />
     </Route>
   </Router>;
 
-export default RouterContainer;
+RouterContainer.propTypes = {
+  onPageLoad: PropTypes.func.isRequired,
+  onChangeAccountRoute: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  onPageLoad: onPageLoadAction,
+  onChangeAccountRoute: onChangeAccountRouteAction,
+};
+
+export default connect(null, mapDispatchToProps)(RouterContainer);

@@ -1,17 +1,19 @@
-import { setAccount, switchNetwork } from '../actions-creators/account';
 
-let store = null;
+import { manageData } from './StellarOperations';
 
-export const setStore = (newStore) => {
-  store = newStore;
-};
+const encrypt = a => a;
+const decrypt = a => a;
 
-export const onPageLoad = (nextState) => {
-  const { location: { query } } = nextState;
-  if (query.network) {
-    store.dispatch(switchNetwork(query.network));
-  }
-  if (!!query.accountId || !!query.secretSeed) {
-    store.dispatch(setAccount({ publicKey: query.accountId, secretSeed: query.secretSeed }));
-  }
+export const PASSWORD_FIELD = 'password';
+
+
+export const getAccountSeed = (account, password) =>
+  decrypt(account.data[PASSWORD_FIELD], password);
+
+export const setAccountSeed = (authData, password) => {
+  const encryptedSeed = encrypt(authData.keypair.secret(), password);
+  const data = {
+    PASSWORD_FIELD: encryptedSeed,
+  };
+  return manageData(data, authData);
 };
