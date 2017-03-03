@@ -41,4 +41,4 @@ export const accountSet = createSelector(
   ),
 );
 
-export const getAccounts = selectProperty([ACCOUNT_STATE_KEY, 'accounts']);
+export const getAccounts = selectProperty([ACCOUNT_STATE_KEY, 'accounts'], []);

@@ -1,22 +1,30 @@
 import React, { PropTypes } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Dropdown, Button } from 'semantic-ui-react';
 
 class AccountSwitcher extends React.Component {
   render() {
-    const { resetAccount } = this.props;
+    const { resetAccount, accounts } = this.props;
 
-    return (
-      <Button
-        primary compact
-        icon="user"
-        onClick={resetAccount}
-        content="Change account"
-      />
-    );
+    if (accounts.length === 0) {
+      return (
+        <Button
+          primary compact
+          icon="add"
+          onClick={resetAccount}
+          content="Add account"
+        />
+      );
+    } else {
+      return (
+        <Dropdown></Dropdown>
+      );
+    }
   }
 }
 
 AccountSwitcher.propTypes = {
+  accounts: PropTypes.array.isRequired,
+  keypair: PropTypes.object,
   resetAccount: PropTypes.func.isRequired,
 };
 

@@ -14,8 +14,8 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
         <img src={icon} alt="menu icon" />
       </Menu.Item>
       <Menu.Item header onClick={goHome}>
-          Stellar Portal
-        </Menu.Item>
+        Stellar Portal
+      </Menu.Item>
       <Menu.Item position="right">
         <Button
           content="Keypair generator"
@@ -23,11 +23,9 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
         />
         <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
       </Menu.Item>
-      {keypair &&
-        <Menu.Item>
-          <AccountSwitcher />
-        </Menu.Item>
-        }
+      <Menu.Item>
+        <AccountSwitcher />
+      </Menu.Item>
       <Menu.Item>
         <NetworkSwitcher />
       </Menu.Item>
