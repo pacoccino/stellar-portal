@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Container, Button, Input, Message } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
+import { Field, propTypes } from 'redux-form';
 
 import * as StellarHelper from '../../../helpers/StellarTools';
 
@@ -18,7 +19,6 @@ class AccountSelector extends Component {
     super(props);
 
     this.state = {
-      address: '',
       keypair: null,
       showSeed: false,
       resolving: false,
@@ -49,9 +49,9 @@ class AccountSelector extends Component {
     new Clipboard('.account-address-copy'); // eslint-disable-line no-new
   }
 
-  getKeypair() {
+  getKeypair(newAddress) {
     this.setState({ resolving: true });
-    const address = this.state.address;
+    const address = newAddress;
 
     const isSeed = StellarHelper.validSeed(address);
     if (isSeed) {
@@ -79,13 +79,34 @@ class AccountSelector extends Component {
       });
   }
 
-  handleAddress(e) {
-    const address = e.target.value || '';
-    this.setState({
-      address,
-    }, () => {
-      this.getKeypair();
-    });
+  handleAddress(e, newAddress) {
+    this.setState({ resolving: true });
+    const address = newAddress;
+
+    const isSeed = StellarHelper.validSeed(address);
+    if (isSeed) {
+      const keypair = StellarHelper.KeypairInstance({ secretSeed: address });
+      this.setState({
+        keypair,
+        resolving: false,
+      });
+      return;
+    }
+
+    StellarHelper.resolveAddress(address)
+      .then((resolved) => {
+        const keypair = StellarHelper.KeypairInstance({ publicKey: resolved.account_id });
+        this.setState({
+          keypair,
+          resolving: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          keypair: null,
+          resolving: false,
+        });
+      });
   }
 
   handleSet(e) {
@@ -97,6 +118,8 @@ class AccountSelector extends Component {
   }
 
   newForm() {
+    const { values: { address }, handleSubmit } = this.props;
+
     let buttonLabel = 'Invalid address';
     const buttonContent = 'Go';
     let buttonColor = 'red';
@@ -109,16 +132,18 @@ class AccountSelector extends Component {
       } else {
         buttonLabel = 'Public address';
       }
-    } else if (!this.state.address) {
+    } else if (!address) {
       buttonLabel = 'No address';
     }
     return (
       <div style={styles.inputCntainer}>
-        <Input
-          input={{ value: this.state.address }}
+        <Field
+          name="address"
+          component={Input}
           onChange={::this.handleAddress}
+          type="text"
           placeholder="Please enter your seed, account ID or federation address."
-          error={!!this.state.address && !this.state.keypair}
+          error={!!address && !this.state.keypair}
           label={{ content: buttonLabel, width: 3, size: 'large', className: 'AccountSelector-inputTitle' }}
           fluid
           action={{
@@ -130,7 +155,6 @@ class AccountSelector extends Component {
             loading: this.state.resolving || this.props.isAccountLoading,
           }}
         />
-
       </div>
     );
   }
@@ -181,6 +205,8 @@ AccountSelector.propTypes = {
   setAccount: PropTypes.func.isRequired,
   createTestAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,
+  ...propTypes,
+  values: PropTypes.any
 };
 
 export default AccountSelector;

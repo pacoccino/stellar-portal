@@ -253,6 +253,7 @@ class Payment extends Component {
     const destinationAddress = e.target.value;
 
     this.setState({ resolving: true });
+    // TODO debounce()
     resolveAddress(destinationAddress)
       .then((resolved) => {
         this.props.getDestinationTrustlines(resolved.account_id);
