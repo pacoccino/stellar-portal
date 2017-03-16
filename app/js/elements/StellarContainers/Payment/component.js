@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, Header, Input, Form, Message } from 'semantic-ui-react';
+import { Grid, Dropdown, Header, Input, Form, Message } from 'semantic-ui-react';
+import { Field, propTypes } from 'redux-form';
 
 import Asset from '../../../components/stellar/Asset';
 import { STROOP, KeypairInstance, resolveAddress } from '../../../helpers/StellarTools';
@@ -10,7 +11,7 @@ const styles = {
   },
 };
 
-function MemoFields() {
+function MemoFields({ change, memo = { type: 'none' } }) {
   const types = [
     {
       value: 'none',
@@ -35,21 +36,32 @@ function MemoFields() {
   ];
 
   return (
-    <Form.Group widths="two">
-      <Form.Select
-        label="Memo type"
-        name="memo.type"
-        options={types}
-        defaultValue="none"
-      />
-      <Form.Field
-        name="memo.value"
-        label="Memo Value"
-        control="input"
-        type="text"
-        placeholder="Memo"
-      />
-    </Form.Group>
+    <div>
+      <Header as='h5'>Memo</Header>
+      <Grid columns={2} doubling>
+        <Grid.Column>
+          <Dropdown
+            selection
+            name="memo.type"
+            options={types}
+            value={memo.type}
+            onChange={(e, data) => change('memo.type', data.value)}
+            fluid
+
+          />
+        </Grid.Column>
+        <Grid.Column>
+          <Field
+            component={Input}
+            name="memo.value"
+            type="text"
+            placeholder="Memo"
+            fluid
+            disabled={memo.type === 'none'}
+          />
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 class Payment extends Component {
@@ -89,7 +101,7 @@ class Payment extends Component {
           placeholder="0"
           required
         />
-        <MemoFields />
+        <MemoFields change={this.props.change} memo={this.props.values.memo} />
       </div>
     );
   }
@@ -144,7 +156,7 @@ class Payment extends Component {
           placeholder="0"
           required
         />
-        <MemoFields />
+        <MemoFields change={this.props.change} memo={this.props.values.memo} />
       </div>
     );
   }
@@ -249,9 +261,7 @@ class Payment extends Component {
     }
   }
 
-  checkDestination(e) {
-    const destinationAddress = e.target.value;
-
+  checkDestination(e, destinationAddress) {
     this.setState({ resolving: true });
     // TODO debounce()
     resolveAddress(destinationAddress)
@@ -260,7 +270,8 @@ class Payment extends Component {
 
         const { memo_type, memo } = resolved;
         if (memo_type && memo) {
-          // TODO set memo to fields
+          this.props.change('memo.type', memo_type);
+          this.props.change('memo.value', memo);
         }
 
         this.setState({
@@ -295,13 +306,13 @@ class Payment extends Component {
         </Header>
         <Dropdown
           options={
-          [
+            [
               { text: 'Payment', value: 'payment' },
               { text: 'Path payment', value: 'path_payment' },
               { text: 'Issue asset', value: 'issue_asset' },
               { text: 'Create account', value: 'create_account' },
               { text: 'Account merge', value: 'account_merge' },
-          ]
+            ]
           }
           selection fluid
           color="green"
@@ -310,11 +321,11 @@ class Payment extends Component {
         />
         <div style={{ height: '1rem' }} />
         <Form
-          onSubmit={::this.submitForm}
           loading={this.props.sendingPayment}
         >
           <Form.Field>
-            <Input
+            <Field
+              component={Input}
               name="destination"
               onChange={::this.checkDestination}
               placeholder="GRDT... or bob*federation.org"
@@ -333,6 +344,7 @@ class Payment extends Component {
           <Form.Button
             type="submit"
             fluid
+            onClick={::this.submitForm}
             style={styles.padV}
             primary
             icon="send"

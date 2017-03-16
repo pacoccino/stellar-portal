@@ -49,36 +49,6 @@ class AccountSelector extends Component {
     new Clipboard('.account-address-copy'); // eslint-disable-line no-new
   }
 
-  getKeypair(newAddress) {
-    this.setState({ resolving: true });
-    const address = newAddress;
-
-    const isSeed = StellarHelper.validSeed(address);
-    if (isSeed) {
-      const keypair = StellarHelper.KeypairInstance({ secretSeed: address });
-      this.setState({
-        keypair,
-        resolving: false,
-      });
-      return;
-    }
-
-    StellarHelper.resolveAddress(address)
-      .then((resolved) => {
-        const keypair = StellarHelper.KeypairInstance({ publicKey: resolved.account_id });
-        this.setState({
-          keypair,
-          resolving: false,
-        });
-      })
-      .catch(() => {
-        this.setState({
-          keypair: null,
-          resolving: false,
-        });
-      });
-  }
-
   handleAddress(e, newAddress) {
     this.setState({ resolving: true });
     const address = newAddress;

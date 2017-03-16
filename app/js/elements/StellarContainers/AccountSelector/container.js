@@ -1,12 +1,7 @@
 import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
 
-import { reduxForm } from 'redux-form';
 import { createTestAccount, setAccount } from '../../../actions-creators/account';
-
-import {
-  getFormValues,
-} from 'redux-form'
-
 
 import AccountSelector from './component';
 import {

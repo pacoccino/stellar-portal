@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
 
 import Payment from './component';
 import {
@@ -22,13 +23,18 @@ import {
   isSendingPayment,
 } from '../../../selectors/ui';
 
+const FORM_NAME = 'payment-form';
+
 const mapStateToProps = state => ({
   account: getAccount(state),
   trustlines: getTrustlines(state),
   canSign: canSign(state),
   sendingPayment: isSendingPayment(state),
   destinationTruslines: getDestinationTrustlinesSelector(state),
+
+  values: getFormValues(FORM_NAME)(state) || {}, // WHY object ?
 });
+
 const mapDispatchToProps = {
   sendPayment,
   sendIssuePayment,
@@ -38,4 +44,6 @@ const mapDispatchToProps = {
   getDestinationTrustlines,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Payment);
+export default reduxForm({
+  form: FORM_NAME, // a unique name for this form
+})(connect(mapStateToProps, mapDispatchToProps)(Payment));
