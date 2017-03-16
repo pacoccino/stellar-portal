@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Grid, Dropdown, Header, Input, Form, Message } from 'semantic-ui-react';
 import { Field, propTypes } from 'redux-form';
+import { debounce } from 'lodash';
 
 import Asset from '../../../components/stellar/Asset';
 import { STROOP, KeypairInstance, resolveAddress } from '../../../helpers/StellarTools';
@@ -73,6 +74,8 @@ class Payment extends Component {
       validDestination: false,
       destinationKeypair: null,
     };
+
+    this.checkDestinationDebounced = debounce(this.checkDestinationDebounced, 200);
   }
 
   getPaymentForm() {
@@ -263,7 +266,10 @@ class Payment extends Component {
 
   checkDestination(e, destinationAddress) {
     this.setState({ resolving: true });
-    // TODO debounce()
+    this.checkDestinationDebounced(e, destinationAddress);
+  }
+
+  checkDestinationDebounced(e, destinationAddress) {
     resolveAddress(destinationAddress)
       .then((resolved) => {
         this.props.getDestinationTrustlines(resolved.account_id);
@@ -385,6 +391,7 @@ Payment.propTypes = {
   trustlines: PropTypes.array,
   destinationTruslines: PropTypes.array,
   canSign: PropTypes.bool,
+  ...propTypes,
 };
 
 export default Payment;
