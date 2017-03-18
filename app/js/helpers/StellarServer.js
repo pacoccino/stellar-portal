@@ -16,7 +16,12 @@ export const getServerInstance = () => Server;
 export const getAccount = accountId =>
   getServerInstance()
     .loadAccount(accountId)
-    .then(augmentAccount);
+    .then((account) => {
+      if (account) {
+        return augmentAccount(account);
+      }
+      throw 'no account';
+    });
 
 export const Orderbook = ({ selling, buying }) =>
   getServerInstance()

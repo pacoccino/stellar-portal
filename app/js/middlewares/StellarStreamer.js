@@ -15,6 +15,7 @@ const stellarStreamerMiddleware = store => next => (action) => {
       killStreams();
       break;
     }
+    // case 'aaaa:': {
     case actions.SET_KEYPAIR: {
       const { keypair } = action;
 

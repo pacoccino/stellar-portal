@@ -1,12 +1,9 @@
 import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
 
 import Payment from './component';
 import {
-  sendPayment,
-  sendIssuePayment,
-  sendPathPayment,
-  sendCreateAccount,
-  sendAccountMerge,
+  sendOperation,
   getDestinationTrustlines,
 } from '../../../actions-creators/stellar';
 import {
@@ -22,20 +19,28 @@ import {
   isSendingPayment,
 } from '../../../selectors/ui';
 
+const FORM_NAME = 'payment-form';
+
 const mapStateToProps = state => ({
   account: getAccount(state),
   trustlines: getTrustlines(state),
   canSign: canSign(state),
   sendingPayment: isSendingPayment(state),
   destinationTruslines: getDestinationTrustlinesSelector(state),
+
+  values: getFormValues(FORM_NAME)(state),
 });
+
 const mapDispatchToProps = {
-  sendPayment,
-  sendIssuePayment,
-  sendPathPayment,
-  sendCreateAccount,
-  sendAccountMerge,
+  sendOperation,
   getDestinationTrustlines,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Payment);
+export default reduxForm({
+  form: FORM_NAME, // a unique name for this form
+  initialValues: {
+    memo: {
+      type: 'none',
+    },
+  },
+})(connect(mapStateToProps, mapDispatchToProps)(Payment));

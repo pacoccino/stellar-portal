@@ -29,5 +29,6 @@
     "import/import-firsts": 0,
     "import/prefer-default-export": 0,
     "react/forbid-prop-types": [2, { "forbid": ["any"] }],
+    "jsx-a11y/label-has-for": 0,
   }
 }

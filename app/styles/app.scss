@@ -57,3 +57,7 @@ a {
   50% {transform:translateY(8px);}
   to {transform:translateY(0);}
 }
+
+.ui.label.iconOnly>.icon {
+  margin: 0!important;
+}
