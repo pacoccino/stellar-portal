@@ -1,5 +1,4 @@
 import * as StellarOperations from '../helpers/StellarOperations';
-
 import { newStream } from '../helpers/monoStreamer';
 import { ASYNC_SEND_OPERATION, ASYNC_CREATE_TRUSTLINE, ASYNC_GET_ORDERBOOK } from '../constants/asyncActions';
 import { AsyncActions } from '../helpers/asyncActions';
@@ -8,7 +7,6 @@ import { AssetInstance } from '../helpers/StellarTools';
 import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
-
 
 import {
   getAccount as getAccountSelector,
@@ -20,6 +18,13 @@ import {
   getDestinationTrustlines as getDestinationTrustlinesSelector,
 } from '../selectors/ui';
 
+export const OPERATIONS = {
+  PAYMENT: 'payment',
+  PATH_PAYMENT: 'path_payment',
+  ISSUE_ASSET: 'issue_asset',
+  CREATE_ACCOUNT: 'create_account',
+  ACCOUNT_MERGE: 'account_merge',
+};
 
 const sendOperationRedux = (transaction, dispatch) => {
   dispatch(AsyncActions.startFetch(ASYNC_SEND_OPERATION));
@@ -169,25 +174,25 @@ export const sendOperation = (type, formData) => (dispatch, getState) => {
   const destinationTruslines = getDestinationTrustlinesSelector(state);
 
   switch (type) {
-    case 'payment': {
+    case OPERATIONS.PAYMENT: {
       formData.asset = trustlines[formData.asset];
       return dispatch(sendPayment(formData));
     }
-    case 'path_payment': {
+    case OPERATIONS.PATH_PAYMENT: {
       formData.asset_source =
         trustlines[formData.asset_source];
       formData.asset_destination =
         destinationTruslines[formData.asset_destination];
       return dispatch(sendPathPayment(formData));
     }
-    case 'issue_asset': {
+    case OPERATIONS.ISSUE_ASSET: {
       formData.accountId = account.account_id;
       return dispatch(sendIssuePayment(formData));
     }
-    case 'create_account': {
+    case OPERATIONS.CREATE_ACCOUNT: {
       return dispatch(sendCreateAccount(formData));
     }
-    case 'account_merge': {
+    case OPERATIONS.ACCOUNT_MERGE: {
       return dispatch(sendAccountMerge(formData));
     }
     default:

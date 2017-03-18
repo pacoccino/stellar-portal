@@ -1,26 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Dimmer, Loader, Grid, Dropdown, Header, Input, Form as FormUI } from 'semantic-ui-react';
+import { Button, Dimmer, Loader, Grid, Dropdown, Header, Form as FormUI } from 'semantic-ui-react';
 import { Field, propTypes } from 'redux-form';
 import { debounce } from 'lodash';
 
 import Asset from '../../../components/stellar/Asset';
 import { STROOP, KeypairInstance, resolveAddress } from '../../../helpers/StellarTools';
+import { OPERATIONS } from '../../../actions-creators/stellar';
+
+import DropdownFormField from '../../UiTools/SemanticForm/Dropdown';
+import InputFormField from '../../UiTools/SemanticForm/Input';
 
 const styles = {
   padV: {
     margin: '1rem 0',
   },
 };
-
-const DropdownFormField = props => (
-  <FormUI.Field>
-    <Dropdown selection {...props.input}
-              value={props.input.value}
-              onChange={(param,data) => props.input.onChange(data.value)}
-              {...props}
-    />
-  </FormUI.Field>
-);
 
 // TODO ask send validation
 function MemoFields({ memo }) {
@@ -61,7 +55,7 @@ function MemoFields({ memo }) {
         </Grid.Column>
         <Grid.Column>
           <Field
-            component={Input}
+            component={InputFormField}
             name="memo.value"
             type="text"
             placeholder="Memo"
@@ -108,7 +102,7 @@ class Payment extends Component {
         <FormUI.Field>
           <label>Amount</label>
           <Field
-            component={Input}
+            component={InputFormField}
             name="amount"
             type="number"
             min={0}
@@ -165,7 +159,7 @@ class Payment extends Component {
         <FormUI.Field>
           <label>Maximum amount to send</label>
           <Field
-            component={Input}
+            component={InputFormField}
             name="max_amount"
             type="number"
             min={0}
@@ -178,7 +172,7 @@ class Payment extends Component {
         <FormUI.Field>
           <label>Amount to receive</label>
           <Field
-            component={Input}
+            component={InputFormField}
             name="amount_destination"
             type="number"
             min={0}
@@ -199,7 +193,7 @@ class Payment extends Component {
         <FormUI.Field>
           <label>Code</label>
           <Field
-            component={Input}
+            component={InputFormField}
             name="asset_code"
             type="text"
             placeholder="EUR"
@@ -210,7 +204,7 @@ class Payment extends Component {
         <FormUI.Field>
           <label>Amount</label>
           <Field
-            component={Input}
+            component={InputFormField}
             name="amount"
             type="number"
             min={0}
@@ -233,7 +227,7 @@ class Payment extends Component {
         <FormUI.Field>
           <label>Starting balance</label>
           <Field
-            component={Input}
+            component={InputFormField}
             name="amount"
             type="number"
             min={0}
@@ -311,7 +305,7 @@ class Payment extends Component {
 
     // todo loader
     return (
-      <div>
+      <FormUI onSubmit={e => e.preventDefault()}>
         <Dimmer active={this.props.sendingPayment} inverted>
           <Loader>Sending...</Loader>
         </Dimmer>
@@ -321,39 +315,39 @@ class Payment extends Component {
         <Dropdown
           options={
             [
-              { text: 'Payment', value: 'payment' },
-              { text: 'Path payment', value: 'path_payment' },
-              { text: 'Issue asset', value: 'issue_asset' },
-              { text: 'Create account', value: 'create_account' },
-              { text: 'Account merge', value: 'account_merge' },
+              { text: 'Payment', value: OPERATIONS.PAYMENT },
+              { text: 'Path payment', value: OPERATIONS.PATH_PAYMENT },
+              { text: 'Issue asset', value: OPERATIONS.ISSUE_ASSET },
+              { text: 'Create account', value: OPERATIONS.CREATE_ACCOUNT },
+              { text: 'Account merge', value: OPERATIONS.ACCOUNT_MERGE },
             ]
           }
           selection fluid
+          name="operation_type"
           color="green"
           value={this.state.type}
           onChange={(e, t) => this.setState({ type: t.value })}
         />
         <div style={{ height: '1rem' }} />
-        <FormUI.Field>
-          <label>Destination</label>
-          <Field
-            component={Input}
-            name="destination"
-            onChange={::this.checkDestination}
-            placeholder="GRDT... or bob*federation.org"
-            label={!this.state.resolving && destinationFormLabel}
-            labelPosition="right"
-            loading={this.state.resolving} icon={this.state.resolving && 'user'}
-            fluid
-            required
-          />
-        </FormUI.Field>
-
-        {this.state.type === 'payment' ? this.getPaymentForm() : null}
-        {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
-        {this.state.type === 'issue_asset' ? this.getIssueForm() : null}
-        {this.state.type === 'create_account' ? this.getCreateAccountForm() : null}
-        {this.state.type === 'account_merge' ? this.getAccountMergeForm() : null}
+          <FormUI.Field>
+            <label>Destination</label>
+            <Field
+              component={InputFormField}
+              name="destination"
+              onChange={::this.checkDestination}
+              placeholder="GRDT... or bob*federation.org"
+              label={!this.state.resolving && destinationFormLabel}
+              labelPosition="right"
+              loading={this.state.resolving} icon={this.state.resolving && 'user'}
+              fluid
+              required
+            />
+          </FormUI.Field>
+        {this.state.type === OPERATIONS.PAYMENT ? this.getPaymentForm() : null}
+        {this.state.type === OPERATIONS.PATH_PAYMENT ? this.getPathPaymentForm() : null}
+        {this.state.type === OPERATIONS.ISSUE_ASSET ? this.getIssueForm() : null}
+        {this.state.type === OPERATIONS.CREATE_ACCOUNT ? this.getCreateAccountForm() : null}
+        {this.state.type === OPERATIONS.ACCOUNT_MERGE ? this.getAccountMergeForm() : null}
 
         <Button
           fluid
@@ -365,7 +359,7 @@ class Payment extends Component {
           content="Send"
           disabled={this.state.resolving || !this.state.destinationKeypair || this.props.sendingPayment}
         />
-      </div>
+      </FormUI>
     );
   }
 }

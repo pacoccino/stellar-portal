@@ -4,6 +4,7 @@ import Clipboard from 'clipboard';
 import { Field, propTypes } from 'redux-form';
 
 import * as StellarHelper from '../../../helpers/StellarTools';
+import InputFormField from '../../UiTools/SemanticForm/Input';
 
 const styles = {
   inputContainer: {
@@ -88,7 +89,7 @@ class AccountSelector extends Component {
   }
 
   newForm() {
-    const { values: { address }, handleSubmit } = this.props;
+    const { values: { address } } = this.props;
 
     let buttonLabel = 'Invalid address';
     const buttonContent = 'Go';
@@ -109,7 +110,7 @@ class AccountSelector extends Component {
       <div style={styles.inputCntainer}>
         <Field
           name="address"
-          component={Input}
+          component={InputFormField}
           onChange={::this.handleAddress}
           type="text"
           placeholder="Please enter your seed, account ID or federation address."
