@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Grid, Dropdown, Header, Input, Form, Message } from 'semantic-ui-react';
+import { Button, Dimmer, Loader, Grid, Dropdown, Header, Input, Form as FormUI } from 'semantic-ui-react';
 import { Field, propTypes } from 'redux-form';
 import { debounce } from 'lodash';
 
@@ -12,7 +12,18 @@ const styles = {
   },
 };
 
-function MemoFields({ change, memo = { type: 'none' } }) {
+const DropdownFormField = props => (
+  <FormUI.Field>
+    <Dropdown selection {...props.input}
+              value={props.input.value}
+              onChange={(param,data) => props.input.onChange(data.value)}
+              {...props}
+    />
+  </FormUI.Field>
+);
+
+// TODO ask send validation
+function MemoFields({ memo }) {
   const types = [
     {
       value: 'none',
@@ -38,17 +49,14 @@ function MemoFields({ change, memo = { type: 'none' } }) {
 
   return (
     <div>
-      <Header as='h5'>Memo</Header>
+      <label>Memo</label>
       <Grid columns={2} doubling>
         <Grid.Column>
-          <Dropdown
-            selection
+          <Field
+            component={DropdownFormField}
             name="memo.type"
             options={types}
-            value={memo.type}
-            onChange={(e, data) => change('memo.type', data.value)}
             fluid
-
           />
         </Grid.Column>
         <Grid.Column>
@@ -58,7 +66,7 @@ function MemoFields({ change, memo = { type: 'none' } }) {
             type="text"
             placeholder="Memo"
             fluid
-            disabled={memo.type === 'none'}
+            disabled={memo && memo.type === 'none'}
           />
         </Grid.Column>
       </Grid>
@@ -71,7 +79,6 @@ class Payment extends Component {
     super(props);
     this.state = {
       type: 'payment',
-      validDestination: false,
       destinationKeypair: null,
     };
 
@@ -87,24 +94,31 @@ class Payment extends Component {
 
     return (
       <div>
-        <Form.Select
-          label="Source asset"
-          name="asset"
-          options={getAssetsOptions(this.props.trustlines)}
-          placeholder="Asset to send"
-          required
-        />
-        <Form.Field
-          name="amount"
-          label="Amount"
-          control="input"
-          type="number"
-          min={0}
-          step={STROOP}
-          placeholder="0"
-          required
-        />
-        <MemoFields change={this.props.change} memo={this.props.values.memo} />
+        <FormUI.Field>
+          <label>Source asset</label>
+          <Field
+            component={DropdownFormField}
+            name="asset"
+            placeholder="Asset to send"
+            options={getAssetsOptions(this.props.trustlines)}
+            fluid
+            required
+          />
+        </FormUI.Field>
+        <FormUI.Field>
+          <label>Amount</label>
+          <Field
+            component={Input}
+            name="amount"
+            type="number"
+            min={0}
+            step={STROOP}
+            placeholder="0"
+            fluid
+            required
+          />
+        </FormUI.Field>
+        <MemoFields memo={this.props.values.memo} />
       </div>
     );
   }
@@ -115,51 +129,66 @@ class Payment extends Component {
         value: index,
         text: Asset.getAssetString(asset),
       }));
-    const destAssets = this.props.destinationTruslines.map((asset, index) => (
-      {
-        value: index,
-        text: Asset.getAssetString(asset),
-      }));
+    const destAssets = this.state.destinationKeypair &&
+      this.props.destinationTruslines.map((asset, index) => (
+        {
+          value: index,
+          text: Asset.getAssetString(asset),
+        })) || [];
 
     return (
       <div>
-        <Form.Group widths="2">
-          <Form.Select
-            label="Source asset"
-            name="asset_source"
-            options={sourceAssets}
-            placeholder="Asset to send"
+        <FormUI.Group widths="2">
+          <FormUI.Field>
+            <label>Source asset</label>
+            <Field
+              component={DropdownFormField}
+              name="asset_source"
+              placeholder="Asset to send"
+              options={sourceAssets}
+              fluid
+              required
+            />
+          </FormUI.Field>
+          <FormUI.Field>
+            <label>Destination asset</label>
+            <Field
+              component={DropdownFormField}
+              name="asset_destination"
+              placeholder="Asset to receive"
+              options={destAssets}
+              fluid
+              required
+            />
+          </FormUI.Field>
+        </FormUI.Group>
+        <FormUI.Field>
+          <label>Maximum amount to send</label>
+          <Field
+            component={Input}
+            name="max_amount"
+            type="number"
+            min={0}
+            step={STROOP}
+            placeholder="0"
+            fluid
             required
           />
-          <Form.Select
-            label="Destination asset"
-            name="asset_destination"
-            options={destAssets}
-            placeholder="Asset to receive"
+        </FormUI.Field>
+        <FormUI.Field>
+          <label>Amount to receive</label>
+          <Field
+            component={Input}
+            name="amount_destination"
+            type="number"
+            min={0}
+            step={STROOP}
+            placeholder="0"
+            fluid
             required
           />
-        </Form.Group>
-        <Form.Field
-          name="max_amount"
-          label="Maximum amount to send"
-          control="input"
-          type="number"
-          min={0}
-          step={STROOP}
-          placeholder="0"
-          required
-        />
-        <Form.Field
-          name="amount_destination"
-          label="Amount to receive"
-          control="input"
-          type="number"
-          min={0}
-          step={STROOP}
-          placeholder="0"
-          required
-        />
-        <MemoFields change={this.props.change} memo={this.props.values.memo} />
+        </FormUI.Field>
+        <MemoFields memo={this.props.values.memo} />
       </div>
     );
   }
@@ -167,24 +196,30 @@ class Payment extends Component {
   getIssueForm() {
     return (
       <div>
-        <Form.Field
-          name="asset_code"
-          label="Code"
-          control="input"
-          type="text"
-          placeholder="EUR"
-          required
-        />
-        <Form.Field
-          name="amount"
-          label="Amount"
-          control="input"
-          type="number"
-          min={0}
-          step={STROOP}
-          placeholder="0"
-          required
-        />
+        <FormUI.Field>
+          <label>Code</label>
+          <Field
+            component={Input}
+            name="asset_code"
+            type="text"
+            placeholder="EUR"
+            fluid
+            required
+          />
+        </FormUI.Field>
+        <FormUI.Field>
+          <label>Amount</label>
+          <Field
+            component={Input}
+            name="amount"
+            type="number"
+            min={0}
+            step={STROOP}
+            placeholder="0"
+            fluid
+            required
+          />
+        </FormUI.Field>
       </div>
     );
   }
@@ -195,16 +230,19 @@ class Payment extends Component {
         <p>
           Click on "Generate keypair" on the menu bar to get a new couple of public and secret key.
         </p>
-        <Form.Field
-          name="amount"
-          label="Starting balance"
-          control="input"
-          type="number"
-          min={0}
-          step={STROOP}
-          placeholder="0"
-          required
-        />
+        <FormUI.Field>
+          <label>Starting balance</label>
+          <Field
+            component={Input}
+            name="amount"
+            type="number"
+            min={0}
+            step={STROOP}
+            placeholder="0"
+            fluid
+            required
+          />
+        </FormUI.Field>
       </div>
     );
   }
@@ -221,47 +259,15 @@ class Payment extends Component {
     );
   }
 
-  submitForm(e, { formData }) {
-    e.preventDefault();
+  submitForm() {
     if (!this.state.destinationKeypair) {
       return;
     }
     const enhancedFormData = {
-      ...formData,
+      ...this.props.values,
       destination: this.state.destinationKeypair.publicKey(),
     };
-    enhancedFormData.memo = {
-      type: enhancedFormData['memo.type'],
-      value: enhancedFormData['memo.value'],
-    };
-    switch (this.state.type) {
-      case 'payment': {
-        enhancedFormData.asset = this.props.trustlines[enhancedFormData.asset];
-        this.props.sendPayment(enhancedFormData);
-        break;
-      }
-      case 'path_payment': {
-        enhancedFormData.asset_source =
-          this.props.trustlines[enhancedFormData.asset_source];
-        enhancedFormData.asset_destination =
-          this.props.destinationTruslines[enhancedFormData.asset_destination];
-        this.props.sendPathPayment(enhancedFormData);
-        break;
-      }
-      case 'issue_asset': {
-        enhancedFormData.accountId = this.props.account.account_id;
-        this.props.sendIssuePayment(enhancedFormData);
-        break;
-      }
-      case 'create_account': {
-        this.props.sendCreateAccount(enhancedFormData);
-        break;
-      }
-      case 'account_merge': {
-        this.props.sendAccountMerge(enhancedFormData);
-        break;
-      }
-    }
+    return this.props.sendOperation(this.state.type, enhancedFormData);
   }
 
   checkDestination(e, destinationAddress) {
@@ -281,7 +287,6 @@ class Payment extends Component {
         }
 
         this.setState({
-          validDestination: true,
           resolving: false,
           destinationKeypair: KeypairInstance({ publicKey: resolved.account_id }),
         });
@@ -289,7 +294,6 @@ class Payment extends Component {
       })
       .catch(() => {
         this.setState({
-          validDestination: false,
           resolving: false,
           destinationKeypair: null,
         });
@@ -300,13 +304,17 @@ class Payment extends Component {
     if (!this.props.canSign) return this.getNoSigner();
 
     const destinationFormLabel = {
-      color: this.state.validDestination ? 'teal' : 'red',
-      icon: this.state.validDestination ? 'checkmark' : 'remove',
+      color: this.state.destinationKeypair ? 'teal' : 'red',
+      icon: this.state.destinationKeypair ? 'checkmark' : 'remove',
       className: 'iconOnly',
     };
 
+    // todo loader
     return (
       <div>
+        <Dimmer active={this.props.sendingPayment} inverted>
+          <Loader>Sending...</Loader>
+        </Dimmer>
         <Header as="h2" textAlign="center">
           Operations
         </Header>
@@ -326,54 +334,37 @@ class Payment extends Component {
           onChange={(e, t) => this.setState({ type: t.value })}
         />
         <div style={{ height: '1rem' }} />
-        <Form
-          loading={this.props.sendingPayment}
-        >
-          <Form.Field>
-            <Field
-              component={Input}
-              name="destination"
-              onChange={::this.checkDestination}
-              placeholder="GRDT... or bob*federation.org"
-              label={destinationFormLabel}
-              labelPosition="right"
-              required
-            />
-          </Form.Field>
-
-          {this.state.type === 'payment' ? this.getPaymentForm() : null}
-          {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
-          {this.state.type === 'issue_asset' ? this.getIssueForm() : null}
-          {this.state.type === 'create_account' ? this.getCreateAccountForm() : null}
-          {this.state.type === 'account_merge' ? this.getAccountMergeForm() : null}
-
-          <Form.Button
-            type="submit"
+        <FormUI.Field>
+          <label>Destination</label>
+          <Field
+            component={Input}
+            name="destination"
+            onChange={::this.checkDestination}
+            placeholder="GRDT... or bob*federation.org"
+            label={!this.state.resolving && destinationFormLabel}
+            labelPosition="right"
+            loading={this.state.resolving} icon={this.state.resolving && 'user'}
             fluid
-            onClick={::this.submitForm}
-            style={styles.padV}
-            primary
-            icon="send"
-            content="Send"
-            disabled={this.state.resolving || !this.state.validDestination}
+            required
           />
+        </FormUI.Field>
 
-          <Message
-            success
-            header="Payment completed !"
-            content="You've successfuly sent some money"
-          />
-          <Message
-            error
-            header="Payment error"
-            content="There was a problem during the payment"
-          />
-          <Message
-            warning
-            header="Invalid address"
-            content="The address you entered is not a valid stellar address"
-          />
-        </Form>
+        {this.state.type === 'payment' ? this.getPaymentForm() : null}
+        {this.state.type === 'path_payment' ? this.getPathPaymentForm() : null}
+        {this.state.type === 'issue_asset' ? this.getIssueForm() : null}
+        {this.state.type === 'create_account' ? this.getCreateAccountForm() : null}
+        {this.state.type === 'account_merge' ? this.getAccountMergeForm() : null}
+
+        <Button
+          fluid
+          style={styles.padV}
+          onClick={::this.submitForm}
+          primary
+          icon="send"
+          type="submit"
+          content="Send"
+          disabled={this.state.resolving || !this.state.destinationKeypair || this.props.sendingPayment}
+        />
       </div>
     );
   }
@@ -381,11 +372,7 @@ class Payment extends Component {
 
 Payment.propTypes = {
   sendingPayment: PropTypes.bool,
-  sendPayment: PropTypes.func.isRequired,
-  sendPathPayment: PropTypes.func.isRequired,
-  sendIssuePayment: PropTypes.func.isRequired,
-  sendCreateAccount: PropTypes.func.isRequired,
-  sendAccountMerge: PropTypes.func.isRequired,
+  sendOperation: PropTypes.func.isRequired,
   getDestinationTrustlines: PropTypes.func.isRequired,
   account: PropTypes.object,
   trustlines: PropTypes.array,
