@@ -42,5 +42,5 @@ export default reduxForm({
     memo: {
       type: 'none',
     },
-  }
+  },
 })(connect(mapStateToProps, mapDispatchToProps)(Payment));

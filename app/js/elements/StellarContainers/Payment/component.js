@@ -67,6 +67,11 @@ function MemoFields({ memo }) {
     </div>
   );
 }
+
+MemoFields.propTypes = {
+  memo: PropTypes.object.isRequired,
+};
+
 class Payment extends Component {
 
   constructor(props) {
@@ -123,12 +128,12 @@ class Payment extends Component {
         value: index,
         text: Asset.getAssetString(asset),
       }));
-    const destAssets = this.state.destinationKeypair &&
+    const destAssets = this.state.destinationKeypair ?
       this.props.destinationTruslines.map((asset, index) => (
         {
           value: index,
           text: Asset.getAssetString(asset),
-        })) || [];
+        })) : [];
 
     return (
       <div>
@@ -262,7 +267,7 @@ class Payment extends Component {
 
   submitForm() {
     if (!this.state.destinationKeypair) {
-      return;
+      return Promise.reject();
     }
     this.closeConfirmModal();
     const enhancedFormData = {
@@ -304,17 +309,21 @@ class Payment extends Component {
 
   renderConfirmModal() {
     return (
-      <Modal open={this.state.confirmModalOpen} basic size='small'>
-        <Header icon='archive' content='Comfirm operation' />
+      <Modal open={this.state.confirmModalOpen} basic size="small">
+        <Header icon="archive" content="Comfirm operation" />
         <Modal.Content>
-          <p>You are going to send a <b>{this.state.type}</b> operation to {this.props.values.destination}</p>
+          <p>
+            You are going to send a
+            <b>{this.state.type}</b>
+            operation to {this.props.values.destination}
+          </p>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic color='red' inverted onClick={::this.closeConfirmModal}>
-            <Icon name='remove' /> Cancel
+          <Button basic color="red" inverted onClick={::this.closeConfirmModal}>
+            <Icon name="remove" /> Cancel
           </Button>
-          <Button color='green' inverted onClick={::this.submitForm}>
-            <Icon name='checkmark' /> Ok ?
+          <Button color="green" inverted onClick={::this.submitForm}>
+            <Icon name="checkmark" /> Ok ?
           </Button>
         </Modal.Actions>
       </Modal>
@@ -330,6 +339,9 @@ class Payment extends Component {
       className: 'iconOnly',
     };
 
+    const isFormValid = this.state.resolving ||
+      !this.state.destinationKeypair ||
+      this.props.sendingPayment;
     return (
       <FormUI onSubmit={e => e.preventDefault()}>
         <Dimmer active={this.props.sendingPayment} inverted>
@@ -340,13 +352,13 @@ class Payment extends Component {
         </Header>
         <Dropdown
           options={
-            [
+          [
               { text: 'Payment', value: OPERATIONS.PAYMENT },
               { text: 'Path payment', value: OPERATIONS.PATH_PAYMENT },
               { text: 'Issue asset', value: OPERATIONS.ISSUE_ASSET },
               { text: 'Create account', value: OPERATIONS.CREATE_ACCOUNT },
               { text: 'Account merge', value: OPERATIONS.ACCOUNT_MERGE },
-            ]
+          ]
           }
           selection fluid
           name="operation_type"
@@ -355,20 +367,21 @@ class Payment extends Component {
           onChange={(e, t) => this.setState({ type: t.value })}
         />
         <div style={{ height: '1rem' }} />
-          <FormUI.Field>
-            <label>Destination</label>
-            <Field
-              component={InputFormField}
-              name="destination"
-              onChange={::this.checkDestination}
-              placeholder="GRDT... or bob*federation.org"
-              label={!this.state.resolving && destinationFormLabel}
-              labelPosition="right"
-              loading={this.state.resolving} icon={this.state.resolving && 'user'}
-              fluid
-              required
-            />
-          </FormUI.Field>
+        <FormUI.Field>
+          <label>Destination</label>
+          <Field
+            component={InputFormField}
+            name="destination"
+            onChange={::this.checkDestination}
+            placeholder="GRDT... or bob*federation.org"
+            label={!this.state.resolving && destinationFormLabel}
+            labelPosition="right"
+            loading={this.state.resolving}
+            icon={this.state.resolving && 'user'}
+            fluid
+            required
+          />
+        </FormUI.Field>
         {this.state.type === OPERATIONS.PAYMENT ? this.getPaymentForm() : null}
         {this.state.type === OPERATIONS.PATH_PAYMENT ? this.getPathPaymentForm() : null}
         {this.state.type === OPERATIONS.ISSUE_ASSET ? this.getIssueForm() : null}
@@ -383,7 +396,7 @@ class Payment extends Component {
           icon="send"
           type="submit"
           content="Send"
-          disabled={this.state.resolving || !this.state.destinationKeypair || this.props.sendingPayment}
+          disabled={isFormValid}
         />
 
         {this.renderConfirmModal()}

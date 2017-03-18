@@ -25,11 +25,12 @@ const mapStateToProps = state => ({
   keypair: getKeypair(state),
   network: getNetwork(state),
 
-  values: getFormValues(FORM_NAME)(state) || {}, // WHY object ?
+  values: getFormValues(FORM_NAME)(state),
 });
 
 const mapDispatchToProps = { setAccount, createTestAccount };
 
 export default reduxForm({
-  form: FORM_NAME, // a unique name for this form
+  form: FORM_NAME,
+  initialValues: {},
 })(connect(mapStateToProps, mapDispatchToProps)(AccountSelector));

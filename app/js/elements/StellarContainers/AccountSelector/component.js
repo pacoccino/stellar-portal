@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Container, Button, Input, Message } from 'semantic-ui-react';
+import { Container, Button, Message } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 import { Field, propTypes } from 'redux-form';
 
@@ -177,7 +177,6 @@ AccountSelector.propTypes = {
   createTestAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,
   ...propTypes,
-  values: PropTypes.any
 };
 
 export default AccountSelector;

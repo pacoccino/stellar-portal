@@ -2,7 +2,6 @@ import * as StellarOperations from '../helpers/StellarOperations';
 import { newStream } from '../helpers/monoStreamer';
 import { ASYNC_SEND_OPERATION, ASYNC_CREATE_TRUSTLINE, ASYNC_GET_ORDERBOOK } from '../constants/asyncActions';
 import { AsyncActions } from '../helpers/asyncActions';
-import { getAuthData } from '../selectors/account';
 import { AssetInstance } from '../helpers/StellarTools';
 import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
@@ -10,6 +9,7 @@ import * as UiActions from '../actions/ui';
 
 import {
   getAccount as getAccountSelector,
+  getAuthData,
 } from '../selectors/account';
 import {
   getTrustlines as getTrustlinesSelector,
@@ -173,27 +173,28 @@ export const sendOperation = (type, formData) => (dispatch, getState) => {
   const trustlines = getTrustlinesSelector(state);
   const destinationTruslines = getDestinationTrustlinesSelector(state);
 
+  const operationData = { ...formData };
   switch (type) {
     case OPERATIONS.PAYMENT: {
-      formData.asset = trustlines[formData.asset];
-      return dispatch(sendPayment(formData));
+      operationData.asset = trustlines[operationData.asset];
+      return dispatch(sendPayment(operationData));
     }
     case OPERATIONS.PATH_PAYMENT: {
-      formData.asset_source =
-        trustlines[formData.asset_source];
-      formData.asset_destination =
-        destinationTruslines[formData.asset_destination];
-      return dispatch(sendPathPayment(formData));
+      operationData.asset_source =
+        trustlines[operationData.asset_source];
+      operationData.asset_destination =
+        destinationTruslines[operationData.asset_destination];
+      return dispatch(sendPathPayment(operationData));
     }
     case OPERATIONS.ISSUE_ASSET: {
-      formData.accountId = account.account_id;
-      return dispatch(sendIssuePayment(formData));
+      operationData.accountId = account.account_id;
+      return dispatch(sendIssuePayment(operationData));
     }
     case OPERATIONS.CREATE_ACCOUNT: {
-      return dispatch(sendCreateAccount(formData));
+      return dispatch(sendCreateAccount(operationData));
     }
     case OPERATIONS.ACCOUNT_MERGE: {
-      return dispatch(sendAccountMerge(formData));
+      return dispatch(sendAccountMerge(operationData));
     }
     default:
       return Promise.reject();
