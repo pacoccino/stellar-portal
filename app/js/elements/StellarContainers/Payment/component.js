@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Dimmer, Loader, Grid, Dropdown, Header, Form as FormUI } from 'semantic-ui-react';
+import { Button, Icon, Dimmer, Loader, Modal, Grid, Dropdown, Header, Form as FormUI } from 'semantic-ui-react';
 import { Field, propTypes } from 'redux-form';
 import { debounce } from 'lodash';
 
@@ -253,10 +253,18 @@ class Payment extends Component {
     );
   }
 
+  openConfirmModal() {
+    this.setState({ confirmModalOpen: true });
+  }
+  closeConfirmModal() {
+    this.setState({ confirmModalOpen: false });
+  }
+
   submitForm() {
     if (!this.state.destinationKeypair) {
       return;
     }
+    this.closeConfirmModal();
     const enhancedFormData = {
       ...this.props.values,
       destination: this.state.destinationKeypair.publicKey(),
@@ -266,10 +274,10 @@ class Payment extends Component {
 
   checkDestination(e, destinationAddress) {
     this.setState({ resolving: true });
-    this.checkDestinationDebounced(e, destinationAddress);
+    this.checkDestinationDebounced(destinationAddress);
   }
 
-  checkDestinationDebounced(e, destinationAddress) {
+  checkDestinationDebounced(destinationAddress) {
     resolveAddress(destinationAddress)
       .then((resolved) => {
         this.props.getDestinationTrustlines(resolved.account_id);
@@ -294,6 +302,25 @@ class Payment extends Component {
       });
   }
 
+  renderConfirmModal() {
+    return (
+      <Modal open={this.state.confirmModalOpen} basic size='small'>
+        <Header icon='archive' content='Comfirm operation' />
+        <Modal.Content>
+          <p>You are going to send a <b>{this.state.type}</b> operation to {this.props.values.destination}</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button basic color='red' inverted onClick={::this.closeConfirmModal}>
+            <Icon name='remove' /> Cancel
+          </Button>
+          <Button color='green' inverted onClick={::this.submitForm}>
+            <Icon name='checkmark' /> Ok ?
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    );
+  }
+
   render() {
     if (!this.props.canSign) return this.getNoSigner();
 
@@ -303,7 +330,6 @@ class Payment extends Component {
       className: 'iconOnly',
     };
 
-    // todo loader
     return (
       <FormUI onSubmit={e => e.preventDefault()}>
         <Dimmer active={this.props.sendingPayment} inverted>
@@ -352,13 +378,15 @@ class Payment extends Component {
         <Button
           fluid
           style={styles.padV}
-          onClick={::this.submitForm}
+          onClick={::this.openConfirmModal}
           primary
           icon="send"
           type="submit"
           content="Send"
           disabled={this.state.resolving || !this.state.destinationKeypair || this.props.sendingPayment}
         />
+
+        {this.renderConfirmModal()}
       </FormUI>
     );
   }
