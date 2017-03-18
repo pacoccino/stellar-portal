@@ -314,7 +314,7 @@ class Payment extends Component {
         <Modal.Content>
           <p>
             You are going to send a
-            <b>{this.state.type}</b>
+            <b> {this.state.type} </b>
             operation to {this.props.values.destination}
           </p>
         </Modal.Content>
