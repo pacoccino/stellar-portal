@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Table, Container, Button, Header } from 'semantic-ui-react'
+import { Table, Container, Button, Header } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 
 class CurrentAccount extends Component {
@@ -8,31 +8,30 @@ class CurrentAccount extends Component {
     super(props);
 
     this.state = {
-      showSeed: props.showSeed || false
+      showSeed: props.showSeed || false,
     };
   }
 
   componentDidMount() {
-    new Clipboard(".account-address-copy");
+    new Clipboard('.account-address-copy'); // eslint-disable-line no-new
   }
 
   openOnNewTab() {
     let url = '/?';
-    url += 'network=' + this.props.network;
-    if(this.props.keypair.canSign()) {
-      url += '&secretSeed=' + this.props.keypair.seed();
+    url += `network=${this.props.network}`;
+    if (this.props.keypair.canSign()) {
+      url += `&secretSeed=${this.props.keypair.secret()}`;
     } else {
-      url += '&accountId=' + this.props.keypair.accountId();
+      url += `&accountId=${this.props.keypair.publicKey()}`;
     }
     window.open(url);
   }
 
 
   accountInfo() {
-    if(!this.props.keypair)
-      return null;
+    if (!this.props.keypair) { return null; }
 
-    const { keypair} = this.props;
+    const { keypair } = this.props;
     const canSign = keypair.canSign();
 
     return (
@@ -59,7 +58,7 @@ class CurrentAccount extends Component {
                     icon="clipboard"
                     content="Hide seed"
                     color="olive"
-                    onClick={() => this.setState({showSeed: false})}
+                    onClick={() => this.setState({ showSeed: false })}
                   />
                   :
                   <Button
@@ -68,7 +67,7 @@ class CurrentAccount extends Component {
                     icon="clipboard"
                     content="Show seed"
                     color="orange"
-                    onClick={() => this.setState({showSeed: true})}
+                    onClick={() => this.setState({ showSeed: true })}
                   />)
               }
             </Table.HeaderCell>
@@ -80,7 +79,7 @@ class CurrentAccount extends Component {
               Public address
             </Table.HeaderCell>
             <Table.Cell>
-              {keypair.accountId()}
+              {keypair.publicKey()}
             </Table.Cell>
             <Table.Cell textAlign="right">
               <Button
@@ -90,7 +89,7 @@ class CurrentAccount extends Component {
                 icon="clipboard"
                 content="Copy"
                 color="blue"
-                data-clipboard-text={keypair.accountId()}
+                data-clipboard-text={keypair.publicKey()}
               />
             </Table.Cell>
           </Table.Row>
@@ -101,7 +100,7 @@ class CurrentAccount extends Component {
                 Secret seed
               </Table.HeaderCell>
               <Table.Cell>
-                {keypair.seed()}
+                {keypair.secret()}
               </Table.Cell>
               <Table.Cell textAlign="right">
                 <Button
@@ -111,7 +110,7 @@ class CurrentAccount extends Component {
                   icon="clipboard"
                   content="Copy"
                   color="red"
-                  data-clipboard-text={keypair.seed()}
+                  data-clipboard-text={keypair.secret()}
                 />
               </Table.Cell>
             </Table.Row>

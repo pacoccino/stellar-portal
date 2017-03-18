@@ -17,7 +17,7 @@ function resetStream(state) {
   return {
     ...state,
     data: [],
-  }
+  };
 }
 
 function getPaymentsSuccess(state, action) {
@@ -26,7 +26,7 @@ function getPaymentsSuccess(state, action) {
     ...state,
     data: payments,
     isLoading: false,
-  }
+  };
 }
 
 function getPaymentsStream(state, action) {
@@ -34,12 +34,12 @@ function getPaymentsStream(state, action) {
   return {
     ...state,
     data: state.data.concat(payment),
-  }
+  };
 }
 
 export const paymentsReducer = createReducer(initialState, {
   [typesAccount.RESET_ACCOUNT]: resetAccount,
-  [typesAccount.SET_ACCOUNT_SUCCESS]: resetStream,
+  [typesAccount.SET_KEYPAIR]: resetStream,
   [types.GET_PAYMENTS_SUCCESS]: getPaymentsSuccess,
   [types.GET_PAYMENTS_STREAM]: getPaymentsStream,
 });

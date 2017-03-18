@@ -21,14 +21,15 @@ class OrderBook extends React.Component {
           <Amount amount={bid.amount} />
         </Table.Cell>
         <Table.Cell textAlign="right">
-          <Amount amount={bid.price} /> <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+          <Amount amount={bid.price} />
+          <Asset asset={AssetInstance(this.props.orderbook.counter)} />
         </Table.Cell>
       </Table.Row>
     );
   }
   getBids() {
     const bids = this.props.orderbook.bids;
-    if(!bids) return null;
+    if (!bids) return null;
     return (
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
@@ -58,7 +59,8 @@ class OrderBook extends React.Component {
     return (
       <Table.Row key={index}>
         <Table.Cell>
-          <Amount amount={ask.price} /> <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+          <Amount amount={ask.price} />
+          <Asset asset={AssetInstance(this.props.orderbook.counter)} />
         </Table.Cell>
         <Table.Cell>
           <Amount amount={ask.amount} />
@@ -68,7 +70,7 @@ class OrderBook extends React.Component {
   }
   getAsks() {
     const asks = this.props.orderbook.asks;
-    if(!asks) return null;
+    if (!asks) return null;
     return (
       <Table singleLine size="small" compact unstackable>
         <Table.Header>
@@ -95,12 +97,11 @@ class OrderBook extends React.Component {
         </Table.Body>
       </Table>
     );
-
   }
 
   getOrderbook() {
-    if(!this.props.isFetching && isEmpty(this.props.orderbook)) {
-      return      (
+    if (!this.props.isFetching && isEmpty(this.props.orderbook)) {
+      return (
         <Grid.Row centered>
           <Header as="h3">Please select a pair of assets to see an orderbook.</Header>
         </Grid.Row>
@@ -121,13 +122,8 @@ class OrderBook extends React.Component {
     );
   }
 
-  updateOrderbook() {
-    if(this.state.selling && this.state.buying) {
-      this.props.setOrderbook(this.state);
-    }
-  }
   reverseOrderbook() {
-    if(this.state.selling && this.state.buying) {
+    if (this.state.selling && this.state.buying) {
       this.setState({
         selling: this.state.buying,
         buying: this.state.selling,
@@ -144,14 +140,26 @@ class OrderBook extends React.Component {
     this.setState({ selling: asset }, ::this.updateOrderbook);
   }
   getTrustedAssets() {
-    return this.props.trustlines.map((asset, index) => (
-    {
-      value: AssetUid(asset),
-      text: Asset.getAssetString(asset),
-    }));
+    return this.props.trustlines.map(asset => (
+      {
+        value: AssetUid(asset),
+        text: Asset.getAssetString(asset),
+      }));
+  }
+
+  updateOrderbook() {
+    if (this.state.selling && this.state.buying) {
+      this.props.setOrderbook(this.state);
+    }
   }
 
   render() {
+    const baseAsset = this.props.orderbook
+      && this.props.orderbook.base
+      && AssetInstance(this.props.orderbook.base);
+    const counterAsset = this.props.orderbook
+      && this.props.orderbook.counter
+      && AssetInstance(this.props.orderbook.counter);
     return (
       <div>
         <Header as="h2">
@@ -162,25 +170,35 @@ class OrderBook extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Header as="h3" textAlign="center">
-                Base <Asset asset={AssetInstance(this.props.orderbook.base)} />
+                {
+                  baseAsset ?
+                    <div>Base <Asset asset={baseAsset} /></div>
+                    :
+                    'Choose a base asset'
+                }
               </Header>
 
               <Dropdown
                 selection fluid search
                 options={this.getTrustedAssets()}
-                placeholder='Asset sold'
+                placeholder="Asset sold"
                 onChange={::this.changeSellingAsset}
               />
             </Grid.Column>
             <Grid.Column>
               <Header as="h3" textAlign="center">
-                Counter <Asset asset={AssetInstance(this.props.orderbook.counter)} />
+                {
+                  baseAsset ?
+                    <div>Counter <Asset asset={counterAsset} /></div>
+                    :
+                    'Choose a counter asset'
+                }
               </Header>
 
               <Dropdown
                 selection fluid search
                 options={this.getTrustedAssets()}
-                placeholder='Asset bought'
+                placeholder="Asset bought"
                 onChange={::this.changeBuyingAsset}
               />
             </Grid.Column>

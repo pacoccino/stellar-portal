@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Header, Form, Button, Table } from 'semantic-ui-react'
+import { Header, Form, Button, Table } from 'semantic-ui-react';
 import Decimal from 'decimal.js';
 
 import Asset from '../../../components/stellar/Asset';
@@ -16,7 +16,7 @@ class Balances extends React.Component {
 
   checkIssuer(e) {
     const destinationAddress = e.target.value;
-    this.setState({ validIssuer: validPk(destinationAddress)})
+    this.setState({ validIssuer: validPk(destinationAddress) });
   }
 
   getBalanceRows() {
@@ -34,7 +34,7 @@ class Balances extends React.Component {
             {this.props.canSign ?
               <Button
                 onClick={() => this.props.deleteTrustline(balance.asset)}
-                basic color='red'
+                basic color="red"
                 floated="right"
                 disabled={!bnBalance.isZero()}
                 loading={balance.isDeleting}
@@ -54,31 +54,33 @@ class Balances extends React.Component {
   }
 
   getTrustlineForm() {
-    if(!this.props.canSign) {
+    if (!this.props.canSign) {
       return null;
     }
     return (
       <div>
-        <Form onSubmit={::this.addTrustline}
-        loading={this.props.creatingTrustline}>
+        <Form
+          onSubmit={::this.addTrustline}
+          loading={this.props.creatingTrustline}
+        >
           <Form.Group>
             <Form.Field
               name="asset_code"
-              label='Code'
-              control='input'
-              type='text'
-              placeholder='Asset code'
+              label="Code"
+              control="input"
+              type="text"
+              placeholder="Asset code"
               width="3"
               required
             />
             <Form.Field
               name="asset_issuer"
-              label='Issuer'
+              label="Issuer"
               onChange={::this.checkIssuer}
               error={!this.state.validIssuer}
-              control='input'
-              type='text'
-              placeholder='Issuer account id'
+              control="input"
+              type="text"
+              placeholder="Issuer account id"
               width="10"
               required
             />
@@ -87,7 +89,7 @@ class Balances extends React.Component {
               icon="add user"
               primary
               width="4"
-              style={{position: 'relative', top: 20}}
+              style={{ position: 'relative', top: 20 }}
               content="Add trustline"
             />
           </Form.Group>
@@ -121,6 +123,7 @@ class Balances extends React.Component {
 }
 
 Balances.propTypes = {
+  canSign: PropTypes.bool.isRequired,
   creatingTrustline: PropTypes.bool,
   balances: PropTypes.array.isRequired,
   createTrustline: PropTypes.func.isRequired,

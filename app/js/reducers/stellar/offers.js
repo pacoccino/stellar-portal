@@ -22,7 +22,7 @@ function getOffersSuccess(state, action) {
     ...state,
     data: offers,
     isLoading: false,
-  }
+  };
 }
 
 function deletingOffer(state, action) {
@@ -43,19 +43,19 @@ function getOffersStream(state, action) {
   return {
     ...state,
     data: state.data.concat(offer),
-  }
+  };
 }
 
 function resetStream(state) {
   return {
     ...state,
     data: [],
-  }
+  };
 }
 
 export const offersReducer = createReducer(initialState, {
   [typesAccount.RESET_ACCOUNT]: resetAccount,
-  [typesAccount.SET_ACCOUNT_SUCCESS]: resetStream,
+  [typesAccount.SET_KEYPAIR]: resetStream,
   [types.GET_OFFERS_SUCCESS]: getOffersSuccess,
   [types.GET_OFFERS_STREAM]: getOffersStream,
   [DELETE_OFFER]: deletingOffer,

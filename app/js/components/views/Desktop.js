@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { Container, Header, Menu, Button } from 'semantic-ui-react'
+import React from 'react';
+import { Container, Header, Button } from 'semantic-ui-react';
 
 const NotFound = () =>
   <div className="pages-container">

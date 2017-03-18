@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 import Welcome from '../../components/views/WelcomeView';
@@ -11,10 +11,12 @@ function AppMode({ isAccountLoading, accountSet, canSign }) {
       <Dimmer inverted active={isAccountLoading}>
         <Loader inverted active={isAccountLoading} />
       </Dimmer>
-      {accountSet ?
+      {
+        accountSet &&
         (canSign ? <PrivateView /> : <PublicView />)
-        :
-        <Welcome />
+      }
+      {
+        !accountSet && <Welcome />
       }
     </div>
   );

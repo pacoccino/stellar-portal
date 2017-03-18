@@ -1,47 +1,47 @@
 const {
-  addPlugins, createConfig, defineConstants, entryPoint, env, performance, setOutput, sourceMaps, webpack
+  addPlugins, resolveAliases, createConfig, defineConstants, entryPoint, env, performance, setOutput, sourceMaps, webpack
 } = require('@webpack-blocks/webpack2');
+
+const path = require('path');
 
 const babel = require('@webpack-blocks/babel6');
 const cssModules = require('@webpack-blocks/css-modules');
+const sass = require('@webpack-blocks/sass');
 const devServer = require('@webpack-blocks/dev-server2');
 const extractText = require('@webpack-blocks/extract-text2');
 const plugins = require('./webpack.plugins');
 
-const DIRNAME = __dirname + '/';
-const buildDir = __dirname + '/build/';
+const config = require('./config');
 
-function imageLoader () {
-
-  return (context) => ({
-    module: {
-      loaders: [
-        {
-          test: context.fileType('image'),
-          loaders: [ 'file-loader?name=assets/img-[hash:4].[ext]' ],
-        }
-      ]
-    }
-  })
-}
+const appDir = config.appPath;
+const buildDir = config.buildPath;
 
 module.exports = createConfig([
   setOutput({
-    filename: 'assets/[hash].[name].js',
-    path: buildDir
+    filename: '[hash].[name].js',
+    path: buildDir()
   }),
   babel(),
   cssModules(),
-  imageLoader(),
+  sass(),
   addPlugins(plugins.basePlugins),
   defineConstants({
-    'process.env.NODE_ENV': process.env.NODE_ENV || 'development'
+    'process.env.NODE_ENV': process.env.NODE_ENV || 'development',
+  }),
+  resolveAliases({
+    styles: appDir('styles'),
+    images: appDir('images'),
+    js: appDir('js'),
   }),
   env('development', [
     entryPoint({
-      main: DIRNAME + 'app/js/main.js',}),
+      main: appDir('js/main.js'),
+    }),
     sourceMaps(),
     devServer(),
+    /*devServer.proxy({
+     '/api/!*': { target: 'http://localhost:4000' }
+     }),*/
     performance({
       // Increase performance budget thresholds for development mode
       maxAssetSize: 15000000,
@@ -50,10 +50,15 @@ module.exports = createConfig([
   ]),
   env('production', [
     entryPoint({
-      main: DIRNAME + 'app/js/main.prod.js',
+      main: appDir('js/main.prod.js'),
       vendor: 'stellar-sdk'
     }),
     extractText(),
+    performance({
+      // Increase performance budget thresholds for development mode
+      maxAssetSize: 15000000,
+      maxEntrypointSize: 15000000
+    }),
     addPlugins(plugins.productionPlugins)
   ])
 ]);

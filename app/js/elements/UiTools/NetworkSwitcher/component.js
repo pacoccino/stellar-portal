@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react';
 
 class NetworkSwitcher extends React.Component {
   render() {
     const { switchNetwork, network } = this.props;
 
     let text = null;
-    switch(network) {
+    switch (network) {
       case 'public':
         text = 'Public';
         break;
@@ -16,6 +16,7 @@ class NetworkSwitcher extends React.Component {
       case 'perso':
         text = 'Perso';
         break;
+      default:
     }
     return (
       <Dropdown
@@ -35,7 +36,7 @@ class NetworkSwitcher extends React.Component {
             text="TestNet"
             onClick={() => switchNetwork('test')}
           />
-{/*          <Dropdown.Item
+          {/*          <Dropdown.Item
             text="Perso"
             onClick={() => switchNetwork('perso')}
           />*/}

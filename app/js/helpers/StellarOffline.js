@@ -1,6 +1,7 @@
+/* eslint-disable */
 // import { CallBuilder } from 'stellar-sdk/lib/call_builder';
 
-import * as mockData from '../initialStates/mockData';
+import* as mockData from'../initialStates/mockData';
 
 class StellarOfflineCall {
   constructor(data, error) {
@@ -15,16 +16,16 @@ class StellarOfflineCall {
 
   call() {
     if(this.called) {
-      throw "Instance already called";
+      throw'Instance already called';
     }
     this.called = true;
 
-    return !!this.error ? Promise.reject(this.error) : Promise.resolve(this.data);
+    return this.error ? Promise.reject(this.error) : Promise.resolve(this.data);
   }
 
   stream({ onmessage }) {
     if(!this.data) {
-      throw "no endpoint defined";
+      throw'no endpoint defined';
     }
 
     /* TODO
@@ -61,7 +62,7 @@ class StellarOffline {
     return new StellarOfflineCall([]);
   }
   loadAccount() {
-    if(!this.success) { return new StellarOfflineCall(null, "account error"); }
+    if(!this.success) { return new StellarOfflineCall(null, 'account error'); }
     return new StellarOfflineCall(mockData.account);
   }
   offers() {
