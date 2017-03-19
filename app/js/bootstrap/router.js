@@ -26,9 +26,8 @@ const RouterContainer = ({ onPageLoad, onChangeAccountRoute }) =>
       <Route
         path={routes.Account}
         onEnter={onChangeAccountRoute}
-      >
-        <IndexRoute component={AppMode} />
-      </Route>
+        component={AppMode}
+      />
 
       <Route
         path={routes.Desktop}

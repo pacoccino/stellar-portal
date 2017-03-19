@@ -32,5 +32,7 @@ const mapDispatchToProps = { setAccount, createTestAccount };
 
 export default reduxForm({
   form: FORM_NAME,
-  initialValues: {},
+  initialValues: {
+    a: 1,
+  },
 })(connect(mapStateToProps, mapDispatchToProps)(AccountSelector));
