@@ -1,10 +1,10 @@
-
+Duplicate tab
+Add seed
 
 BUGS
 network disconected
 
 TECHNICAL
-redux Form
 debug
 stream from last timestamp
 merge stream/get
@@ -23,7 +23,6 @@ THINK
 
 UI V2
 see sterllarterm
-serve federation
 
 Toaster
 

@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { Table, Container, Button, Header } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 
+import * as routes from '../../../constants/routes';
+
+// TODO addSeed
 class CurrentAccount extends Component {
 
   constructor(props) {
@@ -17,16 +20,48 @@ class CurrentAccount extends Component {
   }
 
   openOnNewTab() {
-    let url = '/?';
-    url += `network=${this.props.network}`;
-    if (this.props.keypair.canSign()) {
-      url += `&secretSeed=${this.props.keypair.secret()}`;
-    } else {
-      url += `&accountId=${this.props.keypair.publicKey()}`;
-    }
+    let url = routes.Account_G(this.props.keypair.publicKey());
+    // TODO test if working
     window.open(url);
   }
 
+  renderSeedBtn() {
+    const { keypair } = this.props;
+    const canSign = keypair.canSign();
+
+    if(canSign) {
+      return (
+        this.state.showSeed ?
+          <Button
+            basic compact
+            size="medium"
+            icon="clipboard"
+            content="Hide seed"
+            color="olive"
+            onClick={() => this.setState({ showSeed: false })}
+          />
+          :
+          <Button
+            basic compact
+            size="medium"
+            icon="clipboard"
+            content="Show seed"
+            color="orange"
+            onClick={() => this.setState({ showSeed: true })}
+          />
+      );
+    }
+    return (
+      <Button
+        basic compact
+        size="medium"
+        icon="add"
+        content="Set seed"
+        color="teal"
+        onClick={() => this.addSeed()}
+      />
+    );
+  }
 
   accountInfo() {
     if (!this.props.keypair) { return null; }
@@ -50,26 +85,7 @@ class CurrentAccount extends Component {
               <Header as="h3">Account addresses</Header>
             </Table.HeaderCell>
             <Table.HeaderCell textAlign="right">
-              {
-                canSign && (this.state.showSeed ?
-                  <Button
-                    basic compact
-                    size="medium"
-                    icon="clipboard"
-                    content="Hide seed"
-                    color="olive"
-                    onClick={() => this.setState({ showSeed: false })}
-                  />
-                  :
-                  <Button
-                    basic compact
-                    size="medium"
-                    icon="clipboard"
-                    content="Show seed"
-                    color="orange"
-                    onClick={() => this.setState({ showSeed: true })}
-                  />)
-              }
+              {this.renderSeedBtn()}
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>

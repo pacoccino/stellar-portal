@@ -12,6 +12,7 @@ import {
 const mapStateToProps = (state, ownProps) => ({
   keypair: ownProps.keypair || getKeypair(state),
   network: getNetwork(state),
+  openExternal: true,
 });
 
 export default connect(mapStateToProps, null)(CurrentAccount);

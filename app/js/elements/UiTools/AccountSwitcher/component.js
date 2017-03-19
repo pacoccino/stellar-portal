@@ -7,33 +7,31 @@ class AccountSwitcher extends React.Component {
   render() {
     const { openAccountId, resetAccount, accounts, keypair } = this.props;
 
-    const options = accounts.length ? accounts.map(a => ({
+    if (accounts.length === 0)
+      return null;
+
+    // TODO show list on welcome
+
+    let options = accounts.map(a => ({
       value: a.publicKey(),
       text: AccountId.getAccountIdText(a.publicKey()),
-    })) : [{ value: 'null', text: 'No accounts' }];
+    }));
 
-    if (!keypair || accounts.length === 0) {
-      return (
-        <Button
-          primary compact
-          icon="add"
-          onClick={resetAccount}
-          content="Add account"
-        />
-      );
-    } else {
-      return (
-        <Dropdown
-          compact
-          selection
-          button
-          color="blue"
-          options={options}
-          value={keypair && keypair.publicKey()}
-          onChange={(e, d) => openAccountId(d.value)}
-        />
-      );
-    }
+    options = options.concat({
+      value: 'null',
+      text: 'Close account',
+    });
+
+    return (
+      <Dropdown
+        button
+        color="blue"
+        label="Select account"
+        options={options}
+        value={keypair ? keypair.publicKey() : null}
+        onChange={(e, d) => openAccountId(d.value)}
+      />
+    );
   }
 }
 

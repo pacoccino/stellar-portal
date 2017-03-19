@@ -68,8 +68,12 @@ export const openAccountId = id => (dispatch, getState) => {
   const localAccounts = getAccounts(state);
   const currentKeypair = getKeypair(state);
 
-  if (!id) return;
-  if (currentKeypair && currentKeypair.publicKey() === id) return;
+  if (!id) return Promise.reject();
+  if(id === 'null') { // TODO store constant or direct call reset
+    return dispatch(resetAccount());
+  }
+  if (currentKeypair && currentKeypair.publicKey() === id)
+    return Promise.resolve();
 
   const localAccount = localAccounts.find(a => (a.publicKey() === id));
 
@@ -79,7 +83,7 @@ export const openAccountId = id => (dispatch, getState) => {
   } else {
     keypair = Keypair.fromPublicKey(id);
   }
-  dispatch(setAccount(keypair));
+  return dispatch(setAccount(keypair));
 };
 
 export const onPageLoad = nextState => (dispatch) => {

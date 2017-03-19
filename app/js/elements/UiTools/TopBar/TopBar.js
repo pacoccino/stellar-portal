@@ -7,7 +7,7 @@ import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
 import icon from '../../../../../content/assets/images/favicon-32x32.png';
 
-const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
+const TopBar = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
   <Menu fixed="top" inverted>
     <Container>
       <Menu.Item>
@@ -23,16 +23,19 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
         />
         <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
       </Menu.Item>
-      <Menu.Item>
-        <AccountSwitcher />
-      </Menu.Item>
+      {
+        keypair &&
+        <Menu.Item>
+          <AccountSwitcher />
+        </Menu.Item>
+      }
       <Menu.Item>
         <NetworkSwitcher />
       </Menu.Item>
     </Container>
   </Menu>;
 
-Layout.propTypes = {
+TopBar.propTypes = {
   goHome: PropTypes.func.isRequired,
   openKeypairModal: PropTypes.func.isRequired,
   closeKeypairModal: PropTypes.func.isRequired,
@@ -40,4 +43,4 @@ Layout.propTypes = {
   keypairModalOpen: PropTypes.bool,
 };
 
-export default Layout;
+export default TopBar;
