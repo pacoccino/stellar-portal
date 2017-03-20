@@ -56,6 +56,7 @@ class Payment extends Component {
       type: 'payment',
       validDestination: true,
       customDestination: false,
+      showConfirmation: false,
     };
   }
 
@@ -240,6 +241,7 @@ class Payment extends Component {
         break;
       }
     }
+    // TODO sendOperation.then => showConfirmation=true
   }
 
   checkDestination(e) {
@@ -256,7 +258,7 @@ class Payment extends Component {
 
     return (
       <div>
-        <Dimmer className="successDimmer" active={this.props.paymentSuccess}>
+        <Dimmer className="successDimmer" active={this.state.showConfirmation}>
           Sent
         </Dimmer>
         <Header as="h2" textAlign="center">
@@ -336,7 +338,6 @@ Payment.propTypes = {
   sendCreateAccount: PropTypes.func.isRequired,
   sendAccountMerge: PropTypes.func.isRequired,
   getDestinationTrustlines: PropTypes.func.isRequired,
-  paymentSuccess: PropTypes.bool,
   account: PropTypes.object,
   trustlines: PropTypes.array,
   destinationTruslines: PropTypes.array,

@@ -5,6 +5,12 @@ import Amount from '../../../components/stellar/Amount';
 import { STROOP } from '../../../helpers/StellarTools';
 
 class Offers extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      showConfirmation: false,
+    };
+  }
   createOffer(e, { formData }) {
     e.preventDefault();
 
@@ -19,7 +25,18 @@ class Offers extends React.Component {
       passive: formData.passive,
     };
 
-    this.props.createOffer(offerData);
+    console.log('send offer')
+    this.props.createOffer(offerData).then(() => {
+      console.log('done offer')
+      this.setState({
+        showConfirmation: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          showConfirmation: false,
+        });
+      }, 2000);
+    });
   }
 
   deleteOffer(offer) {
@@ -90,7 +107,7 @@ class Offers extends React.Component {
 
     return (
       <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
-        <Dimmer className="successDimmer" active={this.props.offerSuccess}>
+        <Dimmer className="successDimmer" active={this.state.showConfirmation}>
           Created
         </Dimmer>
         <Form.Group widths="2">
@@ -169,7 +186,6 @@ Offers.propTypes = {
   deleteOffer: PropTypes.func.isRequired,
   canSign: PropTypes.bool,
   sendingOffer: PropTypes.bool,
-  offerSuccess: PropTypes.bool,
 };
 
 export default Offers;

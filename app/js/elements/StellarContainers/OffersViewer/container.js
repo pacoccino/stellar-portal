@@ -14,7 +14,6 @@ const mapStateToProps = state => ({
   trustlines: getTrustlines(state),
   canSign: canSign(state),
   sendingOffer: asyncSelectorObject(ASYNC_CREATE_OFFER).isLoading(state),
-  offerSuccess: asyncSelectorObject(ASYNC_CREATE_OFFER).displayMessage(state),
 });
 
 const mapDispatchToProps = { createOffer, deleteOffer };

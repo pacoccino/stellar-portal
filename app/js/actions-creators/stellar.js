@@ -104,11 +104,10 @@ export const createOffer = offer => (dispatch, getState) => {
 
   return StellarOperations
     .manageOffer(offer, authData)
-    .then(() => {
-      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_OFFER, true));
-    })
+    .then(() => dispatch(AsyncActions.stopLoading(ASYNC_CREATE_OFFER)))
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
+      throw error;
     });
 };
 

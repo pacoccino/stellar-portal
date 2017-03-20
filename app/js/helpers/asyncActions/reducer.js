@@ -23,7 +23,6 @@ function setIsLoading(isLoading, state, { actionName }) {
   return editActionState(state, actionName,
     {
       isLoading,
-      displayMessage: (!isLoading ? true : undefined),
     },
   );
 }
@@ -32,7 +31,6 @@ function fetchStart(state, { actionName }) {
   return editActionState(state, actionName,
     {
       isLoading: true,
-      displayMessage: false,
     },
   );
 }
@@ -41,7 +39,6 @@ function fetchSuccess(state, { actionName, data }) {
   return editActionState(state, actionName,
     {
       isLoading: false,
-      displayMessage: true,
       data,
       error: null,
     },
@@ -52,17 +49,8 @@ function fetchError(state, { actionName, error }) {
   return editActionState(state, actionName,
     {
       isLoading: false,
-      displayMessage: true,
       data: null,
       error,
-    },
-  );
-}
-
-function fetchHideMessage(state, { actionName }) {
-  return editActionState(state, actionName,
-    {
-      displayMessage: false,
     },
   );
 }
@@ -81,6 +69,5 @@ export default createReducer(initialState, {
   [actions.ASYNC_FETCH_START]: fetchStart,
   [actions.ASYNC_FETCH_SUCCESS]: fetchSuccess,
   [actions.ASYNC_FETCH_ERROR]: fetchError,
-  [actions.ASYNC_FETCH_END_MESSAGE]: fetchHideMessage,
   [actions.ASYNC_RESET_ACTION]: reset,
 });
