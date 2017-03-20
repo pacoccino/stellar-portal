@@ -5,7 +5,7 @@ import AccountId from '../../../components/stellar/AccountId';
 
 class AccountSwitcher extends React.Component {
   render() {
-    const { openAccountId, accounts, keypair } = this.props;
+    const { currentAccount, openAccountId, accounts } = this.props;
 
     if (accounts.length === 0) {
       return null;
@@ -18,8 +18,8 @@ class AccountSwitcher extends React.Component {
       text: AccountId.getAccountIdText(a.keypair.publicKey()),
     }));
 
-    if (keypair) {
-      currentId = keypair.publicKey();
+    if (currentAccount) {
+      currentId = currentAccount.id;
       options.push({
         value: 'null',
         text: 'Close account',
@@ -47,7 +47,7 @@ class AccountSwitcher extends React.Component {
 
 AccountSwitcher.propTypes = {
   accounts: PropTypes.array.isRequired,
-  keypair: PropTypes.object,
+  currentAccount: PropTypes.object,
   openAccountId: PropTypes.func.isRequired,
 };
 

@@ -12,7 +12,7 @@ import {
   generateTestPair,
 } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
-import { getLocalAccounts, addLocalAccount } from '../helpers/storage';
+import { getLocalAccounts } from '../helpers/storage';
 import { getKeypair, getAccounts } from '../selectors/account';
 import { getNetwork } from '../selectors/stellarData';
 
@@ -31,14 +31,14 @@ export const switchNetwork = network => (dispatch, getState) => {
   dispatch(AccountActions.switchNetwork(network));
 };
 
-export const addAccount = (keypair) => (dispatch) => {
+export const addAccount = keypair => (dispatch) => {
   const newAccount = {
     id: keypair.publicKey(),
     keypair,
   };
 
+  // TODO update existing : add seed, edit other fields ...
   dispatch(AccountActions.addAccount(newAccount));
-  addLocalAccount(newAccount);
 };
 
 export const setAccount = keys => (dispatch, getState) => {
@@ -50,7 +50,9 @@ export const setAccount = keys => (dispatch, getState) => {
   return getAccount(keypair.publicKey())
     .then((stellarAccount) => {
       dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, stellarAccount));
-      dispatch(AccountActions.setKeypair(keypair));
+      dispatch(addAccount(keypair));
+      dispatch(AccountActions.setKeypair(keypair)); // TODO remove setkeypair
+      dispatch(AccountActions.setCurrentAccountId(keypair.publicKey()));
 
       const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
       const routeUpdate = {
@@ -77,7 +79,7 @@ export const openAccountId = id => (dispatch, getState) => {
   const currentKeypair = getKeypair(state);
 
   if (!id) return Promise.reject();
-  if(id === 'null') { // TODO store constant or direct call reset
+  if (id === 'null') { // TODO store constant or direct call reset
     return dispatch(resetAccount());
   }
   if (currentKeypair && currentKeypair.publicKey() === id)
@@ -90,7 +92,6 @@ export const openAccountId = id => (dispatch, getState) => {
     keypair = localAccount.keypair;
   } else {
     keypair = Keypair.fromPublicKey(id);
-    dispatch(addAccount(keypair));
   }
   return dispatch(setAccount(keypair));
 };
@@ -109,7 +110,6 @@ export const onPageLoad = nextState => (dispatch) => {
     if (process.env.NODE_ENV !== 'development') {
       dispatch(push({ query: { secretSeed: null } })); // Remove seed from URL
     }
-    dispatch(addAccount(keypair));
     dispatch(setAccount(keypair));
   }
 };

@@ -3,11 +3,19 @@ export const SWITCH_NETWORK = 'network:switch';
 export const RESET_ACCOUNT = 'account:reset';
 export const ADD_ACCOUNT = 'account:add';
 export const SET_KEYPAIR = 'keypair:set';
+export const SET_CURRENT_ACCOUNT_ID = 'account:set-id';
 
 
 export function resetAccount() {
   return {
     type: RESET_ACCOUNT,
+  };
+}
+
+export function setCurrentAccountId(id) {
+  return {
+    type: SET_CURRENT_ACCOUNT_ID,
+    id,
   };
 }
 

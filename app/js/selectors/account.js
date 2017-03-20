@@ -13,6 +13,15 @@ export const isCreatingTestAccount = asyncSelectorObject(ASYNC_CREATE_TEST_ACCOU
 
 export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], null);
 
+export const getAccounts = selectProperty([ACCOUNT_STATE_KEY, 'accounts'], []);
+export const getCurrentAccountId = selectProperty([ACCOUNT_STATE_KEY, 'currentAccountId'], null);
+
+export const getCurrentAccount = createSelector(
+  getAccounts,
+  getCurrentAccountId,
+  (accounts, id) => accounts.find(a => a.id === id),
+);
+
 export const getAuthData = createSelector(
   getKeypair,
   getAccount,
@@ -41,4 +50,3 @@ export const accountSet = createSelector(
   ),
 );
 
-export const getAccounts = selectProperty([ACCOUNT_STATE_KEY, 'accounts'], []);

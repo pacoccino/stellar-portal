@@ -36,6 +36,18 @@ export const getLocalAccounts = () => {
   }
 };
 
+export const setLocalAccounts = (accounts) => {
+  try {
+    const serializedAccounts = accounts.map(serializeAccount);
+    const jsonAccounts = JSON.stringify(serializedAccounts);
+    localStorage.setItem(ACCOUNTS_KEY, jsonAccounts);
+    return accounts;
+  } catch (e) {
+    console.error('Error while saving account');
+    return [];
+  }
+};
+
 export const addLocalAccount = (account) => {
   try {
     let accounts = getLocalAccounts();
@@ -50,10 +62,7 @@ export const addLocalAccount = (account) => {
       accounts.push(account);
     }
 
-    const serializedAccounts = accounts.map(serializeAccount);
-    const jsonAccounts = JSON.stringify(serializedAccounts);
-    localStorage.setItem(ACCOUNTS_KEY, jsonAccounts);
-    return accounts;
+    return setLocalAccounts(accounts);
   } catch (e) {
     console.error('Error while saving account');
     return [];
