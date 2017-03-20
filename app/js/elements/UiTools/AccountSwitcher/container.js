@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import NetworkSwitcher from './component';
 import { getAccounts, getKeypair } from '../../../selectors/account';
-import { resetAccount, openAccountId } from '../../../actions-creators/account';
+import { openAccountId } from '../../../actions-creators/account';
 
 const mapStateToProps = (state) => {
   const accounts = getAccounts(state);
@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  resetAccount,
   openAccountId,
 };
 

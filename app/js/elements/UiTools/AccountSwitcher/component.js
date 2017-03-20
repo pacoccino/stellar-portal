@@ -1,16 +1,20 @@
 import React, { PropTypes } from 'react';
-import { Dropdown, Button } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 import AccountId from '../../../components/stellar/AccountId';
 
 class AccountSwitcher extends React.Component {
   render() {
-    const { openAccountId, resetAccount, accounts, keypair } = this.props;
+    const { openAccountId, accounts, keypair } = this.props;
 
-    if (accounts.length === 0)
+    if (accounts.length === 0) {
       return null;
+    }
 
-    // TODO show list on welcome
+    let currentId = 'null';
+    if (keypair) {
+      currentId = keypair.publicKey();
+    }
 
     let options = accounts.map(a => ({
       value: a.publicKey(),
@@ -19,16 +23,17 @@ class AccountSwitcher extends React.Component {
 
     options = options.concat({
       value: 'null',
-      text: 'Close account',
+      text: keypair ? 'Close account' : 'No account selected',
     });
 
     return (
       <Dropdown
+        selection
         button
         color="blue"
         label="Select account"
         options={options}
-        value={keypair ? keypair.publicKey() : null}
+        value={currentId}
         onChange={(e, d) => openAccountId(d.value)}
       />
     );
@@ -38,7 +43,6 @@ class AccountSwitcher extends React.Component {
 AccountSwitcher.propTypes = {
   accounts: PropTypes.array.isRequired,
   keypair: PropTypes.object,
-  resetAccount: PropTypes.func.isRequired,
   openAccountId: PropTypes.func.isRequired,
 };
 

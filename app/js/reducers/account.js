@@ -12,8 +12,11 @@ const initialState = {
   accounts: [],
 };
 
-function resetAccount() {
-  return initialState;
+function resetAccount(state) {
+  return {
+    ...state,
+    keypair: null,
+  };
 }
 
 function setKeypair(state, action) {
