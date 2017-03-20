@@ -12,19 +12,24 @@ class AccountSwitcher extends React.Component {
     }
 
     let currentId = 'null';
-    if (keypair) {
-      currentId = keypair.publicKey();
-    }
 
-    let options = accounts.map(a => ({
-      value: a.publicKey(),
-      text: AccountId.getAccountIdText(a.publicKey()),
+    const options = accounts.map(a => ({
+      value: a.id,
+      text: AccountId.getAccountIdText(a.keypair.publicKey()),
     }));
 
-    options = options.concat({
-      value: 'null',
-      text: keypair ? 'Close account' : 'No account selected',
-    });
+    if (keypair) {
+      currentId = keypair.publicKey();
+      options.push({
+        value: 'null',
+        text: 'Close account',
+      });
+    } else {
+      options.unshift({
+        value: 'null',
+        text: 'No account selected',
+      });
+    }
 
     return (
       <Dropdown

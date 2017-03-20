@@ -4,13 +4,20 @@ import { KeypairInstance } from './StellarTools';
 
 export const ACCOUNTS_KEY = 'accounts';
 
-const deserializeAccount = account => KeypairInstance({
-  publicKey: account.publicKey,
-  //secretSeed: decrypt(account.secretSeed),
+const deserializeAccount = account => ({
+  ...account,
+  keypair: KeypairInstance({
+    publicKey: account.keypair.publicKey,
+    //secretSeed: decrypt(account.keypair.secretSeed),
+  }),
 });
+
 const serializeAccount = account => ({
-  publicKey: account.publicKey(),
-  //secretSeed: encrypt(account.secretSeed()),
+  ...account,
+  keypair: {
+    publicKey: account.keypair.publicKey(),
+    //secretSeed: encrypt(account.keypair.secretSeed()),
+  },
 });
 
 export const getLocalAccounts = () => {
@@ -29,19 +36,18 @@ export const getLocalAccounts = () => {
   }
 };
 
-export const addLocalAccount = (keypair) => {
+export const addLocalAccount = (account) => {
   try {
     let accounts = getLocalAccounts();
     if (!isArray(accounts)) {
       accounts = [];
     }
-    const localAccountIndex = accounts.findIndex(a =>
-      (a.publicKey() === keypair.publicKey()),
-    );
+
+    const localAccountIndex = accounts.findIndex(a => a.id === account.id);
     if (localAccountIndex !== -1) {
-      accounts[localAccountIndex] = keypair;
+      accounts[localAccountIndex] = account;
     } else {
-      accounts.push(keypair);
+      accounts.push(account);
     }
 
     const serializedAccounts = accounts.map(serializeAccount);

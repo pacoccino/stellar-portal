@@ -31,6 +31,16 @@ export const switchNetwork = network => (dispatch, getState) => {
   dispatch(AccountActions.switchNetwork(network));
 };
 
+export const addAccount = (keypair) => (dispatch) => {
+  const newAccount = {
+    id: keypair.publicKey(),
+    keypair,
+  };
+
+  dispatch(AccountActions.addAccount(newAccount));
+  addLocalAccount(newAccount);
+};
+
 export const setAccount = keys => (dispatch, getState) => {
   dispatch(AsyncActions.startFetch(ASYNC_FETCH_ACCOUNT));
 
@@ -38,11 +48,9 @@ export const setAccount = keys => (dispatch, getState) => {
   const network = getNetwork(getState());
 
   return getAccount(keypair.publicKey())
-    .then((account) => {
-      dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, account));
+    .then((stellarAccount) => {
+      dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, stellarAccount));
       dispatch(AccountActions.setKeypair(keypair));
-      dispatch(AccountActions.addAccount(keypair));
-      addLocalAccount(keypair);
 
       const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
       const routeUpdate = {
@@ -54,7 +62,7 @@ export const setAccount = keys => (dispatch, getState) => {
       };
       dispatch(push(routeUpdate));
 
-      return account;
+      return stellarAccount;
     })
     .catch((error) => {
       dispatch(AsyncActions.errorFetch(ASYNC_FETCH_ACCOUNT, error));
@@ -75,13 +83,14 @@ export const openAccountId = id => (dispatch, getState) => {
   if (currentKeypair && currentKeypair.publicKey() === id)
     return Promise.resolve();
 
-  const localAccount = localAccounts.find(a => (a.publicKey() === id));
+  const localAccount = localAccounts.find(a => (a.id === id));
 
   let keypair = null;
   if (localAccount) {
-    keypair = localAccount;
+    keypair = localAccount.keypair;
   } else {
     keypair = Keypair.fromPublicKey(id);
+    dispatch(addAccount(keypair));
   }
   return dispatch(setAccount(keypair));
 };
@@ -100,6 +109,7 @@ export const onPageLoad = nextState => (dispatch) => {
     if (process.env.NODE_ENV !== 'development') {
       dispatch(push({ query: { secretSeed: null } })); // Remove seed from URL
     }
+    dispatch(addAccount(keypair));
     dispatch(setAccount(keypair));
   }
 };

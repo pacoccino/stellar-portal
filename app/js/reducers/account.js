@@ -34,14 +34,13 @@ function addAccount(state, action) {
   let newAccounts = state.accounts.slice();
   if (
     account &&
-    (newAccounts.findIndex(a => (a.publicKey() === account.publicKey())) === -1)
+    (newAccounts.findIndex(a => (a.id === account.id)) === -1)
   ) {
     newAccounts = newAccounts.concat(account);
   }
   if (accounts) {
     newAccounts = newAccounts.concat(accounts);
   }
-  newAccounts = newAccounts.map(KeypairInstance);
 
   return {
     ...state,
