@@ -13,7 +13,7 @@ import {
 } from '../helpers/StellarServer';
 import { KeypairInstance } from '../helpers/StellarTools';
 import { getLocalAccounts } from '../helpers/storage';
-import { getKeypair, getAccounts } from '../selectors/account';
+import { getAccounts, getCurrentAccount } from '../selectors/account';
 import { getNetwork } from '../selectors/stellarData';
 
 export const resetAccount = () => (dispatch) => {
@@ -38,6 +38,7 @@ export const addAccount = keypair => (dispatch) => {
   };
 
   // TODO update existing : add seed, edit other fields ...
+  // TODO add network into account
   dispatch(AccountActions.addAccount(newAccount));
 };
 
@@ -50,8 +51,8 @@ export const setAccount = keys => (dispatch, getState) => {
   return getAccount(keypair.publicKey())
     .then((stellarAccount) => {
       dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, stellarAccount));
+      dispatch(resetAccount());
       dispatch(addAccount(keypair));
-      dispatch(AccountActions.setKeypair(keypair)); // TODO remove setkeypair
       dispatch(AccountActions.setCurrentAccountId(keypair.publicKey()));
 
       const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
@@ -76,13 +77,13 @@ export const setAccount = keys => (dispatch, getState) => {
 export const openAccountId = id => (dispatch, getState) => {
   const state = getState();
   const localAccounts = getAccounts(state);
-  const currentKeypair = getKeypair(state);
+  const currentAccount = getCurrentAccount(state);
 
   if (!id) return Promise.reject();
   if (id === 'null') { // TODO store constant or direct call reset
     return dispatch(resetAccount());
   }
-  if (currentKeypair && currentKeypair.publicKey() === id)
+  if (currentAccount && currentAccount.id === id)
     return Promise.resolve();
 
   const localAccount = localAccounts.find(a => (a.id === id));

@@ -24,26 +24,6 @@ class AccountSelector extends Component {
       showSeed: false,
       resolving: false,
     };
-    if (this.props.keypair) {
-      this.state.accountId = this.props.keypair.publicKey();
-      this.state.secretSeed = this.props.keypair.canSign() ? this.props.keypair.secret() : '';
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.props.keypair !== newProps.keypair) {
-      if (newProps.keypair) {
-        this.setState({
-          accountId: newProps.keypair.publicKey(),
-          secretSeed: newProps.keypair.canSign() ? newProps.keypair.secret() : '',
-        });
-      } else {
-        this.setState({
-          accountId: '',
-          secretSeed: '',
-        });
-      }
-    }
   }
 
   componentDidMount() {
@@ -172,7 +152,6 @@ AccountSelector.propTypes = {
   isAccountLoading: PropTypes.bool,
   isCreatingTestAccount: PropTypes.bool,
   error: PropTypes.object,
-  keypair: PropTypes.object,
   setAccount: PropTypes.func.isRequired,
   createTestAccount: PropTypes.func.isRequired,
   network: PropTypes.string.isRequired,

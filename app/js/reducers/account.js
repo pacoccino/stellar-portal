@@ -4,11 +4,9 @@ import { findIndex } from 'lodash';
 import * as types from '../actions/account';
 import { DELETE_TRUSTLINE } from '../actions/ui';
 import { editInArray, createReducer } from '../helpers/redux';
-import { KeypairInstance } from '../helpers/StellarTools';
 import { setLocalAccounts } from '../helpers/storage';
 
 const initialState = {
-  keypair: null,
   error: null,
   currentAccountId: null,
   accounts: [],
@@ -17,17 +15,7 @@ const initialState = {
 function resetAccount(state) {
   return {
     ...state,
-    keypair: null,
     currentAccountId: null,
-  };
-}
-
-function setKeypair(state, action) {
-  const { keypair } = action;
-
-  return {
-    ...state,
-    keypair: KeypairInstance(keypair),
   };
 }
 
@@ -80,7 +68,6 @@ function deletingTrustline(state, action) {
 
 export default createReducer(initialState, {
   [types.RESET_ACCOUNT]: resetAccount,
-  [types.SET_KEYPAIR]: setKeypair,
   [types.SET_CURRENT_ACCOUNT_ID]: setCurrentAccountId,
   [types.ADD_ACCOUNT]: addAccount,
   [DELETE_TRUSTLINE]: deletingTrustline,

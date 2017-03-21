@@ -11,8 +11,6 @@ export const isAccountLoading = asyncSelectorObject(ASYNC_FETCH_ACCOUNT).isLoadi
 
 export const isCreatingTestAccount = asyncSelectorObject(ASYNC_CREATE_TEST_ACCOUNT).isLoading;
 
-export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], null);
-
 export const getAccounts = selectProperty([ACCOUNT_STATE_KEY, 'accounts'], []);
 export const getCurrentAccountId = selectProperty([ACCOUNT_STATE_KEY, 'currentAccountId'], null);
 
@@ -23,10 +21,10 @@ export const getCurrentAccount = createSelector(
 );
 
 export const getAuthData = createSelector(
-  getKeypair,
+  getCurrentAccount,
   getAccount,
-  (keypair, sourceAccount) => ({
-    keypair,
+  (localAccount, sourceAccount) => ({
+    keypair: localAccount && localAccount.keypair,
     sourceAccount,
   }),
 );
@@ -37,9 +35,13 @@ export const getBalances = createSelector(
 
 export const canSign = createSelector(
   getAuthData,
-  getKeypair,
-  (authData, keypair) => (
-    !!authData && !!authData.keypair && !!keypair.canSign() && !!authData.sourceAccount
+  getCurrentAccount,
+  (authData, localAccount) => (
+    !!authData &&
+    !!authData.keypair &&
+    !!localAccount &&
+    localAccount.keypair.canSign() &&
+    !!authData.sourceAccount
   ),
 );
 export const accountSet = createSelector(

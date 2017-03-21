@@ -8,7 +8,6 @@ import {
   isAccountLoading,
   isCreatingTestAccount,
   getAccountError,
-  getKeypair,
   canSign,
 } from '../../../selectors/account';
 import {
@@ -22,7 +21,6 @@ const mapStateToProps = state => ({
   isCreatingTestAccount: isCreatingTestAccount(state),
   canSign: canSign(state),
   error: getAccountError(state),
-  keypair: getKeypair(state),
   network: getNetwork(state),
 
   values: getFormValues(FORM_NAME)(state),
