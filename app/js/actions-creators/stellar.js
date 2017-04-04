@@ -5,9 +5,6 @@ import { ASYNC_SEND_OPERATION, ASYNC_CREATE_TRUSTLINE, ASYNC_GET_ORDERBOOK } fro
 import { AsyncActions } from '../helpers/asyncActions';
 import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
-
-const { StellarOperations, StellarServer, StellarTools } = StellarToolkit;
-
 import {
   getAccount as getAccountSelector,
   getAuthData,
@@ -18,6 +15,8 @@ import {
 import {
   getDestinationTrustlines as getDestinationTrustlinesSelector,
 } from '../selectors/ui';
+
+const { StellarOperations, StellarServer, StellarTools } = StellarToolkit;
 
 export const OPERATIONS = {
   PAYMENT: 'payment',
