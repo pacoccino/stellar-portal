@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Dimmer, Loader, Dropdown, Grid, Header, Table } from 'semantic-ui-react';
 import { find, isEmpty } from 'lodash';
-import { StellarTools } from 'stellar-toolkit';
-
 import Asset from '../../../components/stellar/Asset';
 import Amount from '../../../components/stellar/Amount';
-
-const { AssetInstance, AssetUid } = StellarTools;
+import { AssetInstance, AssetUid } from '../../../helpers/StellarTools';
 
 class OrderBook extends React.Component {
   constructor(props) {

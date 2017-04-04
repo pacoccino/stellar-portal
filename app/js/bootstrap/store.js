@@ -7,7 +7,6 @@ import { routerMiddleware } from 'react-router-redux';
 
 import reducers from '../reducers';
 import { setStore } from '../helpers/AccountManager';
-
 import stellarStreamerMiddleware from '../middlewares/StellarStreamer';
 import asyncActionsMiddleware from '../helpers/asyncActions/middleware';
 

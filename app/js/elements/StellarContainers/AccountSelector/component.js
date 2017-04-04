@@ -3,7 +3,7 @@ import { Container, Button, Message } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 import { Field, propTypes } from 'redux-form';
 
-import { StellarTools } from 'stellar-toolkit';
+import * as StellarHelper from '../../../helpers/StellarTools';
 import InputFormField from '../../UiTools/SemanticForm/Input';
 
 const styles = {
@@ -54,9 +54,9 @@ class AccountSelector extends Component {
     this.setState({ resolving: true });
     const address = newAddress;
 
-    const isSeed = StellarTools.validSeed(address);
+    const isSeed = StellarHelper.validSeed(address);
     if (isSeed) {
-      const keypair = StellarTools.KeypairInstance({ secretSeed: address });
+      const keypair = StellarHelper.KeypairInstance({ secretSeed: address });
       this.setState({
         keypair,
         resolving: false,
@@ -64,9 +64,9 @@ class AccountSelector extends Component {
       return;
     }
 
-    StellarTools.resolveAddress(address)
+    StellarHelper.resolveAddress(address)
       .then((resolved) => {
-        const keypair = StellarTools.KeypairInstance({ publicKey: resolved.account_id });
+        const keypair = StellarHelper.KeypairInstance({ publicKey: resolved.account_id });
         this.setState({
           keypair,
           resolving: false,
