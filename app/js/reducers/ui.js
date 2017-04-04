@@ -43,19 +43,6 @@ function openErrorModal(state, action) {
   };
 }
 
-function sendingOffer(state) {
-  return {
-    ...state,
-    sendingOffer: true,
-  };
-}
-function sendOfferSuccess(state) {
-  return {
-    ...state,
-    sendingOffer: false,
-  };
-}
-
 function setDestinationTrustlines(state, action) {
   const { destinationTruslines } = action;
   return {
@@ -65,8 +52,6 @@ function setDestinationTrustlines(state, action) {
 }
 
 export default createReducer(initialState, {
-  [types.SEND_OFFER]: sendingOffer,
-  [types.SEND_OFFER_SUCCESS]: sendOfferSuccess,
   [types.OPEN_ERROR_MODAL]: openErrorModal,
   [types.CLOSE_ERROR_MODAL]: closeErrorModal,
   [types.OPEN_KEYPAIR_MODAL]: openKeypairModal,
