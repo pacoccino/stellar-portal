@@ -2,12 +2,13 @@ import React, { PropTypes } from 'react';
 import { Container, Menu, Button } from 'semantic-ui-react';
 
 import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
-import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
+// import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
+import ChangeAccount from '../../../elements/UiTools/ChangeAccount';
 import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
 import icon from '../../../../../content/assets/images/favicon-32x32.png';
 
-const TopBar = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
+const TopBar = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal, currentAccount }) =>
   <Menu fixed="top" inverted>
     <Container>
       <Menu.Item>
@@ -23,9 +24,14 @@ const TopBar = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal 
         />
         <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
       </Menu.Item>
+      {/*<Menu.Item>
+       <AccountSwitcher />
+       </Menu.Item>*/}
+      { currentAccount &&
       <Menu.Item>
-        <AccountSwitcher />
+        <ChangeAccount />
       </Menu.Item>
+      }
       <Menu.Item>
         <NetworkSwitcher />
       </Menu.Item>
@@ -37,6 +43,7 @@ TopBar.propTypes = {
   openKeypairModal: PropTypes.func.isRequired,
   closeKeypairModal: PropTypes.func.isRequired,
   keypairModalOpen: PropTypes.bool,
+  currentAccount: PropTypes.object,
 };
 
 export default TopBar;

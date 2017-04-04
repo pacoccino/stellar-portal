@@ -21,7 +21,6 @@ class CurrentAccount extends Component {
 
   openOnNewTab() {
     let url = routes.Account_G(this.props.keypair.publicKey());
-    // TODO test if working
     window.open(url);
   }
 

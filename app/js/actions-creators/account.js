@@ -16,6 +16,7 @@ import { getLocalAccounts } from '../helpers/storage';
 import { getAccounts, getCurrentAccount } from '../selectors/account';
 import { getNetwork } from '../selectors/stellarData';
 
+const PROD = process.env.NODE_ENV === 'production';
 export const resetAccount = () => (dispatch) => {
   dispatch(push({ query: {} }));
   dispatch(AccountActions.resetAccount());
@@ -55,7 +56,7 @@ export const setAccount = keys => (dispatch, getState) => {
       dispatch(addAccount(keypair));
       dispatch(AccountActions.setCurrentAccountId(keypair.publicKey()));
 
-      const putSecret = (keypair.canSign() && process.env.NODE_ENV === 'development');
+      const putSecret = (keypair.canSign() && !PROD);
       const routeUpdate = {
         pathname: routes.Account_G(keypair.publicKey()),
         query: {
@@ -106,18 +107,18 @@ export const onPageLoad = nextState => (dispatch) => {
   if (query.network) {
     dispatch(switchNetwork(query.network));
   }
-  if (query.secretSeed) {
-    const keypair = Keypair.fromSecret(query.secretSeed);
-    if (process.env.NODE_ENV !== 'development') {
-      dispatch(push({ query: { secretSeed: null } })); // Remove seed from URL
-    }
-    dispatch(setAccount(keypair));
-  }
 };
 
 export const onChangeAccountRoute = nextState => (dispatch) => {
-  const { params: { id } } = nextState;
-  dispatch(openAccountId(id));
+  const { params: { id }, location: { action, query } } = nextState;
+  if(action === 'PUSH') return; // Disable self-sent actions
+
+  if (query.secretSeed) {
+    const keypair = Keypair.fromSecret(query.secretSeed);
+    dispatch(setAccount(keypair));
+  } else {
+    dispatch(openAccountId(id));
+  }
 };
 
 export const createTestAccount = () => (dispatch) => {

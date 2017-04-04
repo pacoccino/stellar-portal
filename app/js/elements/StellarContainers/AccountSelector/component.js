@@ -69,7 +69,8 @@ class AccountSelector extends Component {
   }
 
   newForm() {
-    const { values: { address } } = this.props;
+    const { values } = this.props;
+    const address = values.address || null;
 
     let buttonLabel = 'Invalid address';
     const buttonContent = 'Go';
