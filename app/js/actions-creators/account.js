@@ -1,14 +1,12 @@
 import { push } from 'react-router-redux';
-import { StellarServer, StellarTools } from 'stellar-toolkit';
 
 import { AsyncActions } from '../helpers/asyncActions';
 import * as AccountActions from '../actions/account';
 import { ASYNC_FETCH_ACCOUNT, ASYNC_CREATE_TEST_ACCOUNT } from '../constants/asyncActions';
 
+import { getAccount, switchNetwork as switchNetworkInstance, generateTestPair } from '../helpers/StellarServer';
+import { KeypairInstance } from '../helpers/StellarTools';
 import { getNetwork } from '../selectors/stellarData';
-
-const { getAccount, switchNetwork: switchNetworkInstance, generateTestPair } = StellarServer;
-const { KeypairInstance } = StellarTools;
 
 export const setAccount = keys => (dispatch, getState) => {
   dispatch(AsyncActions.startFetch(ASYNC_FETCH_ACCOUNT));

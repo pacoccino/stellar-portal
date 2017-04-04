@@ -18,7 +18,7 @@ const buildDir = config.buildPath;
 
 module.exports = createConfig([
   setOutput({
-    filename: '[name].[hash].js',
+    filename: '[hash].[name].js',
     path: buildDir()
   }),
   babel(),

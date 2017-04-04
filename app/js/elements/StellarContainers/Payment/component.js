@@ -2,15 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Icon, Dimmer, Loader, Modal, Grid, Dropdown, Header, Form as FormUI } from 'semantic-ui-react';
 import { Field, propTypes } from 'redux-form';
 import { debounce } from 'lodash';
-import { StellarTools } from 'stellar-toolkit';
 
 import Asset from '../../../components/stellar/Asset';
+import { STROOP, KeypairInstance, resolveAddress } from '../../../helpers/StellarTools';
 import { OPERATIONS } from '../../../actions-creators/stellar';
 
 import DropdownFormField from '../../UiTools/SemanticForm/Dropdown';
 import InputFormField from '../../UiTools/SemanticForm/Input';
-
-const { STROOP, KeypairInstance, resolveAddress } = StellarTools;
 
 const styles = {
   padV: {

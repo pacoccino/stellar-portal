@@ -1,11 +1,9 @@
-import { StellarStreamers } from 'stellar-toolkit';
 import * as actions from '../actions/account';
+import { OffersStream, EffectsStream, AccountStream, PaymentStream } from '../helpers/StellarServer';
 import { getPaymentsStream, getEffectsStream, getOffersSuccess } from '../actions/stellar';
 import { newStream, killStreams } from '../helpers/monoStreamer';
 import { AsyncActions } from '../helpers/asyncActions';
 import { ASYNC_FETCH_ACCOUNT } from '../constants/asyncActions';
-
-const { OffersStream, EffectsStream, AccountStream, PaymentStream } = StellarStreamers;
 
 function traceError(e) {
   console.error(e);
