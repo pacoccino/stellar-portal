@@ -81,6 +81,7 @@ class Payment extends Component {
     this.state = {
       type: 'payment',
       destinationKeypair: null,
+      showConfirmation: false,
     };
 
     this.checkDestinationDebounced = debounce(this.checkDestinationDebounced, 200);
@@ -276,7 +277,18 @@ class Payment extends Component {
       ...this.props.values,
       destination: this.state.destinationKeypair.publicKey(),
     };
-    return this.props.sendOperation(this.state.type, enhancedFormData);
+    return this.props.sendOperation(this.state.type, enhancedFormData)
+      .then((result) => {
+        this.setState({
+          showConfirmation: true,
+        });
+        setTimeout(() => {
+          this.setState({
+            showConfirmation: false,
+          });
+        }, 2000);
+        return result;
+      });
   }
 
   checkDestination(e, destinationAddress) {
@@ -348,6 +360,9 @@ class Payment extends Component {
       <FormUI onSubmit={e => e.preventDefault()}>
         <Dimmer active={this.props.sendingPayment} inverted>
           <Loader>Sending...</Loader>
+        </Dimmer>
+        <Dimmer className="successDimmer" active={this.state.showConfirmation}>
+          Sent
         </Dimmer>
         <Header as="h2" textAlign="center">
           Operations

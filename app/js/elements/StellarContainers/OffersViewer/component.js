@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Form, Button, Header, Table } from 'semantic-ui-react';
+import { Dimmer, Form, Button, Header, Table } from 'semantic-ui-react';
 import { StellarTools } from 'stellar-toolkit';
 
 import Asset from '../../../components/stellar/Asset';
@@ -8,6 +8,12 @@ import Amount from '../../../components/stellar/Amount';
 const { STROOP } = StellarTools;
 
 class Offers extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      showConfirmation: false,
+    };
+  }
   createOffer(e, { formData }) {
     e.preventDefault();
 
@@ -22,7 +28,16 @@ class Offers extends React.Component {
       passive: formData.passive,
     };
 
-    this.props.createOffer(offerData);
+    this.props.createOffer(offerData).then(() => {
+      this.setState({
+        showConfirmation: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          showConfirmation: false,
+        });
+      }, 2000);
+    });
   }
 
   deleteOffer(offer) {
@@ -93,6 +108,9 @@ class Offers extends React.Component {
 
     return (
       <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
+        <Dimmer className="successDimmer" active={this.state.showConfirmation}>
+          Created
+        </Dimmer>
         <Form.Group widths="2">
           <Form.Select
             label="Sell"

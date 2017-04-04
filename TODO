@@ -1,20 +1,8 @@
-credit background
-
-buy untrusted asset
-modal comfirm payments
 resume statistic dashboard with money values
-
-webpack2/redux forms
-
-ASYNC actions
 
 Toaster
 
 - desktop app link and page
-
-- operations
-  - memo
-  - federated addresses
 
 - Orderbook
     - show untrusted assets
@@ -23,8 +11,6 @@ Toaster
     - limit
     - order
     - full page
-
-- create account on public error
 
 - trades
 - manage concurrent operations
