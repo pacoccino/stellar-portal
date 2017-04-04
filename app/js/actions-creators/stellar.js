@@ -1,11 +1,12 @@
-import * as StellarOperations from '../helpers/StellarOperations';
+import * as StellarToolkit from 'stellar-toolkit';
+
 import { newStream } from '../helpers/monoStreamer';
 import { ASYNC_SEND_OPERATION, ASYNC_CREATE_TRUSTLINE, ASYNC_GET_ORDERBOOK } from '../constants/asyncActions';
 import { AsyncActions } from '../helpers/asyncActions';
-import { AssetInstance } from '../helpers/StellarTools';
-import * as StellarServer from '../helpers/StellarServer';
 import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
+
+const { StellarOperations, StellarServer, StellarTools } = StellarToolkit;
 
 import {
   getAccount as getAccountSelector,
@@ -26,10 +27,12 @@ export const OPERATIONS = {
   ACCOUNT_MERGE: 'account_merge',
 };
 
-const sendOperationRedux = (transaction, dispatch) => {
+const sendOperationRedux = transactionLauncher => (dispatch, getState) => {
+  const authData = getAuthData(getState());
+
   dispatch(AsyncActions.startFetch(ASYNC_SEND_OPERATION));
 
-  return transaction
+  return transactionLauncher(authData)
     .then((d) => {
       dispatch(AsyncActions.successFetch(ASYNC_SEND_OPERATION, d));
     })
@@ -39,18 +42,12 @@ const sendOperationRedux = (transaction, dispatch) => {
     });
 };
 
-export const sendPayment = paymentData => (dispatch, getState) => {
-  const authData = getAuthData(getState());
-  return sendOperationRedux(StellarOperations.sendPayment(paymentData, authData), dispatch);
-};
+export const sendPayment = paymentData =>
+  sendOperationRedux(StellarOperations.sendPayment(paymentData));
+export const sendPathPayment = paymentData =>
+  sendOperationRedux(StellarOperations.sendPathPayment(paymentData));
 
-export const sendPathPayment = paymentData => (dispatch, getState) => {
-  const authData = getAuthData(getState());
-  return sendOperationRedux(StellarOperations.sendPathPayment(paymentData, authData), dispatch);
-};
-
-export const sendIssuePayment = formData => (dispatch, getState) => {
-  const authData = getAuthData(getState());
+export const sendIssuePayment = (formData) => {
   const { accountId, asset_code, amount, destination } = formData;
   const asset = { asset_code, asset_issuer: accountId };
   const paymentData = {
@@ -58,18 +55,13 @@ export const sendIssuePayment = formData => (dispatch, getState) => {
     amount,
     destination,
   };
-  return sendOperationRedux(StellarOperations.sendPayment(paymentData, authData), dispatch);
+  return sendOperationRedux(StellarOperations.sendPayment(paymentData));
 };
 
-export const sendCreateAccount = accountData => (dispatch, getState) => {
-  const authData = getAuthData(getState());
-  return sendOperationRedux(StellarOperations.createAccount(accountData, authData), dispatch);
-};
-
-export const sendAccountMerge = accountData => (dispatch, getState) => {
-  const authData = getAuthData(getState());
-  return sendOperationRedux(StellarOperations.accountMerge(accountData, authData), dispatch);
-};
+export const sendCreateAccount = accountData =>
+  sendOperationRedux(StellarOperations.createAccount(accountData));
+export const sendAccountMerge = accountData =>
+  sendOperationRedux(StellarOperations.accountMerge(accountData));
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
   const authData = getAuthData(getState());
@@ -81,7 +73,7 @@ const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
   };
 
   return StellarOperations
-    .changeTrust(transactionData, authData)
+    .changeTrust(transactionData)(authData)
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
     });
@@ -115,7 +107,7 @@ export const createOffer = offer => (dispatch, getState) => {
   if (!authData) return Promise.reject();
 
   return StellarOperations
-    .manageOffer(offer, authData)
+    .manageOffer(offer)(authData)
     .then((d) => {
       dispatch(UiActions.sendOfferSuccess(d));
     })
@@ -136,7 +128,7 @@ export const deleteOffer = offer => (dispatch, getState) => {
   };
 
   return StellarOperations
-    .manageOffer(transactionData, authData)
+    .manageOffer(transactionData)(authData)
     .then(() => true)
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
@@ -162,7 +154,7 @@ export const getDestinationTrustlines = accountId => (dispatch) => {
       asset_type: balance.asset_type,
       asset_code: balance.asset_code,
       asset_issuer: balance.asset_issuer,
-    })).map(AssetInstance))
+    })).map(StellarTools.AssetInstance))
     .then(trustlines => dispatch(StellarActions.setDestinationTrustlines(trustlines)))
     .catch(() => dispatch(StellarActions.setDestinationTrustlines([])));
 };
