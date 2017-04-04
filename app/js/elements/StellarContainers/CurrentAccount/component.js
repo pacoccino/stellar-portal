@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Table, Container, Button, Header } from 'semantic-ui-react';
+import { Input, Modal, Table, Container, Button, Header } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 
 import * as routes from '../../../constants/routes';
@@ -11,6 +11,7 @@ class CurrentAccount extends Component {
     super(props);
 
     this.state = {
+      showSeedModal: false,
       showSeed: props.showSeed || false,
     };
   }
@@ -20,15 +21,57 @@ class CurrentAccount extends Component {
   }
 
   openOnNewTab() {
-    let url = routes.Account_G(this.props.keypair.publicKey());
+    const url = routes.Account_G(this.props.keypair.publicKey());
     window.open(url);
+  }
+
+  renderSeedModal() {
+    return (
+      <Modal open>
+        <Modal.Header>Add seed to account</Modal.Header>
+        <Modal.Content>
+          <Container>
+            <p>
+                You can set seed of this account to be able to interact with it.
+              </p>
+            <p><b>Account ID: </b> {this.props.keypair.publicKey()}</p>
+          </Container>
+        </Modal.Content>
+        <Modal.Content>
+          <Input
+            fluid
+            onChange={e => this.setState({ seed: e.target.value })}
+          />
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={::this.setSeed} primary>Add</Button>
+          <Button onClick={() => this.closeSeedModal()} secondary>Cancel</Button>
+        </Modal.Actions>
+      </Modal>
+    );
+  }
+
+  setSeed() {
+    const { seed } = this.state;
+  }
+
+  showSeedModal() {
+    this.setState({
+      showSeedModal: true,
+    });
+  }
+
+  closeSeedModal() {
+    this.setState({
+      showSeedModal: false,
+    });
   }
 
   renderSeedBtn() {
     const { keypair } = this.props;
     const canSign = keypair.canSign();
 
-    if(canSign) {
+    if (canSign) {
       return (
         this.state.showSeed ?
           <Button
@@ -57,7 +100,7 @@ class CurrentAccount extends Component {
         icon="add"
         content="Set seed"
         color="teal"
-        onClick={() => this.addSeed()}
+        onClick={() => this.showSeedModal()}
       />
     );
   }
@@ -140,6 +183,7 @@ class CurrentAccount extends Component {
         <Container textAlign="center">
           {this.accountInfo()}
         </Container>
+        {this.state.showSeedModal && this.renderSeedModal()}
       </div>
     );
   }

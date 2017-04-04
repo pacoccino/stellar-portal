@@ -84,8 +84,7 @@ export const openAccountId = id => (dispatch, getState) => {
   if (id === 'null') { // TODO store constant or direct call reset
     return dispatch(resetAccount());
   }
-  if (currentAccount && currentAccount.id === id)
-    return Promise.resolve();
+  if (currentAccount && currentAccount.id === id) { return Promise.resolve(); }
 
   const localAccount = localAccounts.find(a => (a.id === id));
 
@@ -111,7 +110,7 @@ export const onPageLoad = nextState => (dispatch) => {
 
 export const onChangeAccountRoute = nextState => (dispatch) => {
   const { params: { id }, location: { action, query } } = nextState;
-  if(action === 'PUSH') return; // Disable self-sent actions
+  if (action === 'PUSH') return; // Disable self-sent actions
 
   if (query.secretSeed) {
     const keypair = Keypair.fromSecret(query.secretSeed);

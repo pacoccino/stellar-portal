@@ -24,7 +24,7 @@ const TopBar = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal,
         />
         <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
       </Menu.Item>
-      {/*<Menu.Item>
+      {/* <Menu.Item>
        <AccountSwitcher />
        </Menu.Item>*/}
       { currentAccount &&
