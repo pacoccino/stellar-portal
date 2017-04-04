@@ -51,6 +51,8 @@ const styles = {
   },
 };
 
+// TODO reshow loader on account loading
+
 class WelcomeScreen extends Component {
   render() {
     return (

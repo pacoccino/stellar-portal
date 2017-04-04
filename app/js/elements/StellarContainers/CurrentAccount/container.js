@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     keypair: ownProps.keypair || currentKeypair,
     network: getNetwork(state),
-    openExternal: true,
+    // openExternal: true,
   };
 };
 

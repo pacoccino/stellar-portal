@@ -42,6 +42,7 @@ export const addAccount = keypair => (dispatch) => {
   dispatch(AccountActions.addAccount(newAccount));
 };
 
+// TODO handle invalid keys
 export const setAccount = keys => (dispatch, getState) => {
   dispatch(AsyncActions.startFetch(ASYNC_FETCH_ACCOUNT));
 

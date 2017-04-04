@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { Container, Menu, Button } from 'semantic-ui-react';
 
 import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
-// import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
 import ChangeAccount from '../../../elements/UiTools/ChangeAccount';
 import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
 
@@ -28,9 +27,6 @@ const TopBar = ({ goHome, keypairModalOpen, openKeypairModal, closeKeypairModal,
         />
         <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
       </Menu.Item>
-      {/*<Menu.Item>
-       <AccountSwitcher />
-       </Menu.Item>*/}
       { currentAccount &&
       <Menu.Item>
         <ChangeAccount />

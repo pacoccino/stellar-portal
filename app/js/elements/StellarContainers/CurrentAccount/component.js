@@ -4,7 +4,6 @@ import Clipboard from 'clipboard';
 
 import * as routes from '../../../constants/routes';
 
-// TODO addSeed
 class CurrentAccount extends Component {
 
   constructor(props) {
@@ -50,16 +49,7 @@ class CurrentAccount extends Component {
           />
       );
     }
-    return (
-      <Button
-        basic compact
-        size="medium"
-        icon="add"
-        content="Set seed"
-        color="teal"
-        onClick={() => this.addSeed()}
-      />
-    );
+    return null;
   }
 
   accountInfo() {

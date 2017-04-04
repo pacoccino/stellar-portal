@@ -1,12 +1,12 @@
 import { isArray } from 'lodash';
 
-import { KeypairInstance } from './StellarTools';
+import { StellarTools } from 'stellar-toolkit';
 
 export const ACCOUNTS_KEY = 'accounts';
 
 const deserializeAccount = account => ({
   ...account,
-  keypair: KeypairInstance({
+  keypair: StellarTools.KeypairInstance({
     publicKey: account.keypair.publicKey,
     //secretSeed: decrypt(account.keypair.secretSeed),
   }),
