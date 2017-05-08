@@ -204,19 +204,19 @@ class Offers extends React.Component {
               </Form.Field>
             </Grid.Column>
           </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Form.Button
+                type="submit"
+                primary
+                content="Create offer"
+                onClick={::this.props.handleSubmit}
+                icon="book"
+                fluid
+              />
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
-        {/*<Field*/}
-          {/*component={Form.Checkbox}*/}
-          {/*name="passive"*/}
-          {/*label="Passive offer"*/}
-        {/*/>*/}
-        <Form.Button
-          type="submit"
-          primary
-          content="Create offer"
-          onClick={::this.props.handleSubmit}
-          icon="book"
-        />
       </div>
     );
   }
@@ -224,7 +224,7 @@ class Offers extends React.Component {
   render() {
     return (
       <div>
-        <Header as="h2">Offers</Header>
+        <Header as="h2">Orders</Header>
         {this.props.canSign ?
           <div>
             <Header as="h3">Create offer</Header>
@@ -232,6 +232,7 @@ class Offers extends React.Component {
           </div>
           : null
         }
+        <Header as="h2">Your offers</Header>
         {this.getOfferTable()}
       </div>
     );

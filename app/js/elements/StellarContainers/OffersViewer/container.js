@@ -32,7 +32,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setOrderbook(assetCouple));
   },
   onSubmit(values, a, props) {
-    console.log(values)
     const selling = values.sell_asset;
     const buying = values.buy_asset;
 
