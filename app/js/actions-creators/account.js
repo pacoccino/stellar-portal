@@ -1,4 +1,5 @@
-import { StellarServer, StellarTools } from 'stellar-toolkit';
+import { StellarServer, StellarTools, StellarAccountManager } from 'stellar-toolkit';
+import { Keypair } from 'stellar-sdk';
 
 import { AsyncActions } from '../helpers/asyncActions';
 import * as AccountActions from '../actions/account';
@@ -7,6 +8,7 @@ import { ASYNC_FETCH_ACCOUNT, ASYNC_CREATE_TEST_ACCOUNT } from '../constants/asy
 import { getNetwork } from '../selectors/stellarData';
 
 import { federationCreate } from '../federation/index';
+import { getStellarAddress } from './services';
 
 const { getAccount, switchNetwork: switchNetworkInstance, generateTestPair } = StellarServer;
 const { KeypairInstance } = StellarTools;
@@ -73,3 +75,28 @@ export const createTestAccount = (e, { formData }) => (dispatch) => {
     .catch(console.error);
 };
 
+export const login = ({ username, password }) => (dispatch) => {
+  const stellar_address = getStellarAddress(username);
+
+  return StellarTools.resolveAddress(stellar_address)
+    .then(resolved => resolved.account_id)
+    .then(publicKey => StellarServer.getAccount(publicKey))
+    .then(account => {
+      const isSeed = StellarTools.validSeed(password);
+      let keypair;
+      if (isSeed) {
+        keypair = Keypair.fromSecret(password);
+      } else {
+        const seed = StellarAccountManager.extractSeed(account, password);
+        keypair = Keypair.fromSecret(seed);
+      }
+
+      dispatch(AccountActions.setKeypair(keypair));
+
+      return keypair;
+    })
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+};

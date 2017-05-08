@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 
-import { createTestAccount, setAccount } from '../../../actions-creators/account';
+import { login, createTestAccount, setAccount } from '../../../actions-creators/account';
 
 import AccountSelector from './component';
 import {
@@ -33,4 +33,7 @@ const mapDispatchToProps = { setAccount, createTestAccount };
 export default reduxForm({
   form: FORM_NAME,
   initialValues: {},
+  onSubmit(values, dispatch, props) {
+    return dispatch(login(values));
+  },
 })(connect(mapStateToProps, mapDispatchToProps)(AccountSelector));

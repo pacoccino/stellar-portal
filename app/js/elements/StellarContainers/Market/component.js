@@ -34,7 +34,7 @@ class Balances extends React.Component {
         url: 'https://api.kraken.com/0/public/Ticker?pair=XLMUSD',
       }).then(data => data.result.XXLMZUSD.c[0])
         .then(xlmXusd => this.setState({xlmXusd}));
-    }, 1000);
+    }, 10000);
   }
 
   updateAssetValue(asset, account_id) {

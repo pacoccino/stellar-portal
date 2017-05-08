@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Container, Button, Message } from 'semantic-ui-react';
+import { Header, Loader, Segment, Divider, Container, Button, Message, Form } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 import { Field, propTypes } from 'redux-form';
 
@@ -88,6 +88,40 @@ class AccountSelector extends Component {
     this.props.setAccount(keypair);
   }
 
+
+  loginForm() {
+    return (
+      <div style={styles.inputCntainer}>
+        <Form.Field>
+          <label>Username</label>
+          <Field
+            name="username"
+            component={InputFormField}
+            type="text"
+            placeholder="jack"
+            required
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          <Field
+            name="password"
+            component={InputFormField}
+            type="password"
+            placeholder="****"
+            required
+          />
+        </Form.Field>
+        <Form.Button
+          onClick={this.props.handleSubmit}
+          primary
+        >
+          Login
+        </Form.Button>
+      </div>
+    );
+  }
+
   newForm() {
     const { values: { address } } = this.props;
 
@@ -131,9 +165,31 @@ class AccountSelector extends Component {
   }
 
   render() {
+    if(this.props.submitting) {
+      return (
+        <Loader active inline='centered'>
+          Logging in ...
+        </Loader>
+      );
+    }
+    if(this.props.submitSucceeded) {
+      return (
+        <Segment color="green">
+          Successfully logged in !
+        </Segment>
+      );
+    }
     return (
       <div>
         <Container textAlign="center">
+          {this.loginForm()}
+          {this.props.submitFailed &&
+          <Segment color="red">
+            Logging error ...
+          </Segment>
+          }
+          <Divider/>
+          <Header as="h4">Or login with an account seed:</Header>
           {this.newForm()}
           <br />
           {
@@ -148,7 +204,7 @@ class AccountSelector extends Component {
               null
           }
           {
-            this.props.network === 'test' &&
+            false && this.props.network === 'test' &&
             <div>
               <p style={{ color: 'white' }}>
                 Or

@@ -10,7 +10,7 @@ const AmountComponent = ({ amount, accountId, payment }) => {
   } else if (accountId) {
     amountStyle.color = 'green';
   }
-  const bnAmount = (new Decimal(amount || (payment && payment.amount))).toDP(2);
+  const bnAmount = (new Decimal(amount || (payment && payment.amount))).toDP(5);
 
   return (
     <span style={amountStyle}>{bnAmount.toString()}</span>
