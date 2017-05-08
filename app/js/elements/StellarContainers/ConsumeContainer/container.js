@@ -8,14 +8,16 @@ import { ASYNC_CREATE_OFFER } from 'js/constants/asyncActions';
 
 import Component from './component';
 
-import { canSign } from '../../../selectors/account';
+import { getKeypair, canSign } from '../../../selectors/account';
 import { getOffers, getTrustlines } from '../../../selectors/stellarData';
 import { setOrderbook, createOffer, deleteOffer } from '../../../actions-creators/stellar';
 
 const { AssetUid } = StellarTools;
-const FORM_NAME = 'offer-form';
+
+const FORM_NAME = 'consume-form';
 
 const mapStateToProps = state => ({
+  keypair: getKeypair(state),
   offers: getOffers(state),
   trustlines: getTrustlines(state),
   canSign: canSign(state),
@@ -51,7 +53,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+export default reduxForm({
   form: FORM_NAME, // a unique name for this form
-})(Component));
+})(connect(mapStateToProps, mapDispatchToProps)(Component));

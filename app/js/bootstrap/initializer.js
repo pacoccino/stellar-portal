@@ -18,9 +18,9 @@ class InitializerComponent extends React.Component {
   }
   componentWillMount() {
     Promise.all([
-      // this.props.setAccount({
-      //   secretSeed: 'SAQHSZFSQIIVWH4DL2D5PRF6BARWUVDELSM5RZMRGYFDQA2P2QMNGPF7'
-      // })
+      this.props.setAccount({
+        secretSeed: 'SAQHSZFSQIIVWH4DL2D5PRF6BARWUVDELSM5RZMRGYFDQA2P2QMNGPF7'
+      })
     ])
       .then(() => {
         this.setState(() => ({ ready: true }));
