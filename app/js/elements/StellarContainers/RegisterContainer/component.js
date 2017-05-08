@@ -29,19 +29,26 @@ class RegisterContainer extends Component {
   newForm() {
     return (
       <div style={styles.inputCntainer}>
-        <Form>
-          <Form.Field>
-            <label>First Name</label>
-            <input placeholder='First Name' />
-          </Form.Field>
-          <Form.Field>
-            <label>Last Name</label>
-            <input placeholder='Last Name' />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox label='I agree to the Terms and Conditions' />
-          </Form.Field>
-          <Button type='submit'>Submit</Button>
+         <Form onSubmit={this.props.createTestAccount}>
+           <Form.Group>
+              <Form.Input name= "user_name" placeholder='User Name' width={7} />
+              <Form.Input name= "password" type="password" placeholder='Password' width={7} />
+            </Form.Group>
+            <Form.Group>
+              <Form.Input name= "first_name" placeholder='First Name' width={5} />
+              <Form.Input name= "last_name" placeholder='Last Name' width={5} />
+            </Form.Group>
+            <Form.Group>
+              <Form.Input name= "address_nr" placeholder='No.' width={1} />
+              <Form.Input name= "street" placeholder='Street' width={4} />
+              <Form.Input name= "postal_code" placeholder='Postal Code' width={3} />
+              <Form.Input name= "city" placeholder='City' width={3} />
+              <Form.Input name= "country" placeholder='Country' width={3} />
+            </Form.Group>
+            <Form.Group>
+              <Form.Input name= "passport_nr" placeholder='Passport Number' width={6} />
+            </Form.Group>
+          <Button type='submit'>Register</Button>
         </Form>
       </div>
     );
