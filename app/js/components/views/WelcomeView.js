@@ -73,7 +73,6 @@ class WelcomeScreen extends Component {
           <p style={styles.paragraphE}>
             Give it a try by entering an account ID or a Seed to see it in action:
           </p>
-          <AccountSelector />
           <div style={styles.description}>
             <Header style={styles.subtitle}>
               Features

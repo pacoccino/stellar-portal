@@ -1,10 +1,10 @@
 import React from 'react';
-import { Router, Route, Redirect, browserHistory } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { ConnectedRouter } from 'react-router-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-import store from './store';
+import { history } from './store';
 
 import Layout from '../components/Layout';
 import * as routes from '../constants/routes';
@@ -21,18 +21,12 @@ import WelcomeView from '../components/views/WelcomeView';
 import * as AccountManager from '../helpers/AccountManager';
 import { accountSet, canSign, isAccountLoading } from '../selectors/account';
 
-const history = syncHistoryWithStore(browserHistory, store);
-
 const RouterContainer = ({ isAccountLoading, accountSet, canSign }) =>
-  <Router history={history}>
-    <Route component={Layout}>
-      <Dimmer inverted active={isAccountLoading}>
-        <Loader inverted active={isAccountLoading} />
-      </Dimmer>
-
+  <ConnectedRouter history={history}>
+    <Layout>
       {
         accountSet ?
-          <div>
+          <Switch>
             <Route
               path={routes.Offers}
               component={OffersView}
@@ -46,9 +40,9 @@ const RouterContainer = ({ isAccountLoading, accountSet, canSign }) =>
               component={BalancesView}
             />
             <Redirect from="*" to={routes.Balances} />
-          </div>
+          </Switch>
           :
-          <div>
+          <Switch>
             <Route
               path={routes.Root} exact
               component={WelcomeView}
@@ -62,11 +56,10 @@ const RouterContainer = ({ isAccountLoading, accountSet, canSign }) =>
               component={LoginView}
             />
             <Redirect from="*" to="/" />
-          </div>
+          </Switch>
       }
-
-    </Route>
-  </Router>;
+    </Layout>
+  </ConnectedRouter>;
 
 
 const mapStateToProps = state => ({

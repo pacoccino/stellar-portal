@@ -14,7 +14,7 @@ const reducers = combineReducers({
   [ACCOUNT_STATE_KEY]: account,
   [STELLAR_STATE_KEY]: stellar,
   [UI_STATE_KEY]: ui,
-  routing: routerReducer,
+  router: routerReducer,
   form: formReducer,
 });
 

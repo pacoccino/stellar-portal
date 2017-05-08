@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Container, Menu, Button } from 'semantic-ui-react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import icon from '../../../../../content/assets/images/favicon-32x32.png';
 import * as routes from '../../../constants/routes';
