@@ -6,7 +6,7 @@ import { ASYNC_FETCH_ACCOUNT, ASYNC_CREATE_TEST_ACCOUNT } from '../constants/asy
 
 import { getNetwork } from '../selectors/stellarData';
 
-import {federationRegister,federationCreate, federationUrl} from '../federation/index'
+import { federationCreate } from '../federation/index';
 
 const { getAccount, switchNetwork: switchNetworkInstance, generateTestPair } = StellarServer;
 const { KeypairInstance } = StellarTools;
@@ -42,9 +42,9 @@ export const switchNetwork = network => (dispatch, getState) => {
   dispatch(AccountActions.switchNetwork(network));
 };
 
-export const createTestAccount = (e, {formData}) => (dispatch) => {
-  e.preventDefault()
-  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TEST_ACCOUNT)); 
+export const createTestAccount = (e, { formData }) => (dispatch) => {
+  e.preventDefault();
+  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TEST_ACCOUNT));
 
   const address = {
     street: formData["street"],
@@ -52,24 +52,23 @@ export const createTestAccount = (e, {formData}) => (dispatch) => {
     city: formData["city"],
     postal_code: formData["postal_code"],
     country: formData["country"]
-  }
+  };
 
   const account = {
     stellar_address : formData["user_name"],
     passport_nr : formData["passport_nr"],
     address : address,
     first_name : formData["first_name"],
-    last_name : formData["last_name"]
-  }
+    last_name : formData["last_name"],
+    password: formData["password"]
+  };
 
   generateTestPair()
     .then((newPair) => {
       console.log("Hello")
       dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TEST_ACCOUNT));
       dispatch(setAccount(newPair));
-      federationCreate({stellar_address : account.stellar_address, password: formData["password"]}, newPair).then(() => {
-          federationRegister(account, newPair)
-      }).catch(console.error);
+      return federationCreate(account, newPair);
     })
     .catch(console.error);
 };
