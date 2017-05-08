@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Grid, Loader, Segment, Form, Button, Header, Table } from 'semantic-ui-react';
+import { Icon, Grid, Loader, Segment, Form, Button, Header, Table } from 'semantic-ui-react';
 import { StellarTools, StellarStats } from 'stellar-toolkit';
 import { Field, propTypes } from 'redux-form';
 import { find } from 'lodash';
@@ -9,7 +9,7 @@ import Amount from '../../../components/stellar/Amount';
 import DropdownFormField from '../../UiTools/SemanticForm/Dropdown';
 import InputFormField from '../../UiTools/SemanticForm/Input';
 
-const { AssetUid, STROOP } = StellarTools;
+const { AssetInstance, AssetUid, STROOP } = StellarTools;
 
 class ConsumeContainer extends React.Component {
   constructor() {
@@ -18,37 +18,24 @@ class ConsumeContainer extends React.Component {
     };
   }
 
-  getAssetOptions(assets) {
-    return assets.map((asset, index) => (
-      {
-        value: AssetUid(asset),
-        text: Asset.getAssetString(asset),
-      }));
-  }
-  getSellAssetsOptions(assets) {
-    let assetsOptions = this.getAssetOptions(assets);
-    if(this.props.values && this.props.values.buy_asset) {
-      assetsOptions = assetsOptions.filter(t => !this.props.values.buy_asset || t.value !== this.props.values.buy_asset);
+  getSellingAsset() {
+    if(this.props.tradeType === 'sell') {
+      return this.props.tradeAsset;
+    } else {
+      return AssetInstance({asset_type: 'native'});
     }
-    return assetsOptions;
   }
-  getBuyAssetsOptions(assets) {
-    let assetsOptions = this.getAssetOptions(assets);
-    if(this.props.values && this.props.values.sell_asset) {
-      assetsOptions = assetsOptions.filter(t => !this.props.values.sell_asset || t.value !== this.props.values.sell_asset);
+  getBuyingAsset() {
+    if(this.props.tradeType === 'buy') {
+      return this.props.tradeAsset;
+    } else {
+      return AssetInstance({asset_type: 'native'});
     }
-    return assetsOptions;
   }
 
   onChangeToAmount(e, newValue) {
-
-    if(!newValue || !this.props.values.sell_asset || !this.props.values.buy_asset) {
-      this.props.change('sendMax', 0);
-      return;
-    }
-
-    const sourceAsset = find(this.props.trustlines, t => (AssetUid(t) === this.props.values.sell_asset));
-    const destinationAsset = find(this.props.trustlines, t => (AssetUid(t) === this.props.values.buy_asset));
+    const sourceAsset = this.getSellingAsset();
+    const destinationAsset = this.getBuyingAsset();
 
     const account_id = this.props.keypair.publicKey();
 
@@ -57,24 +44,9 @@ class ConsumeContainer extends React.Component {
       sourceAsset,
       destinationAsset,
       destinationAmount: newValue,
-    }).then(r => this.props.change('sendMax', r.sendMax));
+    }).then(r => this.props.change('sendMax', r.sendMax * 1.3));
   }
 
-  renderEstimate() {
-    if(this.props.values && this.props.values.sendMax && this.props.values.sell_asset && this.props.values.buy_asset) {
-      const sourceAsset = find(this.props.trustlines, t => (AssetUid(t) === this.props.values.sell_asset));
-      const destinationAsset = find(this.props.trustlines, t => (AssetUid(t) === this.props.values.buy_asset));
-
-      return (
-        <Segment>
-          You will buy {this.props.values.destinationAmount} {destinationAsset.getCode()} for {this.props.values.sendMax} {sourceAsset.getCode()}
-        </Segment>
-      );
-    }
-    else {
-      return null;
-    }
-  }
   getOfferForm() {
     if(this.props.submitting) {
       return (
@@ -93,75 +65,40 @@ class ConsumeContainer extends React.Component {
 
     return (
       <div>
-        <Grid columns={3}>
-          <Grid.Row>
-            <Grid.Column>
-              <Form.Field>
-                <label>Buy</label>
-                <Field
-                  component={DropdownFormField}
-                  name="buy_asset"
-                  placeholder="Asset to buy"
-                  options={this.getBuyAssetsOptions(this.props.trustlines)}
-                  fluid
-                  required
-                />
-              </Form.Field>
-            </Grid.Column>
-            <Grid.Column>
-              <Form.Field>
-                <label>With</label>
-                <Field
-                  component={DropdownFormField}
-                  name="sell_asset"
-                  placeholder="Asset to buy with"
-                  options={this.getSellAssetsOptions(this.props.trustlines)}
-                  fluid
-                  required
-                />
-              </Form.Field>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Form.Field>
-                <label>Amount</label>
-                <Field
-                  component={InputFormField}
-                  onChange={::this.onChangeToAmount}
-                  name="destinationAmount"
-                  type="number"
-                  min={0}
-                  step={STROOP}
-                  placeholder="0"
-                  fluid
-                  required
-                />
-              </Form.Field>
-            </Grid.Column>
-            <Grid.Column>
-              <Form.Button
-                type="submit"
-                primary
-                content="Buy asset"
-                onClick={::this.props.handleSubmit}
-                icon="book"
-              />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        {this.renderEstimate()}
+        <Form.Field>
+          <label>Please set the amount of {this.props.tradeAsset.getCode()} you want to {this.props.tradeType}:</label>
+          <Field
+            component={InputFormField}
+            onChange={::this.onChangeToAmount}
+            name="destinationAmount"
+            type="number"
+            min={0}
+            step={STROOP}
+            placeholder="0"
+            required
+          />
+        </Form.Field>
+        <Segment>
+          <Icon name="arrow right" /> {this.props.values && this.props.values.sendMax} XLM.
+        </Segment>
+        <Form.Button
+          type="submit"
+          primary
+          content="Buy asset"
+          onClick={::this.props.handleSubmit}
+          icon="shop"
+        />
       </div>
     );
   }
 
   render() {
+    const title = this.props.tradeType === 'buy' ? 'Buy' : 'Sell';
     return (
       <div>
-        <Header as="h2">Consume offers</Header>
+        <Header as="h2">Consume assets</Header>
         {this.props.canSign ?
           <div>
-            <Header as="h3">Buy assets</Header>
             {this.getOfferForm()}
           </div>
           : null

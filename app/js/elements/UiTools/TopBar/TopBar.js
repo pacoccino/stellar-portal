@@ -17,22 +17,12 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
           </Menu.Item>
           <Menu.Item header>
             <Link to={routes.Balances}>
-              Balances
+              Market
             </Link>
           </Menu.Item>
           <Menu.Item header>
             <Link to={routes.Offers}>
-              Offers
-            </Link>
-          </Menu.Item>
-          <Menu.Item header>
-            <Link to={routes.Consume}>
-              Consume
-            </Link>
-          </Menu.Item>
-          <Menu.Item header>
-            <Link to={routes.CreateAsset}>
-              Register new asset
+              Orders
             </Link>
           </Menu.Item>
           <Menu.Item position="right">

@@ -6,11 +6,11 @@ import BalancesContainer from '../../elements/StellarContainers/Balances';
 import Payment from '../../elements/StellarContainers/Payment';
 import PaymentsViewer from '../../elements/StellarContainers/PaymentsViewer';
 import OffersViewer from '../../elements/StellarContainers/OffersViewer';
-import OrderBook from '../../elements/StellarContainers/OrderBook';
+import MarketContainer from '../../elements/StellarContainers/Market';
 
 const BalancesView = () => (
   <div className="pages-container">
-    <BalancesContainer />
+    <MarketContainer />
   </div>
 );
 
