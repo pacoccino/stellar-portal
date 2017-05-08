@@ -1,11 +1,15 @@
 import React, { PropTypes } from 'react';
-import { Dimmer, Form, Button, Header, Table } from 'semantic-ui-react';
+import { Grid, Loader, Segment, Form, Button, Header, Table } from 'semantic-ui-react';
 import { StellarTools } from 'stellar-toolkit';
+import { Field, propTypes } from 'redux-form';
+import { find } from 'lodash';
 
 import Asset from '../../../components/stellar/Asset';
 import Amount from '../../../components/stellar/Amount';
+import DropdownFormField from '../../UiTools/SemanticForm/Dropdown';
+import InputFormField from '../../UiTools/SemanticForm/Input';
 
-const { STROOP } = StellarTools;
+const { AssetUid, STROOP } = StellarTools;
 
 class Offers extends React.Component {
   constructor() {
@@ -14,32 +18,6 @@ class Offers extends React.Component {
       showConfirmation: false,
     };
   }
-  createOffer(e, { formData }) {
-    e.preventDefault();
-
-    const selling = this.props.trustlines[formData.sell_asset];
-    const buying = this.props.trustlines[formData.buy_asset];
-
-    const offerData = {
-      selling,
-      buying,
-      amount: formData.amount,
-      price: formData.price,
-      passive: formData.passive,
-    };
-
-    this.props.createOffer(offerData).then(() => {
-      this.setState({
-        showConfirmation: true,
-      });
-      setTimeout(() => {
-        this.setState({
-          showConfirmation: false,
-        });
-      }, 2000);
-    });
-  }
-
   deleteOffer(offer) {
     return (e) => {
       e.preventDefault();
@@ -98,77 +76,139 @@ class Offers extends React.Component {
       </Table>
     );
   }
-  getSellAssetsOptions(assets) {
+
+  getAssetOptions(assets) {
     return assets.map((asset, index) => (
       {
-        value: index,
+        value: AssetUid(asset),
         text: Asset.getAssetString(asset),
       }));
   }
+  getSellAssetsOptions(assets) {
+    let assetsOptions = this.getAssetOptions(assets);
+    if(this.props.values && this.props.values.buy_asset) {
+      assetsOptions = assetsOptions.filter(t => !this.props.values.buy_asset || t.value !== this.props.values.buy_asset);
+    }
+    return assetsOptions;
+  }
   getBuyAssetsOptions(assets) {
-    return assets.map((asset, index) => (
-      {
-        value: index,
-        text: Asset.getAssetString(asset),
-      }));
+    let assetsOptions = this.getAssetOptions(assets);
+    if(this.props.values && this.props.values.sell_asset) {
+      assetsOptions = assetsOptions.filter(t => !this.props.values.sell_asset || t.value !== this.props.values.sell_asset);
+    }
+    return assetsOptions;
+  }
+
+  changeBuyingAsset(a, b) {
+    const asset = find(this.props.trustlines, t => (AssetUid(t) === b));
+    this.setState({ buying: asset }, ::this.updateOrderbook);
+  }
+  changeSellingAsset(a, b) {
+    const asset = find(this.props.trustlines, t => (AssetUid(t) === b));
+    this.setState({ selling: asset }, ::this.updateOrderbook);
+  }
+
+  updateOrderbook() {
+    if (this.state.selling && this.state.buying) {
+      this.props.setOrderbook(this.state);
+    }
   }
 
   getOfferForm() {
+    if(this.props.submitting) {
+      return (
+        <Loader active inline='centered'>
+          Creating offer ...
+        </Loader>
+      );
+    }
+    if(this.props.submitSucceeded) {
+      return (
+        <Segment color="green">
+          Offer successfully created !
+        </Segment>
+      );
+    }
 
     return (
-      <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
-        <Dimmer className="successDimmer" active={this.state.showConfirmation}>
-          Created
-        </Dimmer>
-        <Form.Group widths="2">
-          <Form.Select
-            label="Sell"
-            name="sell_asset"
-            options={this.getSellAssetsOptions(this.props.trustlines)}
-            placeholder="Asset to sell"
-            required
-          />
-          <Form.Select
-            label="Buy"
-            name="buy_asset"
-            options={this.getBuyAssetsOptions(this.props.trustlines)}
-            placeholder="Asset to buy"
-            required
-          />
-        </Form.Group>
-        <Form.Group widths="2">
-          <Form.Field
-            name="amount"
-            label="Amount"
-            control="Input"
-            type="number"
-            placeholder="0"
-            step={STROOP}
-            required
-          />
-          <Form.Field
-            name="price"
-            label="Price"
-            control="Input"
-            type="number"
-            placeholder="1"
-            step={STROOP}
-            required
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Checkbox
-            name="passive"
-            label="Passive offer"
-          />
-          <Form.Button
-            type="submit"
-            primary
-            content="Create offer"
-            icon="book"
-          />
-        </Form.Group>
-      </Form>
+      <div>
+        <Grid columns={3}>
+          <Grid.Row>
+            <Grid.Column>
+              <Form.Field>
+                <label>Sell</label>
+                <Field
+                  component={DropdownFormField}
+                  name="sell_asset"
+                  placeholder="Asset to sell"
+                  options={this.getSellAssetsOptions(this.props.trustlines)}
+                  onChange={::this.changeSellingAsset}
+                  fluid
+                  required
+                />
+              </Form.Field>
+            </Grid.Column>
+            <Grid.Column>
+              <Form.Field>
+                <label>Buy</label>
+                <Field
+                  component={DropdownFormField}
+                  name="buy_asset"
+                  placeholder="Asset to buy"
+                  options={this.getBuyAssetsOptions(this.props.trustlines)}
+                  onChange={::this.changeBuyingAsset}
+                  fluid
+                  required
+                />
+              </Form.Field>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Form.Field>
+                <label>Amount</label>
+                <Field
+                  component={InputFormField}
+                  name="amount"
+                  type="number"
+                  min={0}
+                  step={STROOP}
+                  placeholder="0"
+                  fluid
+                  required
+                />
+              </Form.Field>
+            </Grid.Column>
+            <Grid.Column>
+              <Form.Field>
+                <label>Price</label>
+                <Field
+                  component={InputFormField}
+                  name="price"
+                  type="number"
+                  min={0}
+                  step={STROOP}
+                  placeholder="1"
+                  fluid
+                  required
+                />
+              </Form.Field>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Field
+          component={Form.Checkbox}
+          name="passive"
+          label="Passive offer"
+        />
+        <Form.Button
+          type="submit"
+          primary
+          content="Create offer"
+          onClick={::this.props.handleSubmit}
+          icon="book"
+        />
+      </div>
     );
   }
 
@@ -192,10 +232,10 @@ class Offers extends React.Component {
 Offers.propTypes = {
   trustlines: PropTypes.array,
   offers: PropTypes.array,
-  createOffer: PropTypes.func.isRequired,
   deleteOffer: PropTypes.func.isRequired,
   canSign: PropTypes.bool,
   sendingOffer: PropTypes.bool,
+  ...propTypes,
 };
 
 export default Offers;

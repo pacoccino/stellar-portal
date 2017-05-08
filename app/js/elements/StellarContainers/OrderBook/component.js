@@ -163,53 +163,22 @@ class OrderBook extends React.Component {
     const counterAsset = this.props.orderbook
       && this.props.orderbook.counter
       && AssetInstance(this.props.orderbook.counter);
-    return (
-      <div>
-        <Header as="h2">
-          Order Book
-        </Header>
+    if(baseAsset && counterAsset) {
 
-        <Grid columns={2}>
-          <Grid.Row>
-            <Grid.Column>
-              <Header as="h3" textAlign="center">
-                {
-                  baseAsset ?
-                    <div>Base <Asset asset={baseAsset} /></div>
-                    :
-                    'Choose a base asset'
-                }
-              </Header>
+      return (
+        <div>
+          <Header as="h2">
+            Order Book
+          </Header>
 
-              <Dropdown
-                selection fluid search
-                options={this.getTrustedAssets()}
-                placeholder="Asset sold"
-                onChange={::this.changeSellingAsset}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Header as="h3" textAlign="center">
-                {
-                  baseAsset ?
-                    <div>Counter <Asset asset={counterAsset} /></div>
-                    :
-                    'Choose a counter asset'
-                }
-              </Header>
-
-              <Dropdown
-                selection fluid search
-                options={this.getTrustedAssets()}
-                placeholder="Asset bought"
-                onChange={::this.changeBuyingAsset}
-              />
-            </Grid.Column>
-          </Grid.Row>
-          {this.getOrderbook()}
-        </Grid>
-      </div>
-    );
+          <Grid columns={2}>
+            {this.getOrderbook()}
+          </Grid>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

@@ -31,19 +31,19 @@ const stellarStreamerMiddleware = store => next => (action) => {
         // Stream effects
         newStream('effects',
           EffectsStream(keypair.publicKey(), (effect) => {
-            store.dispatch(getEffectsStream(effect));
+            // store.dispatch(getEffectsStream(effect));
           }));
 
         // Stream payment
         newStream('payment',
           PaymentStream(keypair.publicKey(), (payment) => {
-            store.dispatch(getPaymentsStream(payment));
+            // store.dispatch(getPaymentsStream(payment));
           }));
 
         // Stream offers
         newStream('offers',
           OffersStream(keypair.publicKey(), (offers) => {
-            store.dispatch(getOffersSuccess(offers));
+            // store.dispatch(getOffersSuccess(offers));
           }));
       } catch (e) {
         traceError(e);
