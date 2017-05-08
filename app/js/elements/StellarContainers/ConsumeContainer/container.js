@@ -10,7 +10,7 @@ import Component from './component';
 
 import { getKeypair, canSign } from '../../../selectors/account';
 import { getOffers, getTrustlines } from '../../../selectors/stellarData';
-import { setOrderbook, createOffer, deleteOffer } from '../../../actions-creators/stellar';
+import { setOrderbook, exchangeOperation, deleteOffer } from '../../../actions-creators/stellar';
 
 const { AssetUid } = StellarTools;
 
@@ -33,26 +33,24 @@ const mapDispatchToProps = dispatch => ({
   setOrderbook(assetCouple) {
     dispatch(setOrderbook(assetCouple));
   },
-  onSubmit(values, a, props) {
-    const selling = find(props.trustlines, t => (AssetUid(t) === values.sell_asset));
-    const buying = find(props.trustlines, t => (AssetUid(t) === values.buy_asset));
+});
 
-    const offerData = {
-      selling,
-      buying,
-      amount: values.amount,
-      price: values.price,
-      passive: values.passive,
+export default reduxForm({
+  form: FORM_NAME, // a unique name for this form
+
+  onSubmit(values, dispatch, props) {
+    const formData = {
+      asset_source: values.sell_asset,
+      asset_destination: values.buy_asset,
+      max_amount: values.sendMax,
+      amount_destination: values.amount,
     };
 
-    return dispatch(createOffer(offerData)).then(() => {
+    console.log(values, formData)
+    return dispatch(exchangeOperation(formData)).then(() => {
       setTimeout(() => {
         props.reset();
       }, 5000);
     });
   },
-});
-
-export default reduxForm({
-  form: FORM_NAME, // a unique name for this form
 })(connect(mapStateToProps, mapDispatchToProps)(Component));

@@ -105,6 +105,24 @@ export const deleteTrustline = asset => (dispatch) => {
     });
 };
 
+export const exchangeOperation = formData => (dispatch, getState) => {
+  const state = getState();
+  const keypair = getKeypair(state);
+
+  return StellarOperations.sendPathPayment({
+    asset_source: formData.asset_source,
+    asset_destination: formData.asset_destination,
+    destination: keypair.publicKey(),
+    amount_destination: formData.amount_destination,
+    max_amount: formData.max_amount,
+  })(keypair)
+    .then((data) => {
+      // dispatch(delayResetOperation());
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 export const createOffer = offer => (dispatch, getState) => {
   dispatch(AsyncActions.startLoading(ASYNC_CREATE_OFFER));
   const keypair = getKeypair(getState());

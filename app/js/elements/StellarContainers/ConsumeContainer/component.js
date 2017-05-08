@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Icon, Grid, Loader, Segment, Form, Button, Header, Table } from 'semantic-ui-react';
+import { Icon, Grid, Divider, Loader, Segment, Form, Button, Header, Table } from 'semantic-ui-react';
 import { StellarTools, StellarStats } from 'stellar-toolkit';
 import { Field, propTypes } from 'redux-form';
 import { find } from 'lodash';
@@ -44,21 +44,32 @@ class ConsumeContainer extends React.Component {
       sourceAsset,
       destinationAsset,
       destinationAmount: newValue,
-    }).then(r => this.props.change('sendMax', r.sendMax * 1.3));
+    }).then(r => {
+      this.props.change('sendMax', r.sendMax * 1.3);
+      this.props.change('sell_asset', this.getSellingAsset());
+      this.props.change('buy_asset', this.getBuyingAsset());
+    });
   }
 
   getOfferForm() {
     if(this.props.submitting) {
       return (
         <Loader active inline='centered'>
-          Creating offer ...
+          Exchanging assets ...
         </Loader>
       );
     }
     if(this.props.submitSucceeded) {
       return (
         <Segment color="green">
-          Offer successfully created !
+          Exchange success !
+        </Segment>
+      );
+    }
+    if(this.props.submitFailed) {
+      return (
+        <Segment color="red">
+          Exchange error...
         </Segment>
       );
     }
@@ -70,7 +81,7 @@ class ConsumeContainer extends React.Component {
           <Field
             component={InputFormField}
             onChange={::this.onChangeToAmount}
-            name="destinationAmount"
+            name="amount"
             type="number"
             min={0}
             step={STROOP}
@@ -79,13 +90,14 @@ class ConsumeContainer extends React.Component {
           />
         </Form.Field>
         <Segment>
-          <Icon name="arrow right" /> {this.props.values && this.props.values.sendMax} XLM.
+          <Icon name="arrow right" /> {this.props.values && this.props.values.sendMax} XLM
         </Segment>
         <Form.Button
           type="submit"
           primary
           content="Buy asset"
           onClick={::this.props.handleSubmit}
+          disabled={!this.props.values || !this.props.values.sendMax}
           icon="shop"
         />
       </div>
@@ -96,7 +108,8 @@ class ConsumeContainer extends React.Component {
     const title = this.props.tradeType === 'buy' ? 'Buy' : 'Sell';
     return (
       <div>
-        <Header as="h2">Consume assets</Header>
+        <Divider/>
+        <Header as="h2">{title} assets</Header>
         {this.props.canSign ?
           <div>
             {this.getOfferForm()}
