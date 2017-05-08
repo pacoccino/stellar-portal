@@ -2,7 +2,7 @@ const request = require('../helpers/request');
 import { StellarDataManager } from 'stellar-toolkit';
 
 
-let federationUrl = "https://stellar-wilson.herokuapp.com/federation";
+let federationUrl = "http://localhost:3000/dex/user";
 
 function setUrl(url) {
   federationUrl = url;
@@ -39,29 +39,33 @@ function federationKeypair({ q, password }) {
   });
 }
 
-function federationCreate({ stellar_address, password }, keypair ) {
-  
-  console.log(JSON.stringify({ stellar_address, password }))
+function federationCreate({ stellar_address, password, passport_nr, address, first_name, last_name }, keypair) {
 
-  var body = {
-    stellar_address: stellar_address,
+  console.log(JSON.stringify({ stellar_address, password, passport_nr, address, first_name, last_name }));
+
+  const body = {
+    stellar_address,
     account_id: keypair.publicKey(),
-    password
+    password,
+    passport_nr,
+    address,
+    first_name,
+    last_name,
   };
-  var signature = StellarDataManager.sign(body, keypair.secret());
+  const signature = StellarDataManager.sign(body, keypair.secret());
   return request({
     url: federationUrl,
     method: 'POST',
-    body: body,
+    body,
     headers: {
-      signature: signature
-    }
+      signature,
+    },
   });
 }
 
-function federationRegister({stellar_address, passport_nr, address, first_name, last_name}, keypair) {
+function federationRegister({stellar_address, passport_nr, address, first_name, last_name }, keypair) {
 
-  console.log(JSON.stringify({stellar_address, passport_nr, address, first_name, last_name}))
+  console.log(JSON.stringify({stellar_address, passport_nr, address, first_name, last_name}));
 
   const body = {
     stellar_address,
