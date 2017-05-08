@@ -9,13 +9,14 @@ import Amount from '../../../components/stellar/Amount';
 import DropdownFormField from '../../UiTools/SemanticForm/Dropdown';
 import InputFormField from '../../UiTools/SemanticForm/Input';
 
-const { AssetUid, STROOP } = StellarTools;
+const { AssetInstance, AssetUid, STROOP } = StellarTools;
 
 class Offers extends React.Component {
   constructor() {
     super();
     this.state = {
       showConfirmation: false,
+      tradeType: 'buy',
     };
   }
   deleteOffer(offer) {
@@ -77,41 +78,48 @@ class Offers extends React.Component {
     );
   }
 
-  getAssetOptions(assets) {
-    return assets.map((asset, index) => (
+  getAssetOptions() {
+    return this.props.trustlines.map((asset, index) => (
       {
         value: AssetUid(asset),
         text: Asset.getAssetString(asset),
-      }));
-  }
-  getSellAssetsOptions(assets) {
-    let assetsOptions = this.getAssetOptions(assets);
-    if(this.props.values && this.props.values.buy_asset) {
-      assetsOptions = assetsOptions.filter(t => !this.props.values.buy_asset || t.value !== this.props.values.buy_asset);
-    }
-    return assetsOptions;
-  }
-  getBuyAssetsOptions(assets) {
-    let assetsOptions = this.getAssetOptions(assets);
-    if(this.props.values && this.props.values.sell_asset) {
-      assetsOptions = assetsOptions.filter(t => !this.props.values.sell_asset || t.value !== this.props.values.sell_asset);
-    }
-    return assetsOptions;
+      })).filter(b => b.value !== 'native');
   }
 
-  changeBuyingAsset(a, b) {
+  changeAsset(a, b) {
     const asset = find(this.props.trustlines, t => (AssetUid(t) === b));
-    this.setState({ buying: asset }, ::this.updateOrderbook);
+    this.setState({ tradeAsset: asset }, () => {
+      this.updateOrderbook();
+      this.props.change('sell_asset', this.getBuyingAsset());
+      this.props.change('buy_asset', this.getSellingAsset());
+    });
   }
-  changeSellingAsset(a, b) {
-    const asset = find(this.props.trustlines, t => (AssetUid(t) === b));
-    this.setState({ selling: asset }, ::this.updateOrderbook);
+
+  getSellingAsset() {
+    if(this.state.tradeType === 'sell') {
+      return this.state.tradeAsset;
+    } else {
+      return AssetInstance({asset_type: 'native'});
+    }
+  }
+  getBuyingAsset() {
+    if(this.state.tradeType === 'buy') {
+      return this.state.tradeAsset;
+    } else {
+      return AssetInstance({asset_type: 'native'});
+    }
   }
 
   updateOrderbook() {
-    if (this.state.selling && this.state.buying) {
-      this.props.setOrderbook(this.state);
-    }
+    if(!this.state.tradeAsset) return;
+    this.props.setOrderbook({
+      selling: this.getSellingAsset(),
+      buying: this.getBuyingAsset(),
+    });
+  }
+
+  setTradeType(tradeType) {
+    this.setState({tradeType}, ::this.updateOrderbook);
   }
 
   getOfferForm() {
@@ -136,31 +144,32 @@ class Offers extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Form.Field>
-                <label>Sell</label>
+                <label>Asset</label>
                 <Field
                   component={DropdownFormField}
-                  name="sell_asset"
+                  name="asset"
                   placeholder="Asset to sell"
-                  options={this.getSellAssetsOptions(this.props.trustlines)}
-                  onChange={::this.changeSellingAsset}
+                  options={this.getAssetOptions()}
+                  onChange={::this.changeAsset}
                   fluid
                   required
                 />
               </Form.Field>
             </Grid.Column>
             <Grid.Column>
-              <Form.Field>
-                <label>Buy</label>
-                <Field
-                  component={DropdownFormField}
-                  name="buy_asset"
-                  placeholder="Asset to buy"
-                  options={this.getBuyAssetsOptions(this.props.trustlines)}
-                  onChange={::this.changeBuyingAsset}
-                  fluid
-                  required
-                />
-              </Form.Field>
+              <Button.Group>
+                <Button
+                  color="green"
+                  disabled={this.state.tradeType === 'buy'}
+                  onClick={() => this.setTradeType('buy')}
+                >Buy</Button>
+                <Button.Or />
+                <Button
+                  color="red"
+                  disabled={this.state.tradeType === 'sell'}
+                  onClick={() => this.setTradeType('sell')}
+                >Sell</Button>
+              </Button.Group>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -181,7 +190,7 @@ class Offers extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Form.Field>
-                <label>Price</label>
+                <label>Price in XLM</label>
                 <Field
                   component={InputFormField}
                   name="price"
@@ -196,11 +205,11 @@ class Offers extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Field
-          component={Form.Checkbox}
-          name="passive"
-          label="Passive offer"
-        />
+        {/*<Field*/}
+          {/*component={Form.Checkbox}*/}
+          {/*name="passive"*/}
+          {/*label="Passive offer"*/}
+        {/*/>*/}
         <Form.Button
           type="submit"
           primary

@@ -32,8 +32,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setOrderbook(assetCouple));
   },
   onSubmit(values, a, props) {
-    const selling = find(props.trustlines, t => (AssetUid(t) === values.sell_asset));
-    const buying = find(props.trustlines, t => (AssetUid(t) === values.buy_asset));
+    console.log(values)
+    const selling = values.sell_asset;
+    const buying = values.buy_asset;
 
     const offerData = {
       selling,
@@ -43,6 +44,7 @@ const mapDispatchToProps = dispatch => ({
       passive: values.passive,
     };
 
+    console.log(offerData);
     return dispatch(createOffer(offerData)).then(() => {
       setTimeout(() => {
         props.reset();
