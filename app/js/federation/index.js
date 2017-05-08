@@ -44,7 +44,7 @@ function federationCreate({ stellar_address, password, passport_nr, address, fir
   console.log(JSON.stringify({ stellar_address, password, passport_nr, address, first_name, last_name }));
 
   const body = {
-    stellar_address,
+    stellar_address: stellar_address + '*willet.io',
     account_id: keypair.publicKey(),
     password,
     passport_nr,
