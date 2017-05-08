@@ -13,30 +13,21 @@ export const isCreatingTestAccount = asyncSelectorObject(ASYNC_CREATE_TEST_ACCOU
 
 export const getKeypair = selectProperty([ACCOUNT_STATE_KEY, 'keypair'], null);
 
-export const getAuthData = createSelector(
-  getKeypair,
-  getAccount,
-  (keypair, sourceAccount) => ({
-    keypair,
-    sourceAccount,
-  }),
-);
 export const getBalances = createSelector(
   getAccount,
   account => (account && account.balances) || [],
 );
 
 export const canSign = createSelector(
-  getAuthData,
   getKeypair,
-  (authData, keypair) => (
-    !!authData && !!authData.keypair && !!keypair.canSign() && !!authData.sourceAccount
+  (keypair) => (
+    keypair && !!keypair.canSign()
   ),
 );
 export const accountSet = createSelector(
-  getAuthData,
+  getKeypair,
   getAccount,
-  (authData, account) => (
-    !!authData && !!authData.keypair && !!account
+  (keypair, account) => (
+    !!(keypair && account)
   ),
 );

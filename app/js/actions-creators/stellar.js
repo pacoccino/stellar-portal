@@ -12,7 +12,7 @@ import * as StellarActions from '../actions/stellar';
 import * as UiActions from '../actions/ui';
 import {
   getAccount as getAccountSelector,
-  getAuthData,
+  getKeypair
 } from '../selectors/account';
 import {
   getTrustlines as getTrustlinesSelector,
@@ -21,7 +21,7 @@ import {
   getDestinationTrustlines as getDestinationTrustlinesSelector,
 } from '../selectors/ui';
 
-const { StellarOperations, StellarServer, StellarTools } = StellarToolkit;
+const { StellarOperations, StellarServer, StellarTools, StellarStreamers } = StellarToolkit;
 
 export const OPERATIONS = {
   PAYMENT: 'payment',
@@ -32,11 +32,11 @@ export const OPERATIONS = {
 };
 
 const sendOperationRedux = transactionLauncher => (dispatch, getState) => {
-  const authData = getAuthData(getState());
+  const keypair = getKeypair(getState());
 
   dispatch(AsyncActions.startFetch(ASYNC_SEND_OPERATION));
 
-  return transactionLauncher(authData)
+  return transactionLauncher(keypair)
     .then((d) => {
       dispatch(AsyncActions.successFetch(ASYNC_SEND_OPERATION, d));
     })
@@ -68,8 +68,8 @@ export const sendAccountMerge = accountData =>
   sendOperationRedux(StellarOperations.accountMerge(accountData));
 
 const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
-  const authData = getAuthData(getState());
-  if (!authData) return Promise.reject();
+  const keypair = getKeypair(getState());
+  if (!keypair) return Promise.reject();
 
   const transactionData = {
     asset,
@@ -77,7 +77,7 @@ const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
   };
 
   return StellarOperations
-    .changeTrust(transactionData)(authData)
+    .changeTrust(transactionData)(keypair)
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
     });
@@ -107,11 +107,11 @@ export const deleteTrustline = asset => (dispatch) => {
 
 export const createOffer = offer => (dispatch, getState) => {
   dispatch(AsyncActions.startLoading(ASYNC_CREATE_OFFER));
-  const authData = getAuthData(getState());
-  if (!authData) return Promise.reject();
+  const keypair = getKeypair(getState());
+  if (!keypair) return Promise.reject();
 
   return StellarOperations
-    .manageOffer(offer)(authData)
+    .manageOffer(offer)(keypair)
     .then(() => dispatch(AsyncActions.stopLoading(ASYNC_CREATE_OFFER)))
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
@@ -122,8 +122,8 @@ export const createOffer = offer => (dispatch, getState) => {
 export const deleteOffer = offer => (dispatch, getState) => {
   dispatch(UiActions.deletingOffer(offer));
 
-  const authData = getAuthData(getState());
-  if (!authData) return Promise.reject();
+  const keypair = getKeypair(getState());
+  if (!keypair) return Promise.reject();
 
   const transactionData = {
     ...offer,
@@ -131,7 +131,7 @@ export const deleteOffer = offer => (dispatch, getState) => {
   };
 
   return StellarOperations
-    .manageOffer(transactionData)(authData)
+    .manageOffer(transactionData)(keypair)
     .then(() => true)
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
@@ -143,7 +143,7 @@ export const setOrderbook = ({ selling, buying }) => (dispatch) => {
 
   // TODO move to middleware
   newStream('orderbook',
-    StellarServer
+    StellarStreamers
       .OrderbookStream({ selling, buying }, (orderbook) => {
         dispatch(AsyncActions.successFetch(ASYNC_GET_ORDERBOOK, orderbook));
       }),
