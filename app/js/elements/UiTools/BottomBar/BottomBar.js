@@ -10,10 +10,8 @@ const Layout = ({ goDesktop }) =>
     <Container>
       <Menu.Item>
         <span style={light}>
-          Made with &nbsp; <Icon name="heart" color="red" /> by &nbsp;
-          <a href="https://ngfar.io" target="_blank" rel="noopener noreferrer">
-            ngfar
-          </a>
+          Made with &nbsp; <Icon name="heart" color="red" />
+          for LuxBlock Hackathon
         </span>
       </Menu.Item>
       <Menu.Item>
@@ -22,14 +20,6 @@ const Layout = ({ goDesktop }) =>
             stellar.org
           </a>
         </span>
-      </Menu.Item>
-      <Menu.Item onClick={goDesktop}>
-        <Icon name="windows" />
-        <Icon name="apple" />
-        <Icon name="linux" />
-        <span style={light}>
-          Desktop
-          </span>
       </Menu.Item>
       <Menu.Item position="right">
         <span style={light}>

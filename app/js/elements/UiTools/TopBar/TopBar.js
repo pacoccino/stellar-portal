@@ -11,7 +11,9 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
       keypair ?
         <Container>
           <Menu.Item>
-            <img src={icon} alt="menu icon" />
+            <Link to={routes.Root}>
+              <img src={icon} alt="menu icon" />
+            </Link>
           </Menu.Item>
           <Menu.Item header>
             <Link to={routes.Balances}>
@@ -40,7 +42,9 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
 
         <Container>
           <Menu.Item>
-            <img src={icon} alt="menu icon" />
+            <Link to={routes.Root}>
+              <img src={icon} alt="menu icon" />
+            </Link>
           </Menu.Item>
           <Menu.Item header>
             <Link to={routes.Login}>

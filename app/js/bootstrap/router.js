@@ -9,13 +9,14 @@ import store from './store';
 import Layout from '../components/Layout';
 import * as routes from '../constants/routes';
 
-import AppMode from '../elements/AppMode';
 // import NotFound from '../components/views/NotFound';
 
 import OffersView from '../components/views/OffersView';
 import ConsumeView from '../components/views/ConsumeView';
 import BalancesView from '../components/views/BalancesView';
 import RegisterView from '../components/views/RegisterView';
+import LoginView from '../components/views/LoginView';
+import WelcomeView from '../components/views/WelcomeView';
 
 import * as AccountManager from '../helpers/AccountManager';
 import { accountSet, canSign, isAccountLoading } from '../selectors/account';
@@ -49,12 +50,16 @@ const RouterContainer = ({ isAccountLoading, accountSet, canSign }) =>
           :
           <div>
             <Route
-              path={routes.Root}
-              component={AppMode}
+              path={routes.Root} exact
+              component={WelcomeView}
             />
             <Route
               path={routes.Register}
               component={RegisterView}
+            />
+            <Route
+              path={routes.Login}
+              component={LoginView}
             />
             <Redirect from="*" to="/" />
           </div>
