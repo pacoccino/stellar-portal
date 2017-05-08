@@ -98,13 +98,22 @@ class Offers extends React.Component {
       </Table>
     );
   }
-
-  getOfferForm() {
-    const getAssetsOptions = assets => assets.map((asset, index) => (
+  getSellAssetsOptions(assets) {
+    return assets.map((asset, index) => (
       {
         value: index,
         text: Asset.getAssetString(asset),
       }));
+  }
+  getBuyAssetsOptions(assets) {
+    return assets.map((asset, index) => (
+      {
+        value: index,
+        text: Asset.getAssetString(asset),
+      }));
+  }
+
+  getOfferForm() {
 
     return (
       <Form onSubmit={::this.createOffer} loading={this.props.sendingOffer}>
@@ -115,14 +124,14 @@ class Offers extends React.Component {
           <Form.Select
             label="Sell"
             name="sell_asset"
-            options={getAssetsOptions(this.props.trustlines)}
+            options={this.getSellAssetsOptions(this.props.trustlines)}
             placeholder="Asset to sell"
             required
           />
           <Form.Select
             label="Buy"
             name="buy_asset"
-            options={getAssetsOptions(this.props.trustlines)}
+            options={this.getBuyAssetsOptions(this.props.trustlines)}
             placeholder="Asset to buy"
             required
           />

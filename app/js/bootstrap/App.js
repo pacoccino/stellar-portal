@@ -3,15 +3,16 @@ import { Provider } from 'react-redux';
 
 import 'styles/app.scss';
 
+import Initializer from './initializer';
 import store from './store';
-
-// import 'styles/main.scss';
 
 import Router from './router';
 
 const App = () =>
   <Provider store={store}>
-    <Router />
+    <Initializer>
+      <Router />
+    </Initializer>
   </Provider>;
 
 export default App;

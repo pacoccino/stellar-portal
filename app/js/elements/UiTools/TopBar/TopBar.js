@@ -1,44 +1,35 @@
 import React, { PropTypes } from 'react';
 import { Container, Menu, Button } from 'semantic-ui-react';
-
-import NetworkSwitcher from '../../../elements/UiTools/NetworkSwitcher';
-import AccountSwitcher from '../../../elements/UiTools/AccountSwitcher';
-import KeypairGenerator from '../../../elements/UiTools/KeypairGenerator';
+import { Link } from 'react-router';
 
 import icon from '../../../../../content/assets/images/favicon-32x32.png';
+import * as routes from '../../../constants/routes';
 
-function duplicateTab() {
-  window.open(window.location.href);
-}
-
-const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal }) =>
+const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal, resetAccount }) =>
   <Menu fixed="top" inverted>
     <Container>
       <Menu.Item>
         <img src={icon} alt="menu icon" />
       </Menu.Item>
-      <Menu.Item header onClick={goHome}>
-        Stellar Portal
+      <Menu.Item header>
+        <Link to={routes.Balances}>
+          Balances
+        </Link>
+      </Menu.Item>
+      <Menu.Item header>
+        <Link to={routes.Offers}>
+          Offers
+        </Link>
+      </Menu.Item>
+      <Menu.Item header>
+        <Link to={routes.Consume}>
+          Consume
+        </Link>
       </Menu.Item>
       <Menu.Item position="right">
         <Button
-          content="Keypair generator"
-          onClick={openKeypairModal}
-        />
-        <KeypairGenerator open={keypairModalOpen} close={closeKeypairModal} />
-      </Menu.Item>
-      {keypair &&
-      <Menu.Item>
-        <AccountSwitcher />
-      </Menu.Item>
-      }
-      <Menu.Item>
-        <NetworkSwitcher />
-      </Menu.Item>
-      <Menu.Item>
-        <Button
-          icon="external"
-          onClick={duplicateTab}
+          content="Disconnect"
+          onClick={resetAccount}
         />
       </Menu.Item>
     </Container>
@@ -47,6 +38,7 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
 Layout.propTypes = {
   goHome: PropTypes.func.isRequired,
   openKeypairModal: PropTypes.func.isRequired,
+  resetAccount: PropTypes.func.isRequired,
   closeKeypairModal: PropTypes.func.isRequired,
   keypair: PropTypes.object,
   keypairModalOpen: PropTypes.bool,
