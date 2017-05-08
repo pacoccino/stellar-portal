@@ -15,6 +15,7 @@ import AppMode from '../elements/AppMode';
 import OffersView from '../components/views/OffersView';
 import ConsumeView from '../components/views/ConsumeView';
 import BalancesView from '../components/views/BalancesView';
+import RegisterView from '../components/views/RegisterView';
 
 import * as AccountManager from '../helpers/AccountManager';
 import { accountSet, canSign, isAccountLoading } from '../selectors/account';
@@ -50,7 +51,10 @@ const RouterContainer = ({ isAccountLoading, accountSet, canSign }) =>
             <Route
               path={routes.Root}
               component={AppMode}
-              onEnter={AccountManager.onPageLoad}
+            />
+            <Route
+              path={routes.Register}
+              component={RegisterView}
             />
             <Redirect from="*" to="/" />
           </div>

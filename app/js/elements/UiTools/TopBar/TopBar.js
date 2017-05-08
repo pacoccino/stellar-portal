@@ -7,32 +7,54 @@ import * as routes from '../../../constants/routes';
 
 const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeypairModal, resetAccount }) =>
   <Menu fixed="top" inverted>
-    <Container>
-      <Menu.Item>
-        <img src={icon} alt="menu icon" />
-      </Menu.Item>
-      <Menu.Item header>
-        <Link to={routes.Balances}>
-          Balances
-        </Link>
-      </Menu.Item>
-      <Menu.Item header>
-        <Link to={routes.Offers}>
-          Offers
-        </Link>
-      </Menu.Item>
-      <Menu.Item header>
-        <Link to={routes.Consume}>
-          Consume
-        </Link>
-      </Menu.Item>
-      <Menu.Item position="right">
-        <Button
-          content="Disconnect"
-          onClick={resetAccount}
-        />
-      </Menu.Item>
-    </Container>
+    {
+      keypair ?
+        <Container>
+          <Menu.Item>
+            <img src={icon} alt="menu icon" />
+          </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.Balances}>
+              Balances
+            </Link>
+          </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.Offers}>
+              Offers
+            </Link>
+          </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.Consume}>
+              Consume
+            </Link>
+          </Menu.Item>
+          <Menu.Item position="right">
+            <Button
+              content="Disconnect"
+              onClick={resetAccount}
+            />
+          </Menu.Item>
+        </Container>
+
+        :
+
+        <Container>
+          <Menu.Item>
+            <img src={icon} alt="menu icon" />
+          </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.Login}>
+              Login
+            </Link>
+          </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.Register}>
+              Register
+            </Link>
+          </Menu.Item>
+        </Container>
+    }
+
   </Menu>;
 
 Layout.propTypes = {
