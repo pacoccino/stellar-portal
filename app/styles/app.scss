@@ -21,15 +21,15 @@ a {
   align-items: center;
   justify-content: center;
 
-  background-image: url('../images/background.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: #454450;
   position: absolute;
   padding: 6rem 2rem;
   width: 100%;
   min-height: 100%;
   overflow-y: scroll;
+}
+.welcome-container, p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .pages-container {
