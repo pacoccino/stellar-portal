@@ -8,7 +8,7 @@ import { ASYNC_CREATE_OFFER } from 'js/constants/asyncActions';
 
 import Component from './component';
 
-import { canSign } from '../../../selectors/account';
+import { getBalances, canSign } from '../../../selectors/account';
 import { getOffers, getTrustlines } from '../../../selectors/stellarData';
 import { setOrderbook, createOffer, deleteOffer } from '../../../actions-creators/stellar';
 
@@ -17,6 +17,7 @@ const FORM_NAME = 'offer-form';
 
 const mapStateToProps = state => ({
   offers: getOffers(state),
+  balances: getBalances(state),
   trustlines: getTrustlines(state),
   canSign: canSign(state),
   sendingOffer: asyncSelectorObject(ASYNC_CREATE_OFFER).isLoading(state),

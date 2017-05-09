@@ -82,7 +82,7 @@ class Offers extends React.Component {
     return this.props.trustlines.map((asset, index) => (
       {
         value: AssetUid(asset),
-        text: asset.asset_code,
+        text: asset.getCode(),
       })).filter(b => b.value !== 'native');
   }
 
@@ -137,6 +137,9 @@ class Offers extends React.Component {
         </Segment>
       );
     }
+
+    const xlmWallet = this.props.balances.find(b => b.asset.isNative());
+    const xlmBalance  = xlmWallet ? xlmWallet.balance : 0;
 
     return (
       <div>
@@ -214,6 +217,11 @@ class Offers extends React.Component {
                 icon="book"
                 fluid
               />
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                Current balance: <b>{xlmBalance}</b> XLM
+              </Segment>
             </Grid.Column>
           </Grid.Row>
         </Grid>
