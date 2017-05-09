@@ -3,6 +3,7 @@ import { StellarDataManager } from 'stellar-toolkit';
 
 
 let federationUrl = "https://dex-backend.herokuapp.com/dex/user";
+let trustUrl = "https://dex-backend.herokuapp.com/dex/trust";
 
 function setUrl(url) {
   federationUrl = url;
@@ -103,6 +104,24 @@ function federationDelete({ stellar_address, keypair }) {
   });
 }
 
+function federationTrust({ asset_code }, keypair) {
+
+  const body = {
+    asset_code,
+    account_id: keypair.publicKey(),
+  };
+  const signature = StellarDataManager.sign(body, keypair.secret());
+
+  return request({
+    url: trustUrl,
+    method: 'POST',
+    headers: {
+      signature,
+    },
+    body,
+  });
+}
+
 module.exports = {
   setUrl,
   federationResolve,
@@ -111,4 +130,5 @@ module.exports = {
   federationCreate,
   federationRegister,
   federationDelete,
+  federationTrust,
 };

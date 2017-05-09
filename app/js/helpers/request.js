@@ -25,7 +25,8 @@ function request(o) {
       if(!response.ok) {
         throw response;
       }
-      if(response.headers.get('Content-Type').includes('application/json')) {
+      const contentType = response.headers.get('Content-Type');
+      if(contentType && contentType.includes('application/json')) {
         return response.json();
       } else {
         return response.text();

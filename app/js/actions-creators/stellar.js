@@ -6,6 +6,7 @@ import {
   ASYNC_CREATE_TRUSTLINE,
   ASYNC_GET_ORDERBOOK,
   ASYNC_CREATE_OFFER,
+  ASYNC_ASSETS,
 } from '../constants/asyncActions';
 import { AsyncActions } from '../helpers/asyncActions';
 import * as StellarActions from '../actions/stellar';
@@ -20,6 +21,8 @@ import {
 import {
   getDestinationTrustlines as getDestinationTrustlinesSelector,
 } from '../selectors/ui';
+import request from '../helpers/request';
+import { federationTrust } from '../federation';
 
 const { StellarOperations, StellarServer, StellarTools, StellarStreamers } = StellarToolkit;
 
@@ -83,12 +86,14 @@ const changeTrust = ({ asset, limit }) => (dispatch, getState) => {
     });
 };
 
-export const createTrustline = asset => (dispatch) => {
+export const createTrustline = asset => (dispatch, getState) => {
   dispatch(AsyncActions.startLoading(ASYNC_CREATE_TRUSTLINE));
+  const keypair = getKeypair(getState());
 
-  dispatch(changeTrust({ asset, limit: null }))
+  dispatch(changeTrust({ asset: StellarTools.AssetInstance(asset), limit: null }))
     .then(() => {
       dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TRUSTLINE));
+      return federationTrust({asset_code: asset.asset_code}, keypair);
     })
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));
@@ -212,4 +217,15 @@ export const sendOperation = (type, formData) => (dispatch, getState) => {
     default:
       return Promise.reject();
   }
+};
+
+
+export const getExchangeAssets = () => (dispatch, getState) => {
+  dispatch(AsyncActions.startFetch(ASYNC_ASSETS));
+
+  return request({
+    url: 'https://dex-backend.herokuapp.com/dex/asset',
+  }).then(assets => {
+    dispatch(AsyncActions.successFetch(ASYNC_ASSETS, assets));
+  });
 };

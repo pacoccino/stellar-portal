@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectProperty } from '../helpers/redux';
 import { asyncSelectorObject } from '../helpers/asyncActions/selectors';
-import { ASYNC_GET_ORDERBOOK } from '../constants/asyncActions';
+import { ASYNC_GET_ORDERBOOK, ASYNC_ASSETS } from '../constants/asyncActions';
 
 import { getBalances } from './account';
 import { STELLAR_STATE_KEY } from '../constants/reducerKeys';
@@ -48,3 +48,5 @@ export const getPathPaymentsFromEffects = createSelector(
     (effect.type === 'account_credited') || (effect.type === 'account_debited')
   )),
 );
+
+export const getAssets = asyncSelectorObject(ASYNC_ASSETS).data;

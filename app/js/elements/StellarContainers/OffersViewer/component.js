@@ -82,7 +82,7 @@ class Offers extends React.Component {
     return this.props.trustlines.map((asset, index) => (
       {
         value: AssetUid(asset),
-        text: Asset.getAssetString(asset),
+        text: asset.asset_code,
       })).filter(b => b.value !== 'native');
   }
 

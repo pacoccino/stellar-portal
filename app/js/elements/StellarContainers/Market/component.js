@@ -52,9 +52,15 @@ class Balances extends React.Component {
     });
   }
 
+  getAssetList() {
+    const untrustedAssets = this.props.assets.filter(asset =>
+      !this.props.balances.find(balance => balance.asset_code === asset.asset_code));
+    return this.props.balances.concat(untrustedAssets);
+  }
+
   updateAssetValues() {
     const account_id = this.props.keypair.publicKey();
-    Promise.all(this.props.balances.map(b => this.updateAssetValue(b, account_id)))
+    Promise.all(this.getAssetList().map(b => this.updateAssetValue(b, account_id)))
       .then(() => this.updateAssetValues()).catch(() => 0);
   }
 
@@ -76,7 +82,7 @@ class Balances extends React.Component {
   }
 
   getBalanceRows() {
-    return this.props.balances
+    return this.getAssetList()
       .filter(b => b.asset_type !== 'native')
       .map((balance, index) => {
         const xlmPrice = this.state.prices[balance.asset_code] || null;
@@ -96,7 +102,7 @@ class Balances extends React.Component {
             <Table.Cell>
               <Amount amount={fiatPrice} />
             </Table.Cell>
-            {this.props.canSign ?
+            {balance.limit ?
               <Table.Cell>
                 <Button
                   onClick={() => this.sellAsset(balance)}
@@ -114,7 +120,17 @@ class Balances extends React.Component {
                   icon="shop"
                 />
               </Table.Cell>
-              : null}
+              :
+              <Table.Cell>
+                <Button
+                  onClick={() => this.props.createTrustline(balance)}
+                  basic color="blue"
+                  floated="right"
+                  content="Trust"
+                  icon="add"
+                />
+              </Table.Cell>
+            }
           </Table.Row>
         );
       });
