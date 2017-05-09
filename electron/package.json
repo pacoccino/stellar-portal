@@ -1,7 +1,7 @@
 {
   "name": "stellar-portal",
   "version": "0.1.0",
-  "description": "Decentralized stellar platform",
+  "description": "Decentralized exchange platform",
   "scripts": {
     "postinstall": "install-app-deps",
     "electron": "electron .",
@@ -15,7 +15,7 @@
   "build": {
     "appId": "app.stellar.portal",
     "electronVersion": "1.4.14",
-    "productName": "Stellar Portal",
+    "productName": "DEX",
     "mac": {
       "icon": "icons/icon.icns",
       "iconSize": 180,
