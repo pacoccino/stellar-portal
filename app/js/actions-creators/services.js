@@ -1,7 +1,3 @@
-// import config from 'js/config';
-
-const config = {
-  FEDERATION_DOMAIN: 'api-test.willet.io',
-};
+import config from 'js/config';
 
 export const getStellarAddress = username => `${username}*${config.FEDERATION_DOMAIN}`;

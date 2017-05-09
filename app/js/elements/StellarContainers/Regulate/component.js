@@ -10,12 +10,28 @@ import AmountComponent from '../../../components/stellar/Amount';
 import Balances from '../../../elements/StellarContainers/Balances/component';
 import Payments from '../../../elements/StellarContainers/PaymentsViewer/component';
 
+import request from '../../../helpers/request';
+import config from 'js/config';
+
 const { getServerInstance, getAccount } = StellarServer;
 
 class Regulate extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      users: [],
+    };
+  }
+
+  componentWillMount() {
+    request({
+      url: 'https://dex-backend.herokuapp.com/dex/authuser',
+    })
+      .then(users => users.map(u => {
+        u.stellar_address = u.stellar_address.replace(`*${config.FEDERATION_DOMAIN}`, '');
+        return u;
+      }))
+      .then(users => this.setState({ users }));
   }
 
   selectUser(user) {
@@ -61,7 +77,7 @@ class Regulate extends React.Component {
 
           <Table.Body>
             {
-              this.props.users.map(::this.getUsersRow)
+              this.state.users.map(::this.getUsersRow)
             }
           </Table.Body>
         </Table>
@@ -78,14 +94,21 @@ class Regulate extends React.Component {
           <Card.Content>
             <Image floated='right' size='mini' src='/assets/images/matthew.png' />
             <Card.Header>
-              {user.stellar_address}
+              {user.first_name} {user.last_name}
             </Card.Header>
             <Card.Meta className="wraptext">
               {user.account_id}
             </Card.Meta>
             <Card.Description>
-              This user has been registered on Dex
+              {user.stellar_address}
             </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <p><b>Passport Nr: </b>{user.passport_nr}</p>
+            <p><b>Street: </b>{user.address.street}</p>
+            <p><b>City: </b>{user.address.city}</p>
+            <p><b>Postal code: </b>{user.address.postal_code}</p>
+            <p><b>Country: </b>{user.address.country}</p>
           </Card.Content>
           <Card.Content extra>
             <div className='ui two buttons'>
