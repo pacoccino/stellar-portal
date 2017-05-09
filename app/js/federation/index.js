@@ -2,7 +2,7 @@ const request = require('../helpers/request');
 import { StellarDataManager } from 'stellar-toolkit';
 
 
-let federationUrl = "http://localhost:3000/dex/user";
+let federationUrl = "https://dex-backend.herokuapp.com/dex/user";
 
 function setUrl(url) {
   federationUrl = url;
@@ -39,14 +39,13 @@ function federationKeypair({ q, password }) {
   });
 }
 
-function federationCreate({ stellar_address, password, passport_nr, address, first_name, last_name }, keypair) {
+function federationCreate({ stellar_address, passport_nr, address, first_name, last_name }, keypair) {
 
-  console.log(JSON.stringify({ stellar_address, password, passport_nr, address, first_name, last_name }));
+  console.log(JSON.stringify({ stellar_address, passport_nr, address, first_name, last_name }));
 
   const body = {
-    stellar_address: stellar_address + '*willet.io',
+    stellar_address,
     account_id: keypair.publicKey(),
-    password,
     passport_nr,
     address,
     first_name,

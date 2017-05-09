@@ -1,5 +1,6 @@
 import { StellarServer, StellarTools, StellarAccountManager } from 'stellar-toolkit';
 import { Keypair } from 'stellar-sdk';
+import { push } from 'react-router-redux';
 
 import { AsyncActions } from '../helpers/asyncActions';
 import * as AccountActions from '../actions/account';
@@ -46,8 +47,6 @@ export const switchNetwork = network => (dispatch, getState) => {
 
 export const createTestAccount = (e, { formData }) => (dispatch) => {
   e.preventDefault();
-  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TEST_ACCOUNT));
-
   const address = {
     street: formData["street"],
     nr: formData["address_nr"],
@@ -57,20 +56,24 @@ export const createTestAccount = (e, { formData }) => (dispatch) => {
   };
 
   const account = {
-    stellar_address : formData["user_name"],
+    stellar_address : getStellarAddress(formData["user_name"]),
     passport_nr : formData["passport_nr"],
     address : address,
     first_name : formData["first_name"],
     last_name : formData["last_name"],
-    password: formData["password"]
   };
 
   generateTestPair()
     .then((newPair) => {
-      console.log("Hello")
-      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TEST_ACCOUNT));
-      dispatch(setAccount(newPair));
-      return federationCreate(account, newPair);
+      federationCreate(account, newPair)
+      .then( () => {
+        StellarAccountManager
+          .setAccountSeed(newPair.secret(), formData["password"])
+          .then(() => {
+          dispatch(push("/"))
+          alert("account successfully created!")
+          })
+      }).catch(console.error);
     })
     .catch(console.error);
 };
