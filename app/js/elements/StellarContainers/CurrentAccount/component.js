@@ -28,6 +28,11 @@ class CurrentAccount extends Component {
   }
 
 
+  getQrCodeSrc() {
+    const pk = this.props.keypair.publicKey();
+    return `http://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(pk)}`;
+  }
+
   accountInfo() {
     if (!this.props.keypair) { return null; }
 
@@ -74,25 +79,6 @@ class CurrentAccount extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          <Table.Row>
-            <Table.HeaderCell>
-              Public address
-            </Table.HeaderCell>
-            <Table.Cell>
-              {keypair.publicKey()}
-            </Table.Cell>
-            <Table.Cell textAlign="right">
-              <Button
-                className="account-address-copy"
-                basic compact
-                size="mini"
-                icon="clipboard"
-                content="Copy"
-                color="blue"
-                data-clipboard-text={keypair.publicKey()}
-              />
-            </Table.Cell>
-          </Table.Row>
           {
             canSign && this.state.showSeed &&
             <Table.Row>
@@ -115,6 +101,32 @@ class CurrentAccount extends Component {
               </Table.Cell>
             </Table.Row>
           }
+          <Table.Row>
+            <Table.HeaderCell>
+              Public address
+            </Table.HeaderCell>
+            <Table.Cell>
+              {keypair.publicKey()}
+            </Table.Cell>
+            <Table.Cell textAlign="right">
+              <Button
+                className="account-address-copy"
+                basic compact
+                size="mini"
+                icon="clipboard"
+                content="Copy"
+                color="blue"
+                data-clipboard-text={keypair.publicKey()}
+              />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell />
+            <Table.Cell textAlign="center">
+              <img src={this.getQrCodeSrc()} />
+            </Table.Cell>
+            <Table.Cell />
+          </Table.Row>
         </Table.Body>
       </Table>
     );

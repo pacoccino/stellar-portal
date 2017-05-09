@@ -19,6 +19,7 @@ import LoginView from '../components/views/LoginView';
 import WelcomeView from '../components/views/WelcomeView';
 import RegulateView from '../components/views/RegulateView';
 import CreateAssetView from '../components/views/CreateAssetView';
+import AccountView from '../components/views/AccountView';
 
 import * as AccountManager from '../helpers/AccountManager';
 import { accountSet, canSign, isAccountLoading } from '../selectors/account';
@@ -44,6 +45,10 @@ const RouterContainer = ({ isAccountLoading, accountSet, canSign }) =>
             <Route
               path={routes.CreateAsset}
               component={CreateAssetView}
+            />
+            <Route
+              path={routes.Account}
+              component={AccountView}
             />
             <Redirect from="*" to={routes.Balances} />
           </Switch>

@@ -25,6 +25,11 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
               Orders
             </Link>
           </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.Account}>
+              Account
+            </Link>
+          </Menu.Item>
           <Menu.Item position="right">
             <Button
               content="Disconnect"

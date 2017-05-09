@@ -185,6 +185,12 @@ export const getDestinationTrustlines = accountId => (dispatch) => {
     .catch(() => dispatch(StellarActions.setDestinationTrustlines([])));
 };
 
+export const sendLumens = (formData) => (dispatch) => {
+  const operationData = { ...formData };
+  operationData.asset = StellarTools.AssetInstance({asset_type: 'native'});
+  return dispatch(sendPayment(operationData));
+};
+
 export const sendOperation = (type, formData) => (dispatch, getState) => {
   const state = getState();
   const account = getAccountSelector(state);
