@@ -85,7 +85,7 @@ class Balances extends React.Component {
         return (
           <Table.Row key={index}>
             <Table.Cell>
-              <Asset {...balance} />
+              {balance.asset_code}
             </Table.Cell>
             <Table.Cell>
               <Amount amount={balance.balance} />
@@ -152,8 +152,8 @@ class Balances extends React.Component {
             <Table.Row>
               <Table.HeaderCell>Asset</Table.HeaderCell>
               <Table.HeaderCell>Balance</Table.HeaderCell>
-              <Table.HeaderCell>XLM</Table.HeaderCell>
-              <Table.HeaderCell>USD</Table.HeaderCell>
+              <Table.HeaderCell>Price in XLM</Table.HeaderCell>
+              <Table.HeaderCell>Price in USD</Table.HeaderCell>
               {this.props.canSign ?
                 <Table.HeaderCell textAlign="right">Action</Table.HeaderCell>
                 :

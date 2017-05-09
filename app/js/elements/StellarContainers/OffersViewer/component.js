@@ -30,7 +30,7 @@ class Offers extends React.Component {
     return (
       <Table.Row key={index}>
         <Table.Cell>
-          <Asset {...offer.selling} />
+          {offer.selling.asset_code}
         </Table.Cell>
         <Table.Cell>
           <Asset {...offer.buying} />
