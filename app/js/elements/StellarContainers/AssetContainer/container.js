@@ -1,0 +1,36 @@
+import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
+
+import { createAsset, setAccount } from '../../../actions-creators/account';
+
+import AccountSelector from './component';
+import {
+  isAccountLoading,
+  isCreatingTestAccount,
+  getAccountError,
+  getKeypair,
+  canSign,
+} from '../../../selectors/account';
+import {
+  getNetwork,
+} from '../../../selectors/stellarData';
+
+const FORM_NAME = 'account-selector';
+
+const mapStateToProps = state => ({
+  isAccountLoading: isAccountLoading(state),
+  isCreatingTestAccount: isCreatingTestAccount(state),
+  canSign: canSign(state),
+  error: getAccountError(state),
+  keypair: getKeypair(state),
+  network: getNetwork(state),
+
+  values: getFormValues(FORM_NAME)(state),
+});
+
+const mapDispatchToProps = { setAccount, createAsset };
+
+export default reduxForm({
+  form: FORM_NAME,
+  initialValues: {},
+})(connect(mapStateToProps, mapDispatchToProps)(AccountSelector));

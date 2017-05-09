@@ -2,13 +2,17 @@ import { StellarServer, StellarTools, StellarAccountManager } from 'stellar-tool
 import { Keypair } from 'stellar-sdk';
 import { push } from 'react-router-redux';
 
+import {createUnfederatedTrustline} from './stellar';
+
 import { AsyncActions } from '../helpers/asyncActions';
 import * as AccountActions from '../actions/account';
 import { ASYNC_FETCH_ACCOUNT, ASYNC_CREATE_TEST_ACCOUNT } from '../constants/asyncActions';
 
 import { getNetwork } from '../selectors/stellarData';
 
-import { federationCreate } from '../federation/index';
+import { getAccount as getAccountSelector, getKeypair} from '../selectors/account';
+
+import { federationCreate, federationCreateAsset} from '../federation/index';
 import { getStellarAddress } from './services';
 
 const { getAccount, switchNetwork: switchNetworkInstance, generateTestPair } = StellarServer;
@@ -102,4 +106,25 @@ export const login = ({ username, password }) => (dispatch) => {
       console.error(e);
       throw e;
     });
+};
+
+export const createAsset = (e, { formData }) => (dispatch, getState) => {
+  e.preventDefault();
+
+  const newAsset = {
+    asset_code : formData["asset_code"],
+    amount: formData["asset_amount"]
+  };
+
+  console.log(newAsset);
+
+  const keypair = getKeypair(getState());
+
+  return dispatch(createUnfederatedTrustline({asset_code: formData["asset_code"], asset_issuer:"GBDNKYU4YB6QYI2UQUY2IUHKOVNISCSNVJNBIVLSDVPZKIEJS5ALYGZ4"}))
+    .then(() => {
+      federationCreateAsset(newAsset, keypair)
+      .then(() => {
+        alert("asset successfully created!")
+      });
+    })
 };

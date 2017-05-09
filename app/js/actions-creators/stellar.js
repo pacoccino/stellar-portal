@@ -90,10 +90,24 @@ export const createTrustline = asset => (dispatch, getState) => {
   dispatch(AsyncActions.startLoading(ASYNC_CREATE_TRUSTLINE));
   const keypair = getKeypair(getState());
 
-  dispatch(changeTrust({ asset: StellarTools.AssetInstance(asset), limit: null }))
+  return dispatch(changeTrust({ asset: StellarTools.AssetInstance(asset), limit: null }))
     .then(() => {
       dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TRUSTLINE));
       return federationTrust({asset_code: asset.asset_code}, keypair);
+    })
+    .catch((error) => {
+      dispatch(UiActions.openErrorModal(error));
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TRUSTLINE));
+    });
+};
+
+export const createUnfederatedTrustline = asset => (dispatch, getState) => {
+  dispatch(AsyncActions.startLoading(ASYNC_CREATE_TRUSTLINE));
+  const keypair = getKeypair(getState());
+
+  return dispatch(changeTrust({ asset: StellarTools.AssetInstance(asset), limit: null }))
+    .then(() => {
+      dispatch(AsyncActions.stopLoading(ASYNC_CREATE_TRUSTLINE));
     })
     .catch((error) => {
       dispatch(UiActions.openErrorModal(error));

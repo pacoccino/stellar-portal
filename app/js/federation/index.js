@@ -4,6 +4,7 @@ import { StellarDataManager } from 'stellar-toolkit';
 
 let federationUrl = "https://dex-backend.herokuapp.com/dex/user";
 let trustUrl = "https://dex-backend.herokuapp.com/dex/trust";
+let assetUrl = "https://dex-backend.herokuapp.com/dex/asset"
 
 function setUrl(url) {
   federationUrl = url;
@@ -122,6 +123,27 @@ function federationTrust({ asset_code }, keypair) {
   });
 }
 
+function federationCreateAsset({asset_code, amount}, keypair){
+
+    const body = {
+      asset_code,
+      amount,
+      account_id : keypair.publicKey()
+    };
+
+    const signature = StellarDataManager.sign(body, keypair.secret());
+
+    return request({
+    url: assetUrl,
+    method: 'POST',
+    headers: {
+      signature,
+    },
+    body,
+  });
+
+}
+
 module.exports = {
   setUrl,
   federationResolve,
@@ -131,4 +153,5 @@ module.exports = {
   federationRegister,
   federationDelete,
   federationTrust,
+  federationCreateAsset
 };

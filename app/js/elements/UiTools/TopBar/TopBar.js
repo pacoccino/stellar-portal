@@ -30,6 +30,11 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
               Account
             </Link>
           </Menu.Item>
+          <Menu.Item header>
+            <Link to={routes.CreateAsset}>
+              Asset
+            </Link>
+          </Menu.Item>
           <Menu.Item position="right">
             <Button
               content="Disconnect"
