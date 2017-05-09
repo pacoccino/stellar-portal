@@ -20,10 +20,10 @@ class InitializerComponent extends React.Component {
   }
   componentWillMount() {
     Promise.all([
-      // this.props.setAccount({
-      //   secretSeed: 'SANC7G7ERSG3VWUHHG3RCLSS54ERQ7WO4VI2HUHQCWYFAMQKZQKXJTTV'
+      this.props.setAccount({
+        secretSeed: 'SAG2GJIXGZZYVL4GNWOXWFJ2Y4AI7LQTC2UYVHYF5U63BCJZCUTBZT74'
         // secretSeed: 'SAQHSZFSQIIVWH4DL2D5PRF6BARWUVDELSM5RZMRGYFDQA2P2QMNGPF7'
-      // }),
+      }),
       this.props.getExchangeAssets(),
     ])
       .then(() => {
