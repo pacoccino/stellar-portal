@@ -32,19 +32,19 @@ class Balances extends React.Component {
           <Table.Cell>
             <Amount amount={balance.balance} />
           </Table.Cell>
-          <Table.Cell>
-            {this.props.canSign ?
-              <Button
-                onClick={() => this.props.deleteTrustline(balance.asset)}
-                basic color="red"
-                floated="right"
-                disabled={!bnBalance.isZero()}
-                loading={balance.isDeleting}
-                content="Remove"
-                icon="trash"
-              />
-              : null}
-          </Table.Cell>
+          {/*<Table.Cell>*/}
+            {/*{this.props.canSign ?*/}
+              {/*<Button*/}
+                {/*onClick={() => this.props.deleteTrustline(balance.asset)}*/}
+                {/*basic color="red"*/}
+                {/*floated="right"*/}
+                {/*disabled={!bnBalance.isZero()}*/}
+                {/*loading={balance.isDeleting}*/}
+                {/*content="Remove"*/}
+                {/*icon="trash"*/}
+              {/*/>*/}
+              {/*: null}*/}
+          {/*</Table.Cell>*/}
         </Table.Row>
       );
     });
@@ -111,7 +111,7 @@ class Balances extends React.Component {
             <Table.Row>
               <Table.HeaderCell>Asset</Table.HeaderCell>
               <Table.HeaderCell>Balance</Table.HeaderCell>
-              <Table.HeaderCell textAlign="right">Trustline</Table.HeaderCell>
+              {/*<Table.HeaderCell textAlign="right">Trustline</Table.HeaderCell>*/}
             </Table.Row>
           </Table.Header>
 
@@ -128,8 +128,8 @@ Balances.propTypes = {
   canSign: PropTypes.bool.isRequired,
   creatingTrustline: PropTypes.bool,
   balances: PropTypes.array.isRequired,
-  createTrustline: PropTypes.func.isRequired,
-  deleteTrustline: PropTypes.func.isRequired,
+  createTrustline: PropTypes.func,
+  deleteTrustline: PropTypes.func,
 };
 
 export default Balances;

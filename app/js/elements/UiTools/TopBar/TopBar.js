@@ -51,6 +51,11 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
               Register
             </Link>
           </Menu.Item>
+          <Menu.Item position="right">
+            <Link to={routes.Regulate}>
+              Regulate
+            </Link>
+          </Menu.Item>
         </Container>
     }
 

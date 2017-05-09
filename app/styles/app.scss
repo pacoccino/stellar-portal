@@ -65,3 +65,8 @@ a {
 .successDimmer {
   background-color: rgba(12, 175, 12, 0.68) !important;
 }
+
+.wraptext {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

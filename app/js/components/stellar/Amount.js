@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Decimal from 'decimal.js';
 
 const AmountComponent = ({ amount, accountId, payment }) => {
-  if(!amount) return null;
+  if(!amount && !payment) return null;
 
   const amountStyle = {};
   if (accountId && payment && accountId === payment.from) {

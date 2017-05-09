@@ -141,32 +141,32 @@ class Payments extends React.Component {
           </Table.Body>
         </Table>
 
-        <Header as="h3">Path payments</Header>
-        <Table singleLine size="small" compact unstackable definition>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell />
-              <Table.HeaderCell>Amount</Table.HeaderCell>
-              <Table.HeaderCell>Account</Table.HeaderCell>
-              <Table.HeaderCell>From asset</Table.HeaderCell>
-              <Table.HeaderCell>To asset</Table.HeaderCell>
-              <Table.HeaderCell>Memo</Table.HeaderCell>
-              <Table.HeaderCell>Date</Table.HeaderCell>
-              <Table.HeaderCell>Open</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+        {/*<Header as="h3">Path payments</Header>*/}
+        {/*<Table singleLine size="small" compact unstackable definition>*/}
+          {/*<Table.Header>*/}
+            {/*<Table.Row>*/}
+              {/*<Table.HeaderCell />*/}
+              {/*<Table.HeaderCell>Amount</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>Account</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>From asset</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>To asset</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>Memo</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>Date</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>Open</Table.HeaderCell>*/}
+            {/*</Table.Row>*/}
+          {/*</Table.Header>*/}
 
-          <Table.Body>
-            {pathPayments.length ?
-              pathPayments.map(::this.getPathPaymentRow)
-              :
-              <Table.Row>
-                <Table.Cell />
-                <Table.Cell colSpan="5" textAlign="center">No path payments</Table.Cell>
-              </Table.Row>
-            }
-          </Table.Body>
-        </Table>
+          {/*<Table.Body>*/}
+            {/*{pathPayments.length ?*/}
+              {/*pathPayments.map(::this.getPathPaymentRow)*/}
+              {/*:*/}
+              {/*<Table.Row>*/}
+                {/*<Table.Cell />*/}
+                {/*<Table.Cell colSpan="5" textAlign="center">No path payments</Table.Cell>*/}
+              {/*</Table.Row>*/}
+            {/*}*/}
+          {/*</Table.Body>*/}
+        {/*</Table>*/}
       </div>
     );
   }
