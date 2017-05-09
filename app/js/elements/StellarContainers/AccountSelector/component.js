@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Header, Loader, Segment, Divider, Container, Button, Message, Form } from 'semantic-ui-react';
+import { Icon, Header, Loader, Segment, Divider, Container, Button, Message, Form } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 import { Field, propTypes } from 'redux-form';
 
@@ -92,6 +92,13 @@ class AccountSelector extends Component {
   loginForm() {
     return (
       <div style={styles.inputCntainer}>
+        <Header as='h2' textAlign='center'>
+          <Icon name='user' />
+          <Header.Content>
+            Login
+          </Header.Content>
+        </Header>
+        <Divider />
         <Form.Field>
           <label>Username</label>
           <Field

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Form, Container, Button, Checkbox } from 'semantic-ui-react';
+import { Header, Icon, Form, Container, Button, Checkbox } from 'semantic-ui-react';
 import Clipboard from 'clipboard';
 import { Field, propTypes } from 'redux-form';
 
