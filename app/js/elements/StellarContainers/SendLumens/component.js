@@ -212,7 +212,7 @@ class SendLumens extends Component {
           Sent
         </Dimmer>
         <Header as="h2" textAlign="center">
-          Send Lumens
+          Withdraw
         </Header>
         <div style={{ height: '1rem' }} />
         <FormUI.Field>

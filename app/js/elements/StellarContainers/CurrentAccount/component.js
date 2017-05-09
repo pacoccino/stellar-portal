@@ -52,7 +52,7 @@ class CurrentAccount extends Component {
               }
             </Table.HeaderCell>
             <Table.HeaderCell textAlign="center">
-              <Header as="h3">Account addresses</Header>
+              <Header as="h3">Account details</Header>
             </Table.HeaderCell>
             <Table.HeaderCell textAlign="right">
               {

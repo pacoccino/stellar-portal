@@ -76,7 +76,7 @@ class Balances extends React.Component {
 
     return (
       <Segment textAlign="right">
-        <b>{lBalance.balance}</b> XLM
+        Balance: <b>{lBalance.balance}</b> XLM
       </Segment>
     );
   }
@@ -126,7 +126,7 @@ class Balances extends React.Component {
                   onClick={() => this.props.createTrustline(balance)}
                   basic color="blue"
                   floated="right"
-                  content="Trust"
+                  content="Request access"
                   icon="add"
                 />
               </Table.Cell>

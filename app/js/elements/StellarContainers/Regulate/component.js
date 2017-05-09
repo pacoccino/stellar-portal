@@ -53,12 +53,12 @@ class Regulate extends React.Component {
   getUsersRow(user, index) {
     return (
       <Table.Row key={index} onClick={() => this.selectUser(user)}>
-        <Table.Cell>
-          {user.account_id}
-        </Table.Cell>
         {/*<Table.Cell>*/}
-        {/*{user.stellar_address}*/}
+          {/*{user.account_id}*/}
         {/*</Table.Cell>*/}
+        <Table.Cell>
+        {user.stellar_address}
+        </Table.Cell>
       </Table.Row>
     );
   }
@@ -70,8 +70,8 @@ class Regulate extends React.Component {
         <Table singleLine size="small" compact fixed selectable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Account ID</Table.HeaderCell>
-              {/*<Table.HeaderCell>Username</Table.HeaderCell>*/}
+              {/*<Table.HeaderCell>Account ID</Table.HeaderCell>*/}
+              <Table.HeaderCell>Username</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
