@@ -21,6 +21,7 @@ const stellarStreamerMiddleware = store => next => (action) => {
     case actions.SET_KEYPAIR: {
       const { keypair } = action;
 
+      // break;
       try {
         // Stream account
         newStream('account',
@@ -28,22 +29,10 @@ const stellarStreamerMiddleware = store => next => (action) => {
             store.dispatch(AsyncActions.successFetch(ASYNC_FETCH_ACCOUNT, streamAccount));
           }));
 
-        // Stream effects
-        newStream('effects',
-          EffectsStream(keypair.publicKey(), (effect) => {
-            // store.dispatch(getEffectsStream(effect));
-          }));
-
-        // Stream payment
-        newStream('payment',
-          PaymentStream(keypair.publicKey(), (payment) => {
-            // store.dispatch(getPaymentsStream(payment));
-          }));
-
         // Stream offers
         newStream('offers',
           OffersStream(keypair.publicKey(), (offers) => {
-            // store.dispatch(getOffersSuccess(offers));
+            store.dispatch(getOffersSuccess(offers));
           }));
       } catch (e) {
         traceError(e);
