@@ -26,13 +26,13 @@ const Layout = ({ keypair, goHome, keypairModalOpen, openKeypairModal, closeKeyp
             </Link>
           </Menu.Item>
           <Menu.Item header>
-            <Link to={routes.Account}>
-              Account
+            <Link to={routes.CreateAsset}>
+              Your assets
             </Link>
           </Menu.Item>
           <Menu.Item header>
-            <Link to={routes.CreateAsset}>
-              Asset
+            <Link to={routes.Account}>
+              Account
             </Link>
           </Menu.Item>
           <Menu.Item position="right">

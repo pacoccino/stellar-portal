@@ -81,20 +81,23 @@ class WelcomeScreen extends Component {
           Decentralized Exchange
         </p>
         <p style={styles.subtitle}>
-          Dex is a p2p exchange designed for the Stellar Network. <br/>
-          It allows you to buy and sell verified assets
+          Dex is a regulated p2p exchange designed on top of Stellar Network
+          <br/>
+          <br/>
+          Exchange with a purpose
         </p>
         <div style={styles.three}>
           <div style={styles.one}>
             <img src={secureImg} style={styles.oneImage} alt="welcome" />
             <div style={styles.oneTitle}>
-              SECURE
+              SECURED
             </div>
             <div style={styles.oneText}>
               Entire exchange continually audited and inspected for unusual activity
             </div>
             <div style={styles.oneText}>
-              Two-factor authentication available for your protection
+              Two-factor authentication <br/>
+              available for your protection
             </div>
           </div>
 
@@ -104,13 +107,11 @@ class WelcomeScreen extends Component {
               decentralized
             </div>
             <div style={styles.oneText}>
-              ENtire exchange continually
-              audited and inspected
-              for unusual activity
+              Every transactions happens direcly on the blockchain
             </div>
             <div style={styles.oneText}>
-              Two-factor authentication
-              available for your protection
+              We do not hold any funds<br/>
+              you are the only owner of your keys
             </div>
           </div>
 
@@ -120,7 +121,9 @@ class WelcomeScreen extends Component {
               private
             </div>
             <div style={styles.oneText}>
-              we concerned about your privacy for this reason all your data will be protected with high level of encription
+              We respect law enforcement but all the data is kept private and encrypted
+              <br/>
+              Plaform users doesn't have access to personal informations
             </div>
           </div>
         </div>
