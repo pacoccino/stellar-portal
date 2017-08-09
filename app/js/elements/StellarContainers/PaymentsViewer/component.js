@@ -25,6 +25,8 @@ class Payments extends React.Component {
 
   getPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
+    const externalAccount = isToMyAccount ? payment.from : payment.to;
+    const network = this.props.network;
     return (
       <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
@@ -37,7 +39,9 @@ class Payments extends React.Component {
           <Asset {...payment} />
         </Table.Cell>
         <Table.Cell>
-          <AccountId accountId={isToMyAccount ? payment.from : payment.to} />
+          <a className="no-style" href={`/?accountId=${externalAccount}&network=${network}`} target="_blank">
+            <AccountId accountId={externalAccount} />
+          </a>
         </Table.Cell>
         <Table.Cell>
           {payment.transaction.memo}
@@ -101,12 +105,14 @@ class Payments extends React.Component {
   }
 
   openTransaction(transaction) {
-    return (e) => {
+    return e => {
       e.preventDefault();
       const id = transaction.id;
-      const url = `http://testnet.stellarchain.io/tx/${id}`;
+      const network = this.props.network;
+      const baseUrl = network === 'test' ? 'http://testnet.stellarchain.io/tx/' : 'https://stellarchain.io/tx/';
+      const url = `${baseUrl}${id}`;
       window.open(url);
-    };
+    }
   }
 
   render() {
@@ -176,6 +182,7 @@ Payments.propTypes = {
   account: PropTypes.object,
   payments: PropTypes.array,
   pathPayments: PropTypes.array,
+  network: PropTypes.string,
 };
 
 export default Payments;

@@ -177,6 +177,7 @@ export const sendOperation = (type, formData) => (dispatch, getState) => {
   switch (type) {
     case OPERATIONS.PAYMENT: {
       operationData.asset = trustlines[operationData.asset];
+      console.log(operationData);
       return dispatch(sendPayment(operationData));
     }
     case OPERATIONS.PATH_PAYMENT: {
