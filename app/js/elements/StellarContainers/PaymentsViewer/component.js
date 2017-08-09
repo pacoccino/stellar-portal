@@ -24,7 +24,9 @@ class Payments extends React.Component {
     return e => {
       e.preventDefault();
       const id = transaction.id;
-      const url = `http://testnet.stellarchain.io/tx/${id}`;
+      const network = this.props.network;
+      const baseUrl = network === 'test' ? 'http://testnet.stellarchain.io/tx/' : 'https://stellarchain.io/tx/';
+      const url = `${baseUrl}${id}`;
       window.open(url);
     }
   }
@@ -163,6 +165,7 @@ Payments.propTypes = {
   account: PropTypes.object,
   payments: PropTypes.array,
   pathPayments: PropTypes.array,
+  network: PropTypes.string,
 };
 
 export default Payments;
