@@ -1,0 +1,63 @@
+body {
+  background-color: #FFFFFF;
+}
+html {font-size: 12px;}
+
+a {
+  color: white;
+}
+#app {
+  height: 100%;
+  width: 100%;
+}
+.layout-container {
+  height: 100%;
+  width: 100%;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url('../images/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  padding: 6rem 2rem;
+  width: 100%;
+  min-height: 100%;
+  overflow-y: scroll;
+}
+
+.pages-container {
+  padding: 6rem 2rem;
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  overflow-y: scroll;
+}
+
+.AccountSelector-inputTitle {
+  width: 110px;
+}
+
+.welcome-logo {
+  /* The animation part: */
+  animation-name: levitate;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes levitate {
+  from {transform:translateY(0);}
+  50% {transform:translateY(8px);}
+  to {transform:translateY(0);}
+}
+
+.ui.label.iconOnly>.icon {
+  margin: 0!important;
+}

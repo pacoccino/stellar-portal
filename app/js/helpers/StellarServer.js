@@ -1,40 +1,53 @@
 import Stellar from 'stellar-sdk';
 
-import StellarOffline from './StellarOffline';
-import { AssetInstance, REFRESH_INTERVAL } from './StellarTools';
+// import StellarOffline from './StellarOffline';
+import { augmentAccount, AssetInstance, REFRESH_INTERVAL } from './StellarTools';
 
 let Server;
 
-export const getServerInstance = () => {
-  if(false && process.env.NODE_ENV !== 'production') {
-    return StellarOffline();
-  }
+function traceError() {
+  // console.error(e);
+}
+export const getServerInstance = () => Server;
+// if(process.env.NODE_ENV !== 'production') {
+//   return StellarOffline();
+// }
 
-  return Server;
-};
+export const getAccount = accountId =>
+  getServerInstance()
+    .loadAccount(accountId)
+    .then((account) => {
+      if (account) {
+        return augmentAccount(account);
+      }
+      throw 'no account';
+    });
 
-export const getAccount = (accountId) => {
-  return getServerInstance()
-    .loadAccount(accountId);
-};
-
-export const Orderbook = ({ selling, buying }) => {
-  return getServerInstance()
+export const Orderbook = ({ selling, buying }) =>
+  getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .call();
-};
-export const OrderbookStream = ({ selling, buying }, onmessage) => {
-  return getServerInstance()
+export const OrderbookStream = ({ selling, buying }, onmessage) =>
+  getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .stream({ onmessage });
-};
-export const OrderbookDetail = ({ selling, buying }) => {
-  debugger;
-  return getServerInstance()
+
+export const OrderbookDetail = ({ selling, buying }) =>
+  getServerInstance()
     .orderbook(AssetInstance(selling), AssetInstance(buying))
     .trades()
     .call();
-};
+
+export const AccountStream = (accountId, callback) =>
+  getServerInstance()
+    .accounts()
+    .accountId(accountId)
+    .stream({
+      onmessage: (streamAccount) => {
+        callback(augmentAccount(streamAccount));
+      },
+      onerror: traceError,
+    });
 
 export const OffersStream = (accountId, callback) => {
   const timerId = setInterval(() => {
@@ -48,18 +61,32 @@ export const OffersStream = (accountId, callback) => {
   return () => clearInterval(timerId);
 };
 
-export const EffectsStream = (accountId, onmessage) => {
-  const timerId = getServerInstance()
+export const EffectsStream = (accountId, onmessage) =>
+  getServerInstance()
     .effects()
     .forAccount(accountId)
     .order('asc')
     .stream({ onmessage });
 
-  return () => clearInterval(timerId);
-};
+export const PaymentStream = (accountId, onmessage) =>
+  getServerInstance()
+    .payments()
+    .forAccount(accountId)
+    .order('asc')
+    .stream({
+      onmessage: (payment) => {
+        payment.transaction().then((transaction) => {
+          onmessage({
+            ...payment,
+            transaction,
+          });
+        });
+      },
+      onerror: traceError,
+    });
 
 export const switchNetwork = (network) => {
-  switch(network) {
+  switch (network) {
     case 'perso':
       Server = new Stellar.Server('http://192.168.1.67:8000', { allowHttp: true });
       Stellar.Network.useTestNetwork();
@@ -76,13 +103,13 @@ export const switchNetwork = (network) => {
   }
 };
 
-export async function generateTestPair(){
+export async function generateTestPair() {
   const pair = Stellar.Keypair.random();
 
   try {
-    await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.accountId()}`);
+    await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${pair.publicKey()}`);
     return pair;
-  } catch(e) {
+  } catch (e) {
     throw e;
   }
 }

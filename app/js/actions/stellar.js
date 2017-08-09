@@ -1,13 +1,13 @@
-export const GET_PAYMENTS_SUCCESS = "stellar:payments:success";
-export const GET_PAYMENTS_STREAM = "stellar:payments:stream";
-export const GET_OFFERS_SUCCESS = "stellar:offers:success";
-export const GET_OFFERS_STREAM = "stellar:offers:stream";
-export const GET_EFFECT_STREAM = "stellar:effect:stream";
+export const GET_PAYMENTS_SUCCESS = 'stellar:payments:success';
+export const GET_PAYMENTS_STREAM = 'stellar:payments:stream';
+export const GET_OFFERS_SUCCESS = 'stellar:offers:success';
+export const GET_OFFERS_STREAM = 'stellar:offers:stream';
+export const GET_EFFECT_STREAM = 'stellar:effect:stream';
 
-export const GET_ORDERBOOK = "stellar:orderbook:fetching";
-export const GET_ORDERBOOK_SUCCESS = "stellar:orderbook:success";
+export const GET_ORDERBOOK = 'stellar:orderbook:fetching';
+export const GET_ORDERBOOK_SUCCESS = 'stellar:orderbook:success';
 
-export const SET_DESTINATION_TRUSTLINES = "stellar:payment:desttrust";
+export const SET_DESTINATION_TRUSTLINES = 'stellar:payment:desttrust';
 
 export function getPaymentsSuccess(payments) {
   return {
@@ -15,6 +15,7 @@ export function getPaymentsSuccess(payments) {
     payments,
   };
 }
+
 export function getPaymentsStream(payment) {
   return {
     type: GET_PAYMENTS_STREAM,
@@ -39,17 +40,7 @@ export function getEffectsStream(effect) {
     effect,
   };
 }
-export function getOrderbook() {
-  return {
-    type: GET_ORDERBOOK,
-  };
-}
-export function getOrderbookSuccess(orderbook) {
-  return {
-    type: GET_ORDERBOOK_SUCCESS,
-    orderbook,
-  };
-}
+
 export function setDestinationTrustlines(destinationTruslines) {
   return {
     type: SET_DESTINATION_TRUSTLINES,

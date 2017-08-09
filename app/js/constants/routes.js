@@ -1,2 +1,2 @@
-export const Root = "/";
-export const Desktop = "/desktop";
+export const Root = '/';
+export const Desktop = '/desktop';

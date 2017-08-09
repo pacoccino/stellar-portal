@@ -18,11 +18,11 @@ function getEffectsStream(state, action) {
   return {
     ...state,
     data: state.data.concat(effect),
-  }
+  };
 }
 
 export const effectsReducer = createReducer(initialState, {
   [typesAccount.RESET_ACCOUNT]: reset,
-  [typesAccount.SET_ACCOUNT_SUCCESS]: reset,
+  [typesAccount.SET_KEYPAIR]: reset,
   [types.GET_EFFECT_STREAM]: getEffectsStream,
 });

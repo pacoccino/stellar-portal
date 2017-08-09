@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Button, Icon, Header, Table } from 'semantic-ui-react'
+import { Button, Icon, Header, Table } from 'semantic-ui-react';
 import moment from 'moment';
 
 import Asset from '../../../components/stellar/Asset';
@@ -13,23 +13,16 @@ function PaymentArrow({ toMe }) {
     </div>
   );
 }
-class Payments extends React.Component {
+PaymentArrow.propTypes = {
+  toMe: PropTypes.bool.isRequired,
+};
 
+class Payments extends React.Component {
   getDate(transaction) {
     const mo = moment(transaction.created_at);
     return mo.calendar();
   }
 
-  openTransaction(transaction) {
-    return e => {
-      e.preventDefault();
-      const id = transaction.id;
-      const network = this.props.network;
-      const baseUrl = network === 'test' ? 'http://testnet.stellarchain.io/tx/' : 'https://stellarchain.io/tx/';
-      const url = `${baseUrl}${id}`;
-      window.open(url);
-    }
-  }
   getPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
     return (
@@ -45,6 +38,9 @@ class Payments extends React.Component {
         </Table.Cell>
         <Table.Cell>
           <AccountId accountId={isToMyAccount ? payment.from : payment.to} />
+        </Table.Cell>
+        <Table.Cell>
+          {payment.transaction.memo}
         </Table.Cell>
         <Table.Cell>
           {this.getDate(payment.transaction)}
@@ -79,10 +75,14 @@ class Payments extends React.Component {
           <Asset
             asset_type={payment.source_asset_type}
             asset_issuer={payment.source_asset_issuer}
-            asset_code={payment.source_asset_code} />
+            asset_code={payment.source_asset_code}
+          />
         </Table.Cell>
         <Table.Cell>
           <Asset {...payment} />
+        </Table.Cell>
+        <Table.Cell>
+          {payment.transaction.memo}
         </Table.Cell>
         <Table.Cell>
           {this.getDate(payment.transaction)}
@@ -100,6 +100,17 @@ class Payments extends React.Component {
     );
   }
 
+  openTransaction(transaction) {
+    return e => {
+      e.preventDefault();
+      const id = transaction.id;
+      const network = this.props.network;
+      const baseUrl = network === 'test' ? 'http://testnet.stellarchain.io/tx/' : 'https://stellarchain.io/tx/';
+      const url = `${baseUrl}${id}`;
+      window.open(url);
+    }
+  }
+
   render() {
     const directPayments = this.props.payments.slice().reverse();
     const pathPayments = this.props.pathPayments.slice().reverse();
@@ -114,6 +125,7 @@ class Payments extends React.Component {
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>Asset</Table.HeaderCell>
               <Table.HeaderCell>Account</Table.HeaderCell>
+              <Table.HeaderCell>Memo</Table.HeaderCell>
               <Table.HeaderCell>Date</Table.HeaderCell>
               <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>
@@ -124,7 +136,7 @@ class Payments extends React.Component {
               directPayments.map(::this.getPaymentRow)
               :
               <Table.Row>
-                <Table.Cell/>
+                <Table.Cell />
                 <Table.Cell colSpan="5" textAlign="center">No payments</Table.Cell>
               </Table.Row>
             }
@@ -135,11 +147,12 @@ class Payments extends React.Component {
         <Table singleLine size="small" compact unstackable definition>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell/>
+              <Table.HeaderCell />
               <Table.HeaderCell>Amount</Table.HeaderCell>
               <Table.HeaderCell>Account</Table.HeaderCell>
               <Table.HeaderCell>From asset</Table.HeaderCell>
               <Table.HeaderCell>To asset</Table.HeaderCell>
+              <Table.HeaderCell>Memo</Table.HeaderCell>
               <Table.HeaderCell>Date</Table.HeaderCell>
               <Table.HeaderCell>Open</Table.HeaderCell>
             </Table.Row>
@@ -150,7 +163,7 @@ class Payments extends React.Component {
               pathPayments.map(::this.getPathPaymentRow)
               :
               <Table.Row>
-                <Table.Cell/>
+                <Table.Cell />
                 <Table.Cell colSpan="5" textAlign="center">No path payments</Table.Cell>
               </Table.Row>
             }

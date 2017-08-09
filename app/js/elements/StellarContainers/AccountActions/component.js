@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Header } from 'semantic-ui-react'
+import { Header } from 'semantic-ui-react';
 
 import PaymentContainer from '../Payment';
 
