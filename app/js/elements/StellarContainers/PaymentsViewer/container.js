@@ -3,7 +3,7 @@ import Component from './component';
 
 import { getAccount } from '../../../selectors/account';
 import { getPaymentsFromPayments, getPathPaymentsFromPayments } from '../../../selectors/stellarData';
-import { getNetwork } from '../../../helpers/selector';
+import { getNetwork } from '../../../selectors/stellarData';
 
 const mapStateToProps = state => ({
   payments: getPaymentsFromPayments(state),

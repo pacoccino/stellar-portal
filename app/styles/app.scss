@@ -6,6 +6,9 @@ html {font-size: 12px;}
 a {
   color: white;
 }
+a.no-style {
+  color: inherit;
+}
 #app {
   height: 100%;
   width: 100%;

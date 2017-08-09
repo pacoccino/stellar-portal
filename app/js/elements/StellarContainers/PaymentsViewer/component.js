@@ -25,6 +25,8 @@ class Payments extends React.Component {
 
   getPaymentRow(payment, index) {
     const isToMyAccount = this.props.account.account_id === payment.to;
+    const externalAccount = isToMyAccount ? payment.from : payment.to;
+    const network = this.props.network;
     return (
       <Table.Row key={index} positive={isToMyAccount} negative={!isToMyAccount}>
         <Table.Cell>
@@ -37,7 +39,9 @@ class Payments extends React.Component {
           <Asset {...payment} />
         </Table.Cell>
         <Table.Cell>
-          <AccountId accountId={isToMyAccount ? payment.from : payment.to} />
+          <a className="no-style" href={`/?accountId=${externalAccount}&network=${network}`} target="_blank">
+            <AccountId accountId={externalAccount} />
+          </a>
         </Table.Cell>
         <Table.Cell>
           {payment.transaction.memo}
